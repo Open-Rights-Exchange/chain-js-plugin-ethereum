@@ -1,4 +1,7 @@
+
+
 {
+  "extends": "./tsconfig-paths.json",
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
@@ -108,14 +111,12 @@
     "noImplicitAny": true,
     "baseUrl": "./",
     "resolveJsonModule": true,
-
-    "paths": {
-      "@open-rights-exchange/chainjs": ["../chain-js/src"],
-    },
-  },"references": [
-      {"path": "../chain-js"}
-    ],"include": [
-      "./src/**/*.js",
-      "./src/**/*.ts"
-    ]
+  },
+  "references": [
+    {"path": "../chain-js"} // For some reason references are not imported from ./tsconfig-paths.json so we need to duplicate here for now
+  ],
+  "include": [
+    "./src/**/*.js",
+    "./src/**/*.ts"
+  ]
 }

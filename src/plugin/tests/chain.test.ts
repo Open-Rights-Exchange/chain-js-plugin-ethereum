@@ -6,12 +6,15 @@ import { ropstenEndpoints } from '../examples/helpers/networks'
 import { toEthereumSymbol } from '../helpers'
 //import { ChainFactory } from '../../../chainFactory'
 //import { Chain } from '../../../interfaces'
-import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chainjs'
+import { Interfaces, Models, PluginChainFactory, Helpers } from '@open-rights-exchange/chainjs'
+import plugin from '../ChainEthereumV1'
+
 
 describe('Ethereum Helper Functions', () => {
   let ropsten: Interfaces.Chain
   beforeAll(async () => {
-    ropsten = new ChainFactory().create(Models.ChainType.EthereumV1, ropstenEndpoints)
+    //ropsten = new ChainFactory().create(Models.ChainType.EthereumV1, ropstenEndpoints)
+    ropsten = PluginChainFactory([plugin],Models.ChainType.EthereumV1, ropstenEndpoints)
     await ropsten.connect()
   })
   // sets fetchMock to throw an error on the next call to fetch (jsonRpc.get_abi calls fetch and triggers the error to be thrown)

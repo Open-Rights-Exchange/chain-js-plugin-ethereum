@@ -5,6 +5,7 @@ import { EthereumTransactionOptions } from '../models'
 import { EthereumGnosisMultisigTransactionOptions } from '../plugins/multisig/gnosisSafeV1/models'
 import { GnosisSafeMultisigPlugin } from '../plugins/multisig/gnosisSafeV1/plugin'
 
+
 jest.setTimeout(30000)
 
 // const multisigOwner = '0x31DF49653c72933A4b99aF6fb5d5b77Cc169346a'
