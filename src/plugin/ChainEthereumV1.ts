@@ -88,6 +88,8 @@ class Plugin implements Interfaces.Chain {
     return Models.ChainType.EthereumV1
   }
 
+  public static chainType : Models.ChainType = Models.ChainType.EthereumV1;
+
   public connect(): Promise<void> {
     return this._chainState.connect()
   }
