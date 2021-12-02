@@ -1,8 +1,6 @@
-//import { ChainActionType } from '../../../models'
+// import { ChainActionType } from '../../../models'
+import { Models } from '@open-rights-exchange/chainjs'
 import { EthereumChainActionType } from './chainActionTypeModels'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
-
 
 export type EthereumDecomposeReturn = {
   chainActionType: Models.ChainActionType | EthereumChainActionType

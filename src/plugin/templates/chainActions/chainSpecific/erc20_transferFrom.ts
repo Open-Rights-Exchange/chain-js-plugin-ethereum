@@ -1,3 +1,4 @@
+import { Helpers } from '@open-rights-exchange/chainjs'
 import {
   EthereumAddress,
   EthereumTransactionAction,
@@ -6,9 +7,7 @@ import {
 } from '../../../models'
 import { erc20Abi } from '../../abis/erc20Abi'
 import { toEthereumAddress, isNullOrEmptyEthereumValue } from '../../../helpers'
-//import { getArrayIndexOrNull, toTokenValueString } from '../../../../../helpers'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
+// import { getArrayIndexOrNull, toTokenValueString } from '../../../../../helpers'
 
 export interface Erc20TransferFromParams {
   contractAddress: EthereumAddress

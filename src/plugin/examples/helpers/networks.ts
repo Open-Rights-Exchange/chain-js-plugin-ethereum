@@ -1,7 +1,7 @@
-//import { ChainEthereumV1, ChainFactory, ChainType } from '../../../..'
-//import { TxExecutionPriority } from '../../../../models'
+// import { ChainEthereumV1, ChainFactory, ChainType } from '../../../..'
+// import { TxExecutionPriority } from '../../../../models'
+import { Models, PluginChainFactory } from '@open-rights-exchange/chainjs'
 import { EthereumChainEndpoint, EthereumChainSettings } from '../../models'
-import { Interfaces, Models, PluginChainFactory, Helpers } from '@open-rights-exchange/chainjs'
 import ChainEthereumV1 from '../../ChainEthereumV1'
 
 // goerli
@@ -44,7 +44,12 @@ export const ropstenChainOptions: EthereumChainSettings = {
 }
 
 export async function connectChain(endpoints: EthereumChainEndpoint[], chainOptions: EthereumChainSettings) {
-  const chain = PluginChainFactory([ChainEthereumV1],Models.ChainType.EthereumV1, endpoints, chainOptions) as ChainEthereumV1
+  const chain = PluginChainFactory(
+    [ChainEthereumV1],
+    Models.ChainType.EthereumV1,
+    endpoints,
+    chainOptions,
+  ) as ChainEthereumV1
   await chain.connect()
   return chain
 }

@@ -3,16 +3,18 @@
 import Wallet from 'ethereumjs-wallet'
 import { bufferToHex, ecsign, ecrecover, publicToAddress, keccak } from 'ethereumjs-util'
 import secp256k1 from 'secp256k1'
-// import { AesCrypto, Asymmetric } from '../../crypto'
-// import {
-//   bufferToHexString,
-//   byteArrayToHexString,
-//   convertUtf8OrHexStringToBuffer,
-//   ensureHexPrefix,
-//   ensureHexPrefixForPublicKey,
-//   hexStringToByteArray,
-//   removeHexPrefix,
-// } from '../../helpers'
+import {
+  Interfaces,
+  Models,
+  ChainFactory,
+  Helpers,
+  PluginInterfaces,
+  Crypto,
+  Errors,
+  CryptoAsymmetricModels,
+  CryptoHelpers,
+  CryptoAsymmetricHelpers as AsymmetricHelpers,
+} from '@open-rights-exchange/chainjs'
 import {
   EthereumAddress,
   EthereumKeyPair,
@@ -25,9 +27,6 @@ import { toEthBuffer, toEthereumAddress, toEthereumPublicKey, toEthereumSignatur
 // import { ensureEncryptedValueIsObject } from '../../crypto/genericCryptoHelpers'
 // import * as AsymmetricHelpers from '../../crypto/asymmetricHelpers'
 // import { AsymmetricScheme } from '../../crypto/asymmetricModels'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors,CryptoAsymmetricModels,CryptoHelpers,CryptoAsymmetricHelpers as AsymmetricHelpers} from '@open-rights-exchange/chainjs'
-
-
 
 // eslint-disable-next-line prefer-destructuring
 export const defaultIter = Crypto.AesCrypto.defaultIter

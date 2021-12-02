@@ -1,11 +1,10 @@
+import { Interfaces, PluginInterfaces, Errors } from '@open-rights-exchange/chainjs'
 import { EthereumGnosisMultisigCreateAccountOptions, EthereumGnosisMultisigTransactionOptions } from './models'
-//import { ChainJsPlugin, PluginType } from '../../../../../interfaces/plugin'
+// import { ChainJsPlugin, PluginType } from '../../../../../interfaces/plugin'
 import { GnosisSafeMultisigPluginCreateAccount } from './pluginCreateAccount'
 import { GnosisSafeMultisigPluginTransaction } from './pluginTransaction'
-//import { throwNewError } from '../../../../../errors'
-//import { MultisigPlugin } from '../../../../../interfaces/plugins/multisig'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Errors } from '@open-rights-exchange/chainjs'
-
+// import { throwNewError } from '../../../../../errors'
+// import { MultisigPlugin } from '../../../../../interfaces/plugins/multisig'
 
 export class GnosisSafeMultisigPlugin extends Interfaces.ChainJsPlugin implements PluginInterfaces.MultisigPlugin {
   public name = 'Gnosis Multisig Plugin V1'

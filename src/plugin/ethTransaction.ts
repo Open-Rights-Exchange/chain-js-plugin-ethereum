@@ -1,6 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Transaction as EthereumJsTx } from 'ethereumjs-tx'
 import { bufferToInt, bufferToHex, BN } from 'ethereumjs-util'
+import {
+  Interfaces,
+  Models,
+  ChainFactory,
+  Helpers,
+  PluginInterfaces,
+  Crypto,
+  Errors,
+} from '@open-rights-exchange/chainjs'
 import { TRANSACTION_FEE_PRIORITY_MULTIPLIERS } from './ethConstants'
 import { EthereumChainState } from './ethChainState'
 // import { Transaction } from '../../interfaces'
@@ -50,7 +59,6 @@ import {
   EthereumMultisigPluginTransaction,
 } from './plugins/multisig/ethereumMultisigPlugin'
 import { mapChainError } from './ethErrors'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
 
 export class EthereumTransaction implements Interfaces.Transaction {
   private _actionHelper: EthereumActionHelper
@@ -269,7 +277,9 @@ export class EthereumTransaction implements Interfaces.Transaction {
 
     // Convert gas price returned from getGasPrice to Gwei
     const gasPrice =
-      Helpers.nullifyIfEmpty(gasPriceAction) || Helpers.nullifyIfEmpty(gasPriceOptions) || this._chainState.currentGasPriceInGwei
+      Helpers.nullifyIfEmpty(gasPriceAction) ||
+      Helpers.nullifyIfEmpty(gasPriceOptions) ||
+      this._chainState.currentGasPriceInGwei
     const gasLimit = Helpers.nullifyIfEmpty(gasLimitAction) || Helpers.nullifyIfEmpty(gasLimitOptions)
     const nonce = Helpers.nullifyIfEmpty(nonceAction) || Helpers.nullifyIfEmpty(nonceOptions)
     // update action helper with updated nonce and gas values
@@ -346,7 +356,9 @@ export class EthereumTransaction implements Interfaces.Transaction {
    *  Throws if any problems */
   public async validate(): Promise<void> {
     if (!this.hasRaw) {
-      Errors.throwNewError('Transaction validation failure. Transaction has no action. Set action or use setTransaction().')
+      Errors.throwNewError(
+        'Transaction validation failure. Transaction has no action. Set action or use setTransaction().',
+      )
     }
     if (this.isMultisig) {
       this.assertMultisigPluginIsInitialized()
@@ -538,7 +550,9 @@ export class EthereumTransaction implements Interfaces.Transaction {
   }
 
   /** Get the suggested Eth fee (in Ether) for this transaction */
-  public async getSuggestedFee(priority: Models.TxExecutionPriority = Models.TxExecutionPriority.Average): Promise<string> {
+  public async getSuggestedFee(
+    priority: Models.TxExecutionPriority = Models.TxExecutionPriority.Average,
+  ): Promise<string> {
     try {
       // fees for 'child' transaction are always null (if we set here, this value will be used instead of re-caclulating for parent)
       if (this.requiresParentTransaction) return null
@@ -834,7 +848,9 @@ export class EthereumTransaction implements Interfaces.Transaction {
   /** Throws if an action isn't attached to this transaction */
   private assertHasAction() {
     if (Helpers.isNullOrEmpty(this._actionHelper)) {
-      Errors.throwNewError('Transaction has no action. You can set the action using transaction.actions or setTransaction().')
+      Errors.throwNewError(
+        'Transaction has no action. You can set the action using transaction.actions or setTransaction().',
+      )
     }
   }
 

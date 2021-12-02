@@ -1,5 +1,6 @@
-//import { getUniqueValues, isNullOrEmpty, toBuffer } from '../../../../../helpers'
-//import { throwNewError } from '../../../../../errors'
+// import { getUniqueValues, isNullOrEmpty, toBuffer } from '../../../../../helpers'
+// import { throwNewError } from '../../../../../errors'
+import { Helpers, Errors } from '@open-rights-exchange/chainjs'
 import { EthereumAddress, EthereumPrivateKey, EthereumSignature, EthereumTransactionAction } from '../../../models'
 import { EthereumMultisigPluginTransaction } from '../ethereumMultisigPlugin'
 import {
@@ -24,7 +25,6 @@ import {
   GnosisSafeTransaction,
 } from './models'
 import { toEthereumAddress } from '../../../helpers'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Errors } from '@open-rights-exchange/chainjs'
 
 export class GnosisSafeMultisigPluginTransaction implements EthereumMultisigPluginTransaction {
   private _multisigOptions: EthereumGnosisMultisigTransactionOptions

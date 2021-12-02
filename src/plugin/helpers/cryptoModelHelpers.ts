@@ -8,19 +8,8 @@ import {
   isValidAddress,
   privateToAddress,
 } from 'ethereumjs-util'
-// import {
-//   ensureHexPrefix,
-//   ensureHexPrefixForPublicKey,
-//   isNullOrEmpty,
-//   isABuffer,
-//   isAString,
-//   isHexString,
-//   jsonParseAndRevive,
-//   toChainEntityName,
-//   toHexStringIfNeeded,
-//   tryParseJSON,
-//   hasHexPrefix,
-// } from '../../../helpers'
+
+import { Helpers } from '@open-rights-exchange/chainjs'
 import {
   EthereumSignature,
   EthereumPublicKey,
@@ -31,9 +20,6 @@ import {
   EthereumSignatureNative,
 } from '../models'
 import { toEthBuffer } from './generalHelpers'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
-
 
 // todo eth - this should not have copied code - is the bug worked-around? if not, we should consider using a diff library
 // Reimplemented from ethereumjs-util module to workaround a current bug

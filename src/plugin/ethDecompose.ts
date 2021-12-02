@@ -2,6 +2,7 @@
 /* eslint-disable quote-props */
 
 // standard actions
+import { Helpers } from '@open-rights-exchange/chainjs'
 import { decomposeAction as TokenApproveTemplate } from './templates/chainActions/standard/token_approve'
 import { decomposeAction as TokenTransferFromTemplate } from './templates/chainActions/standard/token_transferFrom'
 import { decomposeAction as TokenTransferTemplate } from './templates/chainActions/standard/token_transfer'
@@ -21,8 +22,7 @@ import { decomposeAction as ERC1155ApproveTemplate } from './templates/chainActi
 import { decomposeAction as ERC1155TransferTemplate } from './templates/chainActions/chainSpecific/erc1155_transfer'
 import { decomposeAction as ERC1155SafeTransferFromTemplate } from './templates/chainActions/chainSpecific/erc1155_safeTransferFrom'
 import { EthereumTransactionAction, EthereumDecomposeReturn } from './models'
-//import { isNullOrEmpty } from '../../helpers'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
+// import { isNullOrEmpty } from '../../helpers'
 
 // map a key name to a function that returns an object
 const DecomposeAction: { [key: string]: (args: any) => any } = {

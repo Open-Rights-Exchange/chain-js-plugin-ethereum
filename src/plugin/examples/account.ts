@@ -3,9 +3,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
-//import { ChainFactory, ChainType } from '../../../index'
-import { EthereumChainEndpoint } from '../models'
+// import { ChainFactory, ChainType } from '../../../index'
 import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chainjs'
+import { EthereumChainEndpoint } from '../models'
 
 require('dotenv').config()
 

@@ -1,5 +1,6 @@
-//import { isNullOrEmpty } from '../../../../../helpers'
-//import { throwNewError } from '../../../../../errors'
+// import { isNullOrEmpty } from '../../../../../helpers'
+// import { throwNewError } from '../../../../../errors'
+import { Helpers, Errors } from '@open-rights-exchange/chainjs'
 import { toEthereumEntityName } from '../../../helpers'
 import { EthereumAddress, EthereumEntityName, EthereumTransactionAction } from '../../../models'
 import { EthereumMultisigPluginCreateAccount } from '../ethereumMultisigPlugin'
@@ -11,7 +12,6 @@ import {
   getGnosisSafeContract,
 } from './helpers'
 import { EthereumGnosisMultisigCreateAccountOptions } from './models'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Errors } from '@open-rights-exchange/chainjs'
 
 export class GnosisSafeMultisigPluginCreateAccount implements EthereumMultisigPluginCreateAccount {
   private _options: EthereumGnosisMultisigCreateAccountOptions

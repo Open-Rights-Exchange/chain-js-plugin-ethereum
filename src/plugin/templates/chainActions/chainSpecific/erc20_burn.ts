@@ -1,4 +1,5 @@
 // import { toHex } from 'web3-utils'
+import { Helpers } from '@open-rights-exchange/chainjs'
 import {
   EthereumAddress,
   EthereumChainActionType,
@@ -6,10 +7,8 @@ import {
   EthereumDecomposeReturn,
 } from '../../../models'
 import { erc20Abi } from '../../abis/erc20Abi'
-//import { getArrayIndexOrNull, toTokenValueString } from '../../../../../helpers'
+// import { getArrayIndexOrNull, toTokenValueString } from '../../../../../helpers'
 import { isNullOrEmptyEthereumValue } from '../../../helpers'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
 
 export interface Erc20BurnParams {
   contractAddress: EthereumAddress

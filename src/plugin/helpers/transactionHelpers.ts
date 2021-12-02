@@ -1,11 +1,9 @@
 import Web3 from 'web3'
 import { BN, bufferToHex } from 'ethereumjs-util'
-//import { isNullOrEmpty } from '../../../helpers'
+import { Helpers } from '@open-rights-exchange/chainjs'
 import { EthUnit, EthereumActionContract } from '../models'
 import { ZERO_HEX, EMPTY_HEX, ZERO_ADDRESS } from '../ethConstants'
 import { toEthereumTxData } from './cryptoModelHelpers'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
 
 /** Converts functionSignature to hexadecimal string */
 export function functionSignatureToHex(functionSignature: string): string {

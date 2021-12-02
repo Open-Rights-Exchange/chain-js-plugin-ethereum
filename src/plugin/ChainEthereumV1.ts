@@ -11,6 +11,15 @@ import { Transaction } from 'web3-eth'
 //   TransactionStatus,
 // } from '../../models'
 // import { ChainError, throwNewError } from '../../errors'
+import {
+  Interfaces,
+  Models,
+  ChainFactory,
+  Helpers,
+  PluginInterfaces,
+  Crypto,
+  Errors,
+} from '@open-rights-exchange/chainjs'
 import * as ethcrypto from './ethCrypto'
 import { composeAction } from './ethCompose'
 import { decomposeAction } from './ethDecompose'
@@ -50,11 +59,10 @@ import {
   NATIVE_CHAIN_TOKEN_PRECISION,
   NATIVE_CHAIN_TOKEN_SYMBOL,
 } from './ethConstants'
-//import { Asymmetric } from '../../crypto'
-//import { ChainJsPlugin, ChainJsPluginOptions, PluginType } from '../../interfaces/plugin'
-//import { assertPluginTypeNotAlreadyInstalled, initializePlugin } from '../../helpers'
+// import { Asymmetric } from '../../crypto'
+// import { ChainJsPlugin, ChainJsPluginOptions, PluginType } from '../../interfaces/plugin'
+// import { assertPluginTypeNotAlreadyInstalled, initializePlugin } from '../../helpers'
 import { EthereumMultisigPlugin } from './plugins/multisig/ethereumMultisigPlugin'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
 
 // TODO: Comsolidate use of Ethereum libraries
 
@@ -88,7 +96,7 @@ class Plugin implements Interfaces.Chain {
     return Models.ChainType.EthereumV1
   }
 
-  public static chainType : Models.ChainType = Models.ChainType.EthereumV1;
+  public static chainType: Models.ChainType = Models.ChainType.EthereumV1
 
   public connect(): Promise<void> {
     return this._chainState.connect()

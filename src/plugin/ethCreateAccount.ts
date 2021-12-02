@@ -1,9 +1,7 @@
+import { Interfaces, Helpers, PluginInterfaces, Errors } from '@open-rights-exchange/chainjs'
 import { EthereumChainState } from './ethChainState'
-// import { throwNewError } from '../../errors'
-// import { CreateAccount } from '../../interfaces'
 import { getEthereumAddressFromPublicKey, generateNewAccountKeysAndEncryptPrivateKeys } from './ethCrypto'
 import { isValidEthereumPublicKey, toEthereumEntityName } from './helpers'
-//import { isNullOrEmpty, notSupported } from '../../helpers'
 import {
   EthereumAddress,
   EthereumCreateAccountOptions,
@@ -15,8 +13,6 @@ import {
 } from './models'
 import { EthereumMultisigPluginCreateAccount } from './plugins/multisig/ethereumMultisigPlugin'
 import { EthereumTransaction } from './ethTransaction'
-//import { MultisigPlugin } from '../../interfaces/plugins/multisig'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
 
 
 /** Helper class to compose a transction for creating a new chain account

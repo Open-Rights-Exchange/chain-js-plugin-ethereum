@@ -1,9 +1,8 @@
+import { Models } from '@open-rights-exchange/chainjs'
 import { EthUnit, EthereumTransactionAction } from '../../../models'
 import { toWeiString } from '../../../helpers'
 import { DEFAULT_ETH_UNIT } from '../../../ethConstants'
-//import { ChainActionType, ValueTransferParams, ActionDecomposeReturn } from '../../../../../models'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
+// import { ChainActionType, ValueTransferParams, ActionDecomposeReturn } from '../../../../../models'
 
 import {
   composeAction as ethTransferComposeAction,

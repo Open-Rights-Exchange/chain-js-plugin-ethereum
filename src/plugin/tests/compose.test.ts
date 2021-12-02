@@ -1,7 +1,7 @@
 // How to use fetch mocks - https://www.npmjs.com/package/jest-fetch-mock
 import BN from 'bn.js'
-import { composeAction } from '../ethCompose'
 import { Models } from '@open-rights-exchange/chainjs'
+import { composeAction } from '../ethCompose'
 import {
   composedERC20TransferAction,
   composedERC20ApproveAction,

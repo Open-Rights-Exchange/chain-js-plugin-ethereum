@@ -4,13 +4,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
-//import { ChainFactory, ChainType } from '../../../index'
-//import { ChainEndpoint } from '../../../models/generalModels'
-import { toEthereumPrivateKey, toEthereumPublicKey, toEthereumSymbol } from '../helpers'
-//mport { toChainEntityName } from '../../../helpers'
-import { ropstenEndpoints } from './helpers/networks'
-//import { ChainError } from '../../../errors'
+// import { ChainFactory, ChainType } from '../../../index'
+// import { ChainEndpoint } from '../../../models/generalModels'
 import { Interfaces, Models, ChainFactory, Helpers, ChainError } from '@open-rights-exchange/chainjs'
+import { toEthereumPrivateKey, toEthereumPublicKey, toEthereumSymbol } from '../helpers'
+// mport { toChainEntityName } from '../../../helpers'
+import { ropstenEndpoints } from './helpers/networks'
+// import { ChainError } from '../../../errors'
 
 require('dotenv').config()
 

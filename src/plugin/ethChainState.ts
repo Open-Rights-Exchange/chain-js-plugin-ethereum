@@ -3,23 +3,9 @@ import Web3 from 'web3'
 import BN from 'bn.js'
 import { HttpProviderOptions } from 'web3-core-helpers'
 import { BlockTransactionString, Transaction, TransactionReceipt } from 'web3-eth'
-// import {
-//   ChainError,
-//   rejectAwaitTransaction,
-//   resolveAwaitTransaction,
-//   throwAndLogError,
-//   throwNewError,
-// } from '../../errors'
-// import {
-//   ChainErrorDetailCode,
-//   ChainErrorType,
-//   ChainSettingsCommunicationSettings,
-//   ConfirmType,
-//   TransactionStatus,
-// } from '../../models'
-// import { bigNumberToString, ensureHexPrefix, isNullOrEmpty, objectHasProperty, trimTrailingChars } from '../../helpers'
+import { Interfaces, Models, Helpers, Errors } from '@open-rights-exchange/chainjs'
 import { mapChainError } from './ethErrors'
-// import { ChainState } from '../../interfaces/chainState'
+
 import {
   ChainFunctionCategory,
   EthereumAddress,
@@ -40,9 +26,6 @@ import {
   NATIVE_CHAIN_TOKEN_SYMBOL,
 } from './ethConstants'
 import { assertIsValidTransactionId, toGweiFromWei } from './helpers'
-
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
 
 //   blockIncludesTransaction() {}; // hasTransaction
 //   getContractTableRows() {}; // getAllTableRows
@@ -528,7 +511,10 @@ export class EthereumChainState implements Interfaces.ChainState {
   }
 
   /** block has reached the confirmation level requested */
-  hasReachedConfirmLevel = async (transactionBlockNumber: number, waitForConfirm: Models.ConfirmType): Promise<boolean> => {
+  hasReachedConfirmLevel = async (
+    transactionBlockNumber: number,
+    waitForConfirm: Models.ConfirmType,
+  ): Promise<boolean> => {
     // check that we've reached the required number of confirms
     switch (waitForConfirm) {
       case Models.ConfirmType.None:

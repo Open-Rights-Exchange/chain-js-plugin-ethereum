@@ -2,8 +2,8 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
-//import { ChainFactory, ChainType } from '../../../index'
-//import { TxExecutionPriority } from '../../../models'
+// import { ChainFactory, ChainType } from '../../../index'
+// import { TxExecutionPriority } from '../../../models'
 import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chainjs'
 
 import { toEthereumAddress } from '../helpers'

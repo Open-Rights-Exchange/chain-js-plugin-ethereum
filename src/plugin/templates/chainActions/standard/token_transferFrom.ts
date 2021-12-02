@@ -1,11 +1,10 @@
-//import { ChainActionType, TokenTransferFromParams, ActionDecomposeReturn } from '../../../../../models'
+// import { ChainActionType, TokenTransferFromParams, ActionDecomposeReturn } from '../../../../../models'
+import { Models } from '@open-rights-exchange/chainjs'
 import { EthereumTransactionAction } from '../../../models'
 import {
   composeAction as erc20TokenTransferFromComposeAction,
   decomposeAction as erc20TokenTransferFromDecomposeAction,
 } from '../chainSpecific/erc20_transferFrom'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
 
 /** Calls ERC20TransferFrom as default token template for Ethereum */
 export const composeAction = ({

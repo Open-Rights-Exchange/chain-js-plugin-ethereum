@@ -5,6 +5,7 @@
 // import { ChainFactory, ChainType } from '../../../index'
 // import { TxExecutionPriority } from '../../../models'
 
+import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chainjs'
 import { toEthereumAddress } from '../helpers'
 import {
   EthereumChainSettings,
@@ -13,7 +14,6 @@ import {
   EthereumChainEndpoint,
 } from '../models'
 import { Erc1155SafeTransferFromParams } from '../templates/chainActions/chainSpecific/erc1155_safeTransferFrom'
-import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chainjs'
 
 require('dotenv').config()
 

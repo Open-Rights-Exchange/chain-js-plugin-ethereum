@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 import { BN } from 'ethereumjs-util'
-//import { ChainFactory, ChainType, Chain } from '../../../index'
+// import { ChainFactory, ChainType, Chain } from '../../../index'
 // import {
 //   ChainActionType,
 //   ConfirmType,
@@ -13,9 +13,10 @@ import { BN } from 'ethereumjs-util'
 //   TxExecutionPriority,
 //   ValueTransferParams,
 // } from '../../../models'
+import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chainjs'
 import ChainEthereumV1 from '../ChainEthereumV1'
 import { toEthereumAddress, toEthereumPrivateKey, toEthereumSymbol } from '../helpers'
-//import { fromTokenValueString, toChainEntityName } from '../../../helpers'
+// import { fromTokenValueString, toChainEntityName } from '../../../helpers'
 import {
   EthereumChainSettings,
   EthereumChainForkType,
@@ -31,7 +32,6 @@ import { Erc20IssueParams } from '../templates/chainActions/chainSpecific/erc20_
 import { Erc721TransferFromParams } from '../templates/chainActions/chainSpecific/erc721_transferFrom'
 import { EthTransferParams } from '../templates/chainActions/chainSpecific/eth_transfer'
 import { EthereumTransaction } from '../ethTransaction'
-import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chainjs'
 
 require('dotenv').config()
 

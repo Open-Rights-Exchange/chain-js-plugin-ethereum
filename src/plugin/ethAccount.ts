@@ -1,13 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // import { notSupported } from '../../helpers'
+import {
+  Interfaces,
+  Models,
+  ChainFactory,
+  Helpers,
+  PluginInterfaces,
+  Crypto,
+  Errors,
+} from '@open-rights-exchange/chainjs'
 import { isValidEthereumAddress, isValidEthereumPublicKey } from './helpers'
 // import { Account } from '../../interfaces'
 // import { throwNewError } from '../../errors'
 import { EthereumChainState } from './ethChainState'
 import { EthereumAddress, EthereumPrivateKey, EthereumPublicKey } from './models'
 import { getEthereumAddressFromPublicKey } from './ethCrypto'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
 
 // OREJS Ported functions
 //   hasPermission() {} // checkIfAccountHasPermission

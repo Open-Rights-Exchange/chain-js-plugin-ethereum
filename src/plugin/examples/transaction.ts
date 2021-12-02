@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 import { BN } from 'ethereumjs-util'
-//import { ChainFactory, ChainType, Chain } from '../../../index'
+// import { ChainFactory, ChainType, Chain } from '../../../index'
 // import {
 //   ChainActionType,
 //   ConfirmType,
@@ -14,8 +14,9 @@ import { BN } from 'ethereumjs-util'
 //   ValueTransferParams,
 // } from '../../../models'
 // import { ChainEthereumV1 } from '../ChainEthereumV1'
+import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chainjs'
 import { toEthereumAddress, toEthereumPrivateKey, toEthereumSymbol } from '../helpers'
-//import { fromTokenValueString, toChainEntityName } from '../../../helpers'
+// import { fromTokenValueString, toChainEntityName } from '../../../helpers'
 import {
   EthereumChainSettings,
   EthereumChainForkType,
@@ -31,8 +32,6 @@ import { Erc20IssueParams } from '../templates/chainActions/chainSpecific/erc20_
 import { Erc721SafeTransferFromParams } from '../templates/chainActions/chainSpecific/erc721_safeTransferFrom'
 import { EthTransferParams } from '../templates/chainActions/chainSpecific/eth_transfer'
 import { EthereumTransaction } from '../ethTransaction'
-
-import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chainjs'
 
 require('dotenv').config()
 
@@ -120,7 +119,9 @@ const { env } = process
 
     // ---> Sign and send ethereum transfer with compose Action - using generic (cross-chain) native chain transfer action
     const transaction = await ropsten.new.Transaction(defaultEthTxOptions)
-    transaction.actions = [await ropsten.composeAction(Models.ChainActionType.ValueTransfer, composeValueTransferParams)]
+    transaction.actions = [
+      await ropsten.composeAction(Models.ChainActionType.ValueTransfer, composeValueTransferParams),
+    ]
     console.log('transaction.actions[0]:', JSON.stringify(transaction.actions[0]))
     const decomposed = await ropsten.decomposeAction(transaction.actions[0])
     console.log(JSON.stringify(decomposed))

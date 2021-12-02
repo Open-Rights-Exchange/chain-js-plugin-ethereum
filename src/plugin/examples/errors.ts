@@ -4,13 +4,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
-//import { ChainFactory, ChainType } from '../../../index'
-//import { ChainActionType, ChainErrorType, ConfirmType } from '../../../models'
-import { toEthereumPrivateKey, toWeiBN } from '../helpers'
-import { EthereumChainSettings, EthereumChainForkType, EthUnit, EthereumChainEndpoint } from '../models'
-
+// import { ChainFactory, ChainType } from '../../../index'
+// import { ChainActionType, ChainErrorType, ConfirmType } from '../../../models'
 import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chainjs'
 
+import { toEthereumPrivateKey, toWeiBN } from '../helpers'
+import { EthereumChainSettings, EthereumChainForkType, EthUnit, EthereumChainEndpoint } from '../models'
 ;(async () => {
   try {
     const ropstenEndpoints: EthereumChainEndpoint[] = [

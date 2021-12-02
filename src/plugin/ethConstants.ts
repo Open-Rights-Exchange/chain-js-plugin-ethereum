@@ -1,8 +1,7 @@
+import { Models } from '@open-rights-exchange/chainjs'
 import { EthUnit } from './models'
-//import { IndexedObject } from '../../models'
+// import { IndexedObject } from '../../models'
 import { toEthereumAddress } from './helpers/cryptoModelHelpers'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
 
 // sign transaction default parameters
 export const TRANSACTION_ENCODING = 'utf8'

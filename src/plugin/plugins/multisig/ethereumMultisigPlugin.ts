@@ -1,10 +1,4 @@
-//import { PluginType } from '../../../../interfaces/plugin'
-// import {
-//   MultisigPluginTransaction,
-//   MultisigPluginCreateAccount,
-//   MultisigPlugin,
-//   MultisigPluginOptions,
-// } from '../../../../interfaces/plugins/multisig'
+import { Interfaces, PluginInterfaces } from '@open-rights-exchange/chainjs'
 import { EthereumAddress, EthereumPrivateKey, EthereumSignature, EthereumTransactionAction } from '../../models'
 import { EthereumMultisigRawTransaction } from './gnosisSafeV1/models'
 
@@ -12,12 +6,9 @@ export type EthereumMultisigTransactionOptions = any
 export type EthereumMultisigCreateAccountOptions = any
 export type EthereumMultisigPluginRawTransaction = any
 
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
-
 export interface EthereumMultisigPlugin extends PluginInterfaces.MultisigPlugin {
   name: string
-  
+
   type: Interfaces.PluginType
 
   init(options: PluginInterfaces.MultisigPluginOptions): Promise<void>

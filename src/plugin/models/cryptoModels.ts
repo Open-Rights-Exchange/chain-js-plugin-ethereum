@@ -1,6 +1,4 @@
-//import { SignatureBrand, PrivateKeyBrand, PublicKeyBrand, ModelsCryptoAes } from '../../../models'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
+import { Models } from '@open-rights-exchange/chainjs'
 
 /** an ethereum transaction signature */
 export interface ECDSASignature {

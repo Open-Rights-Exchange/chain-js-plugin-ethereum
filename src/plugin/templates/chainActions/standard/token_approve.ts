@@ -1,11 +1,10 @@
-//import { ChainActionType, TokenApproveParams, ActionDecomposeReturn } from '../../../../../models'
+// import { ChainActionType, TokenApproveParams, ActionDecomposeReturn } from '../../../../../models'
+import { Models } from '@open-rights-exchange/chainjs'
 import { EthereumTransactionAction } from '../../../models'
 import {
   composeAction as erc20TokenApproveComposeAction,
   decomposeAction as erc20TokenApproveDecomposeAction,
 } from '../chainSpecific/erc20_approve'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
 
 /** Calls ERC20Approve as default token template for Ethereum */
 export const composeAction = ({

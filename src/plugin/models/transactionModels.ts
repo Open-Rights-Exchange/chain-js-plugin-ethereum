@@ -1,10 +1,7 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { TransactionReceipt } from 'web3-core'
 import BN from 'bn.js'
-//import { TxExecutionPriority } from '../../../models'
+import { Models } from '@open-rights-exchange/chainjs'
 import { EthereumEntityName, EthereumMultiValue } from './generalModels'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
 
 export type EthereumAbi = any[]
 /** Information needed to generate Trx Data to invoke desired smart contract action */

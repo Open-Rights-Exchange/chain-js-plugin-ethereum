@@ -1,9 +1,8 @@
 import { toBuffer, BN } from 'ethereumjs-util'
+import { Helpers } from '@open-rights-exchange/chainjs'
 import { ERC20_TYPES } from '../templates/abis/erc20Abi'
 import { EthereumActionContract, EthereumAddress, EthereumPrivateKey, EthereumPublicKey } from '../models'
-//import { ensureHexPrefix, ensureHexPrefixForPublicKey } from '../../../helpers'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
+// import { ensureHexPrefix, ensureHexPrefixForPublicKey } from '../../../helpers'
 
 /** Attempts to transform a value to a standard Buffer class */
 export function toEthBuffer(data: string | BN | Buffer | number): Buffer {

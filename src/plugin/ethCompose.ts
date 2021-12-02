@@ -5,6 +5,7 @@
 // import { notSupported } from '../../helpers'
 
 // standard actions
+import { Models, Helpers } from '@open-rights-exchange/chainjs'
 import { composeAction as TokenApproveTemplate } from './templates/chainActions/standard/token_approve'
 import { composeAction as TokenTransferFromTemplate } from './templates/chainActions/standard/token_transferFrom'
 import { composeAction as TokenTransferTemplate } from './templates/chainActions/standard/token_transfer'
@@ -24,10 +25,6 @@ import { composeAction as ERC1155ApproveTemplate } from './templates/chainAction
 import { composeAction as ERC1155TransferTemplate } from './templates/chainActions/chainSpecific/erc1155_transfer'
 import { composeAction as ERC1155SafeTransferFromTemplate } from './templates/chainActions/chainSpecific/erc1155_safeTransferFrom'
 import { EthereumChainActionType, EthereumTransactionAction } from './models'
-
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
-
 
 // map a key name to a function that returns an object
 const ComposeAction: { [key: string]: (args: any) => any } = {

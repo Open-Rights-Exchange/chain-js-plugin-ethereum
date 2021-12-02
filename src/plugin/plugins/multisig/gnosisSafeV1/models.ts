@@ -1,8 +1,8 @@
 import BN from 'bn.js'
 import { ethers } from 'ethers'
+import { Models } from '@open-rights-exchange/chainjs'
 import { EthereumAddress, EthereumRawTransactionAction, EthereumTxData } from '../../../models'
-//import { SignatureBrand } from '../../../../../models'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
+// import { SignatureBrand } from '../../../../../models'
 
 export type EthereumMultisigRawTransaction = EthereumRawTransactionAction
 

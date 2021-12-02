@@ -1,11 +1,7 @@
 import BN from 'bn.js'
+import { Models, Helpers } from '@open-rights-exchange/chainjs'
 import { EthereumTransactionAction, EthereumAddress } from '../../../models'
 import { isNullOrEmptyEthereumValue } from '../../../helpers'
-//import { ChainActionType, ActionDecomposeReturn } from '../../../../../models'
-//import { toChainEntityName } from '../../../../../helpers'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
-
 
 export interface EthTransferParams {
   value: string

@@ -1,6 +1,7 @@
 import { ethers, Contract, ContractInterface, BigNumberish, utils, PopulatedTransaction } from 'ethers'
 import GnosisSafeSol from '@gnosis.pm/safe-contracts/build/artifacts/contracts/GnosisSafe.sol/GnosisSafe.json'
 import ProxyFactorySol from '@gnosis.pm/safe-contracts/build/artifacts/contracts/proxies/GnosisSafeProxyFactory.sol/GnosisSafeProxyFactory.json'
+import { Helpers, Errors } from '@open-rights-exchange/chainjs'
 import {
   EthereumAddress,
   EthereumPrivateKey,
@@ -46,9 +47,7 @@ import {
 //   removeEmptyValuesInJsonObject,
 //   tryParseJSON,
 // } from '../../../../../helpers'
-//import { throwNewError } from '../../../../../errors'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Errors } from '@open-rights-exchange/chainjs'
-
+// import { throwNewError } from '../../../../../errors'
 
 // TODO: move to a more generic directory (Consider using EthersJs)
 export function getEthersJsonRpcProvider(url: string) {

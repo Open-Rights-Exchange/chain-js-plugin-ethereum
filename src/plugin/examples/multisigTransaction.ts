@@ -2,15 +2,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-len */
 
-//import { TxExecutionPriority } from '../../../models'
+// import { TxExecutionPriority } from '../../../models'
+import { Models, Helpers } from '@open-rights-exchange/chainjs'
 import { EthereumTransactionOptions } from '../models'
 import { toEthereumAddress, toEthereumPrivateKey } from '../helpers'
 import { connectChain, ropstenChainOptions, ropstenEndpoints } from './helpers/networks'
 import { GnosisSafeMultisigPlugin } from '../plugins/multisig/gnosisSafeV1/plugin'
 import { EthereumGnosisMultisigTransactionOptions } from '../plugins/multisig/gnosisSafeV1/models'
 import { GnosisSafeMultisigPluginTransaction } from '../plugins/multisig/gnosisSafeV1/pluginTransaction'
-//import { bufferToPrefixedHexString } from '../../../helpers'
-import { Models, Helpers } from '@open-rights-exchange/chainjs'
+// import { bufferToPrefixedHexString } from '../../../helpers'
 
 require('dotenv').config()
 // eslint-disable-next-line import/newline-after-import

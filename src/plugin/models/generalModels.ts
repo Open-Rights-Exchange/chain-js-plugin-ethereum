@@ -1,17 +1,7 @@
 import { BN } from 'ethereumjs-util'
 import BigNumber from 'bignumber.js'
-// import {
-//   ChainDateBrand,
-//   ChainEntityNameBrand,
-//   ChainSettingsCommunicationSettings,
-//   ChainSymbolBrand,
-//   ModelsCryptoAes,
-//   TxExecutionPriority,
-// } from '../../../models'
+import { Models } from '@open-rights-exchange/chainjs'
 import { EthereumKeyPair } from './cryptoModels'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
-
 
 /** Category of chain functions - useful in error mapping */
 export enum ChainFunctionCategory {

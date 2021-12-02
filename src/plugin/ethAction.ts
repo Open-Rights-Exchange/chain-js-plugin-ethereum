@@ -1,14 +1,6 @@
 import { bufferToHex, BN } from 'ethereumjs-util'
 import { Transaction as EthereumJsTx } from 'ethereumjs-tx'
-// import {
-//   decimalToHexString,
-//   hasHexPrefix,
-//   isABuffer,
-//   isNullOrEmpty,
-//   nullifyIfEmpty,
-//   removeEmptyValuesInJsonObject,
-//   toHexStringIfNeeded,
-// } from '../../helpers'
+import { Models, Helpers, Errors } from '@open-rights-exchange/chainjs'
 import {
   convertBufferToHexStringIfNeeded,
   isNullOrEmptyEthereumValue,
@@ -30,10 +22,6 @@ import {
   EthereumSignatureNative,
 } from './models'
 import { ZERO_HEX, ZERO_ADDRESS } from './ethConstants'
-// import { throwNewError } from '../../errors'
-// import { IndexedObject } from '../../models'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
 
 export type ActionChainOptions = {
   chain: string

@@ -1,4 +1,5 @@
 // import { toHex } from 'web3-utils'
+import { Helpers } from '@open-rights-exchange/chainjs'
 import {
   EthereumAddress,
   EthereumTransactionAction,
@@ -8,9 +9,7 @@ import {
 } from '../../../models'
 import { erc1155Abi } from '../../abis/erc1155Abi'
 import { toEthereumAddress, isNullOrEmptyEthereumValue } from '../../../helpers'
-//import { getArrayIndexOrNull } from '../../../../../helpers'
-import { Interfaces, Models, ChainFactory, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chainjs'
-
+// import { getArrayIndexOrNull } from '../../../../../helpers'
 
 export interface Erc1155ApproveParams {
   contractAddress: EthereumAddress
