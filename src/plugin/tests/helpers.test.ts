@@ -1,13 +1,13 @@
 // How to use fetch mocks - https://www.npmjs.com/package/jest-fetch-mock
 import { ZERO_HEX, EMPTY_HEX, ZERO_ADDRESS } from '../ethConstants'
 import { toWeiBN, toEthereumAddress, toEthereumPrivateKey, isNullOrEmptyEthereumValue } from '../helpers'
-import { EthUnit } from '../models'
+
 
 describe('Ethereum Helper Functions', () => {
   // sets fetchMock to throw an error on the next call to fetch (jsonRpc.get_abi calls fetch and triggers the error to be thrown)
   it('tests toWei', async () => {
-    const expValue = toWeiBN(100, EthUnit.Milliether)
-    const value = toWeiBN(100, EthUnit.Finney)
+    const expValue = toWeiBN(100)
+    const value = toWeiBN(100)
 
     expect(value).toEqual(expValue)
   })
