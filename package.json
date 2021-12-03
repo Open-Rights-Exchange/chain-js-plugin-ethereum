@@ -5,10 +5,22 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
+    "build": "rm -rf dist/* && tsc --build tsconfig.json",
+    "lint": "eslint src",
+    "lint-fix": "eslint src --fix",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
     "test": "jest --runInBand --coverage --detectOpenHandles"
   },
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeamAikon/chainjs-plugin-ethereum.git"
+  },
+  "author": "AIKON",
+  "bugs": {
+    "url": "https://github.com/TeamAikon/chainjs-plugin-ethereum/issues"
+  },
+  "homepage": "https://github.com/TeamAikon/chainjs-plugin-ethereum#readme",
   "dependencies": {
     "@gnosis.pm/safe-contracts": "^1.2.0",
     "@types/bn.js": "^4.11.6",
