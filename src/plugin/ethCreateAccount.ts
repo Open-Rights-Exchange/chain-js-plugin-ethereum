@@ -14,7 +14,6 @@ import {
 import { EthereumMultisigPluginCreateAccount } from './plugins/multisig/ethereumMultisigPlugin'
 import { EthereumTransaction } from './ethTransaction'
 
-
 /** Helper class to compose a transction for creating a new chain account
  *  Handles native accounts
  *  Generates new account keys if not provide */

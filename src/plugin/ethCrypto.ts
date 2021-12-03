@@ -1,16 +1,9 @@
-/* eslint-disable new-cap */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Wallet from 'ethereumjs-wallet'
 import { bufferToHex, ecsign, ecrecover, publicToAddress, keccak } from 'ethereumjs-util'
 import secp256k1 from 'secp256k1'
 import {
-  Interfaces,
-  Models,
-  ChainFactory,
   Helpers,
-  PluginInterfaces,
   Crypto,
-  Errors,
   CryptoAsymmetricModels,
   CryptoHelpers,
   CryptoAsymmetricHelpers as AsymmetricHelpers,
@@ -24,9 +17,6 @@ import {
   EthereumSignatureNative,
 } from './models'
 import { toEthBuffer, toEthereumAddress, toEthereumPublicKey, toEthereumSignatureNative } from './helpers'
-// import { ensureEncryptedValueIsObject } from '../../crypto/genericCryptoHelpers'
-// import * as AsymmetricHelpers from '../../crypto/asymmetricHelpers'
-// import { AsymmetricScheme } from '../../crypto/asymmetricModels'
 
 // eslint-disable-next-line prefer-destructuring
 export const defaultIter = Crypto.AesCrypto.defaultIter

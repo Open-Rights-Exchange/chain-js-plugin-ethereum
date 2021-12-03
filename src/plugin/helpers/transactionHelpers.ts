@@ -54,7 +54,7 @@ export function isNullOrEmptyEthereumValue(obj: any) {
 }
 
 /** Uses web3-utils toWei conversion */
-export function toWeiBN(amount: BN | number, fromType: EthUnit): BN {
+export function toWeiBN(amount: BN | number): BN {
   const web3 = new Web3()
   return web3.utils.toWei(new BN(amount), 'wei')
 }
