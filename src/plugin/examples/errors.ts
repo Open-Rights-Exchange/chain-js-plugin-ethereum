@@ -25,7 +25,7 @@ import { EthereumChainSettings, EthereumChainForkType, EthUnit, EthereumChainEnd
     // Assuming authorizing account balance is NOT >= 1000 ETH
     const composeEthTransferParams = {
       to: '0x27105356F6C1ede0e92020e6225E46DC1F496b81',
-      value: toWeiBN(1000, EthUnit.Ether),
+      value: toWeiBN(1000),
     }
 
     const ropsten = new ChainFactory().create(Models.ChainType.EthereumV1, ropstenEndpoints, {
