@@ -1,4 +1,3 @@
-import { TransactionReceipt } from 'web3-core'
 import BN from 'bn.js'
 import { Models } from '@open-rights-exchange/chainjs'
 import { EthereumEntityName, EthereumMultiValue } from './generalModels'
@@ -128,4 +127,43 @@ export type EthereumTransactionCost = {
 /** Resouces required for transaction (in terms of gas) */
 export type EthereumTransactionResources = {
   gas: string
+}
+
+/** TransactionReceipt - result from sending a transaction
+ * imported from web3-core' */
+export interface TransactionReceipt {
+  status: boolean
+  transactionHash: string
+  transactionIndex: number
+  blockHash: string
+  blockNumber: number
+  from: string
+  to: string
+  contractAddress?: string
+  cumulativeGasUsed: number
+  gasUsed: number
+  logs: {
+    address: string
+    data: string
+    topics: string[]
+    logIndex: number
+    transactionIndex: number
+    transactionHash: string
+    blockHash: string
+    blockNumber: number
+  }[]
+  logsBloom: string
+  events?: {
+    [eventName: string]: {
+      event: string
+      address: string
+      returnValues: any
+      logIndex: number
+      transactionIndex: number
+      transactionHash: string
+      blockHash: string
+      blockNumber: number
+      raw?: { data: string; topics: any[] }
+    }
+  }
 }
