@@ -2,7 +2,6 @@
 import { ZERO_HEX, EMPTY_HEX, ZERO_ADDRESS } from '../ethConstants'
 import { toWeiBN, toEthereumAddress, toEthereumPrivateKey, isNullOrEmptyEthereumValue } from '../helpers'
 
-
 describe('Ethereum Helper Functions', () => {
   // sets fetchMock to throw an error on the next call to fetch (jsonRpc.get_abi calls fetch and triggers the error to be thrown)
   it('tests toWei', async () => {
