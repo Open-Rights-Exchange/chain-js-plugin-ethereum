@@ -3,21 +3,23 @@ import {
   bufferToHex,
   ECDSASignature,
   fromRpcSig,
+  isValidAddress,
   isValidPrivate,
   isValidPublic,
-  isValidAddress,
   privateToAddress,
 } from 'ethereumjs-util'
 
 import { Helpers } from '@open-rights-exchange/chainjs'
 import {
-  EthereumSignature,
-  EthereumPublicKey,
-  EthereumPrivateKey,
+  AlternateUnitMap,
   EthereumAddress,
+  EthereumPrivateKey,
+  EthereumPublicKey,
+  EthereumSignature,
+  EthereumSignatureNative,
   EthereumTxData,
   EthUnit,
-  EthereumSignatureNative,
+
 } from '../models'
 import { toEthBuffer } from './generalHelpers'
 
@@ -173,9 +175,17 @@ export function toEthereumAddress(value: string): EthereumAddress {
   throw new Error(`Not a valid ethereum address:${value}.`)
 }
 
+/** convert to supported units - e.g. 'eth' to 'ether' */
+export function mapAlternativeUnits(unit: string): string {
+  const mapped = AlternateUnitMap.find(m => m.from.toLowerCase() === unit?.toLowerCase())?.to
+  return mapped || unit
+}
+
+/** convert string to EthUnit - throws if not valid value, maps known synonyms ('eth' to 'ether') */
 export function toEthUnit(unit: string): EthUnit {
+  const mappedUnit = mapAlternativeUnits(unit)
   try {
-    return unit as EthUnit
+    return mappedUnit as EthUnit
   } catch (err) {
     throw new Error('Not a valid ethereum unit type.')
   }

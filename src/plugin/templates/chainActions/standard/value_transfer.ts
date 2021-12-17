@@ -1,6 +1,6 @@
 import { Models } from '@open-rights-exchange/chainjs'
 import { EthUnit, EthereumTransactionAction } from '../../../models'
-import { toWeiString } from '../../../helpers'
+import { toEthUnit, toWeiString } from '../../../helpers'
 import { DEFAULT_ETH_UNIT } from '../../../ethConstants'
 // import { ChainActionType, ValueTransferParams, ActionDecomposeReturn } from '../../../../../models'
 
@@ -13,7 +13,8 @@ import {
 /** Sends ETH (in units of Wei) */
 export const composeAction = (params: Models.ValueTransferParams) => {
   const { fromAccountName, toAccountName, amount, symbol = DEFAULT_ETH_UNIT } = params
-  const value = toWeiString(amount, symbol as EthUnit) // using 0 precision since the toWei already converts to right precision for EthUnit
+  const ethUnit = toEthUnit(symbol)
+  const value = toWeiString(amount, ethUnit) // using 0 precision since the toWei already converts to right precision for EthUnit
   return ethTransferComposeAction({
     from: fromAccountName,
     to: toAccountName,
