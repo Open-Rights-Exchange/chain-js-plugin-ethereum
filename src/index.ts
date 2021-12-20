@@ -1,8 +1,9 @@
 import * as HelpersEthereum from './plugin/helpers'
 import * as ModelsEthereum from './plugin/models'
+import * as TemplateModelsEthereum from './plugin/templates/models'
 import Plugin from './plugin/ChainEthereumV1'
 
-export { HelpersEthereum, ModelsEthereum, Plugin }
+export { HelpersEthereum, ModelsEthereum, TemplateModelsEthereum, Plugin }
 
 // Not quite sure why tests/error.test.ts refernces eosjs
 
