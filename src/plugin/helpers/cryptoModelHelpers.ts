@@ -19,7 +19,6 @@ import {
   EthereumSignatureNative,
   EthereumTxData,
   EthUnit,
-
 } from '../models'
 import { toEthBuffer } from './generalHelpers'
 
