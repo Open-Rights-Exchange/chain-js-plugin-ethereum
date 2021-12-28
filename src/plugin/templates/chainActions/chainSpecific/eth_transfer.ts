@@ -15,7 +15,7 @@ export const composeAction = (params: EthTransferParams) => {
   return {
     from,
     to,
-    value: new BN(value, 10), // must be a hex '0x' string or BN
+    value: Helpers.ensureHexPrefix(new BN(value, 10).toString('hex')), // must be a hex '0x' string or BN
   }
 }
 
