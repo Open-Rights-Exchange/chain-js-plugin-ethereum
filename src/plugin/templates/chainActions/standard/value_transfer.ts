@@ -1,4 +1,4 @@
-import { Models } from '@open-rights-exchange/chainjs'
+import { Helpers, Models } from '@open-rights-exchange/chainjs'
 import { EthUnit, EthereumTransactionAction } from '../../../models'
 import { toEthUnit, toWeiString } from '../../../helpers'
 import { DEFAULT_ETH_UNIT } from '../../../ethConstants'
@@ -28,7 +28,7 @@ export const decomposeAction = (action: EthereumTransactionAction): Models.Actio
     const decomposedArgs = decomposed.args
     return {
       args: {
-        amount: decomposedArgs.value,
+        amount: Helpers.toTokenValueString(decomposedArgs.value, 10, 0), // convert back to decimal from hex (in Wei)
         fromAccountName: decomposedArgs.from,
         toAccountName: decomposedArgs.to,
         symbol: EthUnit.Wei,
