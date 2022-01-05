@@ -119,7 +119,7 @@ export async function decryptWithPrivateKeys(
   encrypted: Crypto.Asymmetric.AsymmetricEncryptedDataString,
   privateKeys: EthereumPublicKey[],
   options?: any,
-): Promise<string> {
+): Promise<{ decrypted: string; remaining: CryptoAsymmetricModels.AsymmetricEncryptedData[] }> {
   return AsymmetricHelpers.decryptWithPrivateKeys(decryptWithPrivateKey, encrypted, privateKeys, options)
 }
 
