@@ -4,7 +4,7 @@
 /* eslint-disable no-console */
 // import { ChainFactory, ChainType } from '../../../index'
 // import { TxExecutionPriority } from '../../../models'
-import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chain-jss'
+import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chain-js'
 
 import { toEthereumAddress } from '../helpers'
 import {
