@@ -1,5 +1,5 @@
 {
-  "name": "@open-rights-exchange/chainjs-plugin-ethereum",
+  "name": "@open-rights-exchange/chain-js-plugin-ethereum",
   "version": "1.0.0",
   "description": "",
   "main": "dist/src/index.js",
