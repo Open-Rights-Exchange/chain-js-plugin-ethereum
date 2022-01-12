@@ -1,5 +1,5 @@
 import { toBuffer, BN } from 'ethereumjs-util'
-import { Helpers } from '@open-rights-exchange/chainjs'
+import { Helpers } from '@open-rights-exchange/chain-js'
 import { ERC20_TYPES } from '../templates/abis/erc20Abi'
 import { EthereumActionContract, EthereumAddress, EthereumPrivateKey, EthereumPublicKey } from '../models'
 // import { ensureHexPrefix, ensureHexPrefixForPublicKey } from '../../../helpers'

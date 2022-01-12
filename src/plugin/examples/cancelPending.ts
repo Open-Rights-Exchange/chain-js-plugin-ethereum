@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 // import { ChainFactory, ChainType } from '../../../index'
-import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chainjs'
+import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chain-js'
 import ChainEthereumV1 from '../ChainEthereumV1'
 import { EthereumChainEndpoint, EthereumChainSettings } from '../models'
 // import { asyncForEach, sleep } from '../../../helpers'

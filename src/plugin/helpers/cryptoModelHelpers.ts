@@ -9,7 +9,7 @@ import {
   privateToAddress,
 } from 'ethereumjs-util'
 
-import { Helpers } from '@open-rights-exchange/chainjs'
+import { Helpers } from '@open-rights-exchange/chain-js'
 import {
   AlternateUnitMap,
   EthereumAddress,

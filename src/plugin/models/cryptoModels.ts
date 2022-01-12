@@ -1,4 +1,4 @@
-import { Models } from '@open-rights-exchange/chainjs'
+import { Models } from '@open-rights-exchange/chain-js'
 
 /** an ethereum transaction signature */
 export interface ECDSASignature {

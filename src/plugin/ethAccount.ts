@@ -8,7 +8,7 @@ import {
   PluginInterfaces,
   Crypto,
   Errors,
-} from '@open-rights-exchange/chainjs'
+} from '@open-rights-exchange/chain-js'
 import { isValidEthereumAddress, isValidEthereumPublicKey } from './helpers'
 // import { Account } from '../../interfaces'
 // import { throwNewError } from '../../errors'

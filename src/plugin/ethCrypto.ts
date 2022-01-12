@@ -7,7 +7,7 @@ import {
   CryptoAsymmetricModels,
   CryptoHelpers,
   CryptoAsymmetricHelpers as AsymmetricHelpers,
-} from '@open-rights-exchange/chainjs'
+} from '@open-rights-exchange/chain-js'
 import {
   EthereumAddress,
   EthereumKeyPair,

@@ -2,7 +2,7 @@
 /* eslint-disable quote-props */
 
 // standard actions
-import { Helpers } from '@open-rights-exchange/chainjs'
+import { Helpers } from '@open-rights-exchange/chain-js'
 import { decomposeAction as TokenApproveTemplate } from './templates/chainActions/standard/token_approve'
 import { decomposeAction as TokenTransferFromTemplate } from './templates/chainActions/standard/token_transferFrom'
 import { decomposeAction as TokenTransferTemplate } from './templates/chainActions/standard/token_transfer'

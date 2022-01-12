@@ -3,7 +3,7 @@ import Web3 from 'web3'
 import BN from 'bn.js'
 import { HttpProviderOptions } from 'web3-core-helpers'
 import { BlockTransactionString, Transaction, TransactionReceipt } from 'web3-eth'
-import { Interfaces, Models, Helpers, Errors } from '@open-rights-exchange/chainjs'
+import { Interfaces, Models, Helpers, Errors } from '@open-rights-exchange/chain-js'
 import { mapChainError } from './ethErrors'
 
 import {

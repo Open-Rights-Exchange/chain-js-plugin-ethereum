@@ -1,4 +1,4 @@
-import { Helpers } from '@open-rights-exchange/chainjs'
+import { Helpers } from '@open-rights-exchange/chain-js'
 import {
   EthereumAddress,
   EthereumTransactionAction,

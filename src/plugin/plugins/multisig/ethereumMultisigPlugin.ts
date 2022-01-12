@@ -1,4 +1,4 @@
-import { Interfaces, PluginInterfaces } from '@open-rights-exchange/chainjs'
+import { Interfaces, PluginInterfaces } from '@open-rights-exchange/chain-js'
 import { EthereumAddress, EthereumPrivateKey, EthereumSignature, EthereumTransactionAction } from '../../models'
 import { EthereumMultisigRawTransaction } from './gnosisSafeV1/models'
 

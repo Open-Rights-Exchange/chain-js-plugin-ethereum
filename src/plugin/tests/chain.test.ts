@@ -2,7 +2,7 @@
 // How to use fetch mocks - https://www.npmjs.com/package/jest-fetch-mock
 // import { toChainEntityName } from '../../../helpers'
 // import { ChainType } from '../../..'
-import { Interfaces, Models, PluginChainFactory, Helpers } from '@open-rights-exchange/chainjs'
+import { Interfaces, Models, PluginChainFactory, Helpers } from '@open-rights-exchange/chain-js'
 import { ropstenEndpoints } from '../examples/helpers/networks'
 import { toEthereumSymbol } from '../helpers'
 // import { ChainFactory } from '../../../chainFactory'

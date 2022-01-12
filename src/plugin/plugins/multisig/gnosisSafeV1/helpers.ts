@@ -1,7 +1,7 @@
 import { ethers, Contract, ContractInterface, BigNumberish, utils, PopulatedTransaction } from 'ethers'
 import GnosisSafeSol from '@gnosis.pm/safe-contracts/build/artifacts/contracts/GnosisSafe.sol/GnosisSafe.json'
 import ProxyFactorySol from '@gnosis.pm/safe-contracts/build/artifacts/contracts/proxies/GnosisSafeProxyFactory.sol/GnosisSafeProxyFactory.json'
-import { Helpers, Errors } from '@open-rights-exchange/chainjs'
+import { Helpers, Errors } from '@open-rights-exchange/chain-js'
 import {
   EthereumAddress,
   EthereumPrivateKey,

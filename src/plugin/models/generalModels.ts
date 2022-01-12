@@ -1,6 +1,6 @@
 import { BN } from 'ethereumjs-util'
 import BigNumber from 'bignumber.js'
-import { Models } from '@open-rights-exchange/chainjs'
+import { Models } from '@open-rights-exchange/chain-js'
 import { EthereumKeyPair } from './cryptoModels'
 
 /** Category of chain functions - useful in error mapping */

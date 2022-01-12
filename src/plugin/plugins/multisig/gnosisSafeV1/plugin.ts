@@ -1,4 +1,4 @@
-import { Interfaces, PluginInterfaces, Errors } from '@open-rights-exchange/chainjs'
+import { Interfaces, PluginInterfaces, Errors } from '@open-rights-exchange/chain-js'
 import { EthereumGnosisMultisigCreateAccountOptions, EthereumGnosisMultisigTransactionOptions } from './models'
 // import { ChainJsPlugin, PluginType } from '../../../../../interfaces/plugin'
 import { GnosisSafeMultisigPluginCreateAccount } from './pluginCreateAccount'

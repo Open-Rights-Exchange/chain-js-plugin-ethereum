@@ -1,6 +1,6 @@
 import Web3 from 'web3'
 import { BN, bufferToHex } from 'ethereumjs-util'
-import { Helpers } from '@open-rights-exchange/chainjs'
+import { Helpers } from '@open-rights-exchange/chain-js'
 import { EthUnit, EthereumActionContract } from '../models'
 import { ZERO_HEX, EMPTY_HEX, ZERO_ADDRESS } from '../ethConstants'
 import { toEthereumTxData } from './cryptoModelHelpers'

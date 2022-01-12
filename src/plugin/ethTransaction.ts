@@ -9,7 +9,7 @@ import {
   PluginInterfaces,
   Crypto,
   Errors,
-} from '@open-rights-exchange/chainjs'
+} from '@open-rights-exchange/chain-js'
 import { TRANSACTION_FEE_PRIORITY_MULTIPLIERS } from './ethConstants'
 import { EthereumChainState } from './ethChainState'
 // import { Transaction } from '../../interfaces'

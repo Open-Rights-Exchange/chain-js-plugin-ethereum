@@ -1,4 +1,4 @@
-import { Models } from '@open-rights-exchange/chainjs'
+import { Models } from '@open-rights-exchange/chain-js'
 import { EthUnit } from './models'
 // import { IndexedObject } from '../../models'
 import { toEthereumAddress } from './helpers/cryptoModelHelpers'

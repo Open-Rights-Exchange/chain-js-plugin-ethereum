@@ -19,7 +19,7 @@ import {
   PluginInterfaces,
   Crypto,
   Errors,
-} from '@open-rights-exchange/chainjs'
+} from '@open-rights-exchange/chain-js'
 import * as ethcrypto from './ethCrypto'
 import { composeAction } from './ethCompose'
 import { decomposeAction } from './ethDecompose'

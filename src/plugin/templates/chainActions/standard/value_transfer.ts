@@ -1,4 +1,4 @@
-import { Helpers, Models } from '@open-rights-exchange/chainjs'
+import { Helpers, Models } from '@open-rights-exchange/chain-js'
 import { EthUnit, EthereumTransactionAction } from '../../../models'
 import { toEthUnit, toWeiString } from '../../../helpers'
 import { DEFAULT_ETH_UNIT } from '../../../ethConstants'

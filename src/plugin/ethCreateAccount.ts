@@ -1,4 +1,4 @@
-import { Interfaces, Helpers, PluginInterfaces, Errors } from '@open-rights-exchange/chainjs'
+import { Interfaces, Helpers, PluginInterfaces, Errors } from '@open-rights-exchange/chain-js'
 import { EthereumChainState } from './ethChainState'
 import { getEthereumAddressFromPublicKey, generateNewAccountKeysAndEncryptPrivateKeys } from './ethCrypto'
 import { isValidEthereumPublicKey, toEthereumEntityName } from './helpers'

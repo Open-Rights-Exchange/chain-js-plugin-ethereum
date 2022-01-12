@@ -1,6 +1,6 @@
 // import { getUniqueValues, isNullOrEmpty, toBuffer } from '../../../../../helpers'
 // import { throwNewError } from '../../../../../errors'
-import { Helpers, Errors } from '@open-rights-exchange/chainjs'
+import { Helpers, Errors } from '@open-rights-exchange/chain-js'
 import { EthereumAddress, EthereumPrivateKey, EthereumSignature, EthereumTransactionAction } from '../../../models'
 import { EthereumMultisigPluginTransaction } from '../ethereumMultisigPlugin'
 import {

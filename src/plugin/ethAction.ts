@@ -1,6 +1,6 @@
 import { bufferToHex, BN } from 'ethereumjs-util'
 import { Transaction as EthereumJsTx } from 'ethereumjs-tx'
-import { Models, Helpers, Errors } from '@open-rights-exchange/chainjs'
+import { Models, Helpers, Errors } from '@open-rights-exchange/chain-js'
 import {
   convertBufferToHexStringIfNeeded,
   isNullOrEmptyEthereumValue,

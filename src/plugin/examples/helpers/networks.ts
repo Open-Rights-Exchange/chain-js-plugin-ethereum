@@ -1,6 +1,6 @@
 // import { ChainEthereumV1, ChainFactory, ChainType } from '../../../..'
 // import { TxExecutionPriority } from '../../../../models'
-import { Models, PluginChainFactory } from '@open-rights-exchange/chainjs'
+import { Models, PluginChainFactory } from '@open-rights-exchange/chain-js'
 import { EthereumChainEndpoint, EthereumChainSettings } from '../../models'
 import ChainEthereumV1 from '../../ChainEthereumV1'
 

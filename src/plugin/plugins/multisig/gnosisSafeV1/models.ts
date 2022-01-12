@@ -1,6 +1,6 @@
 import BN from 'bn.js'
 import { ethers } from 'ethers'
-import { Models } from '@open-rights-exchange/chainjs'
+import { Models } from '@open-rights-exchange/chain-js'
 import { EthereumAddress, EthereumRawTransactionAction, EthereumTxData } from '../../../models'
 // import { SignatureBrand } from '../../../../../models'
 

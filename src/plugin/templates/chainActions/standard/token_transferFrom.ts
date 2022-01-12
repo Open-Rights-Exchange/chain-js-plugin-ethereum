@@ -1,5 +1,5 @@
 // import { ChainActionType, TokenTransferFromParams, ActionDecomposeReturn } from '../../../../../models'
-import { Models } from '@open-rights-exchange/chainjs'
+import { Models } from '@open-rights-exchange/chain-js'
 import { EthereumTransactionAction } from '../../../models'
 import {
   composeAction as erc20TokenTransferFromComposeAction,

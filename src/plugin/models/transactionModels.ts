@@ -1,5 +1,5 @@
 import BN from 'bn.js'
-import { Models } from '@open-rights-exchange/chainjs'
+import { Models } from '@open-rights-exchange/chain-js'
 import { EthereumEntityName, EthereumMultiValue } from './generalModels'
 
 export type EthereumAbi = any[]

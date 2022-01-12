@@ -14,7 +14,7 @@ import { BN } from 'ethereumjs-util'
 //   ValueTransferParams,
 // } from '../../../models'
 // import { ChainEthereumV1 } from '../ChainEthereumV1'
-import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chainjs'
+import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chain-js'
 import { toEthereumAddress, toEthereumPrivateKey, toEthereumSymbol } from '../helpers'
 // import { fromTokenValueString, toChainEntityName } from '../../../helpers'
 import {

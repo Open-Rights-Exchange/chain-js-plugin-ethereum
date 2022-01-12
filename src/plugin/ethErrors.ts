@@ -2,7 +2,7 @@
 // import { ChainError } from '../../errors'
 // import { stringifySafe } from '../../helpers'
 // import { ChainErrorType } from '../../models'
-import { Models, Helpers, Errors } from '@open-rights-exchange/chainjs'
+import { Models, Helpers, Errors } from '@open-rights-exchange/chain-js'
 import { ChainFunctionCategory } from './models'
 
 // subset of errors from Eteherum chain - {url to ETh errors}

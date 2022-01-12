@@ -3,7 +3,7 @@
 /* eslint-disable max-len */
 
 // import { TxExecutionPriority } from '../../../models'
-import { Models, Helpers } from '@open-rights-exchange/chainjs'
+import { Models, Helpers } from '@open-rights-exchange/chain-js'
 import { EthereumTransactionOptions } from '../models'
 import { toEthereumAddress, toEthereumPrivateKey } from '../helpers'
 import { connectChain, ropstenChainOptions, ropstenEndpoints } from './helpers/networks'

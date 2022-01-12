@@ -10,7 +10,7 @@
 import { toEthereumPrivateKey, toEthereumPublicKey, toEthereumSignatureNative } from '../helpers'
 import { uncompressPublicKey, prepareMessageToSign, verifySignedMessage, signMessage, getEthereumPublicKeyFromSignature} from '../ethCrypto'
 import { EthereumChainEndpoint } from '../models'
-import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chainjs'
+import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chain-jss'
 
 require('dotenv').config()
 

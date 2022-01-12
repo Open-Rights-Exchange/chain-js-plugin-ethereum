@@ -1,6 +1,6 @@
 // import { isNullOrEmpty } from '../../../../../helpers'
 // import { throwNewError } from '../../../../../errors'
-import { Helpers, Errors } from '@open-rights-exchange/chainjs'
+import { Helpers, Errors } from '@open-rights-exchange/chain-js'
 import { toEthereumEntityName } from '../../../helpers'
 import { EthereumAddress, EthereumEntityName, EthereumTransactionAction } from '../../../models'
 import { EthereumMultisigPluginCreateAccount } from '../ethereumMultisigPlugin'

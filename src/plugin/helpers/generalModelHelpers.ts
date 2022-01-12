@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { Helpers } from '@open-rights-exchange/chainjs'
+import { Helpers } from '@open-rights-exchange/chain-js'
 import { EthereumDate, EthereumEntityName, EthereumSymbol } from '../models/generalModels'
 // import { isNullOrEmpty, isInEnum } from '../../../helpers'
 import {

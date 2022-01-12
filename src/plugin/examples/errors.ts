@@ -6,7 +6,7 @@
 /* eslint-disable no-console */
 // import { ChainFactory, ChainType } from '../../../index'
 // import { ChainActionType, ChainErrorType, ConfirmType } from '../../../models'
-import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chainjs'
+import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chain-js'
 
 import { toEthereumPrivateKey, toWeiBN } from '../helpers'
 import { EthereumChainSettings, EthereumChainForkType, EthUnit, EthereumChainEndpoint } from '../models'

@@ -5,7 +5,7 @@
 // import { notSupported } from '../../helpers'
 
 // standard actions
-import { Models, Helpers } from '@open-rights-exchange/chainjs'
+import { Models, Helpers } from '@open-rights-exchange/chain-js'
 import { composeAction as TokenApproveTemplate } from './templates/chainActions/standard/token_approve'
 import { composeAction as TokenTransferFromTemplate } from './templates/chainActions/standard/token_transferFrom'
 import { composeAction as TokenTransferTemplate } from './templates/chainActions/standard/token_transfer'

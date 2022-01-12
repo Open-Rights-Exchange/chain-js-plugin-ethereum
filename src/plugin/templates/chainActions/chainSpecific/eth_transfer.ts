@@ -1,5 +1,5 @@
 import BN from 'bn.js'
-import { Models, Helpers } from '@open-rights-exchange/chainjs'
+import { Models, Helpers } from '@open-rights-exchange/chain-js'
 import { EthereumTransactionAction, EthereumAddress } from '../../../models'
 import { isNullOrEmptyEthereumValue } from '../../../helpers'
 

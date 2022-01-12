@@ -5,7 +5,7 @@
 // import { ChainFactory, ChainType } from '../../../index'
 // import { TxExecutionPriority } from '../../../models'
 
-import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chainjs'
+import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chain-js'
 import { toEthereumAddress } from '../helpers'
 import {
   EthereumChainSettings,

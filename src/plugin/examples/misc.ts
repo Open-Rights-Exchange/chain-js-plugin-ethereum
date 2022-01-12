@@ -6,7 +6,7 @@
 /* eslint-disable no-console */
 // import { ChainFactory, ChainType } from '../../../index'
 // import { ChainEndpoint } from '../../../models/generalModels'
-import { Interfaces, Models, ChainFactory, Helpers, ChainError } from '@open-rights-exchange/chainjs'
+import { Interfaces, Models, ChainFactory, Helpers, ChainError } from '@open-rights-exchange/chain-js'
 import { toEthereumPrivateKey, toEthereumPublicKey, toEthereumSymbol } from '../helpers'
 // mport { toChainEntityName } from '../../../helpers'
 import { ropstenEndpoints } from './helpers/networks'
