@@ -12,7 +12,8 @@
     "lint-fix": "eslint src --fix",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
-    "test": "jest --runInBand --coverage --detectOpenHandles"
+    "test": "jest --runInBand --coverage --detectOpenHandles",
+    "localpublish": "zalc publish && zalc push"
   },
   "repository": {
     "type": "git",
