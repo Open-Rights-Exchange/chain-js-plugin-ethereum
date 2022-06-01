@@ -11,15 +11,7 @@ import { Transaction } from 'web3-eth'
 //   TransactionStatus,
 // } from '../../models'
 // import { ChainError, throwNewError } from '../../errors'
-import {
-  Interfaces,
-  Models,
-  ChainFactory,
-  Helpers,
-  PluginInterfaces,
-  Crypto,
-  Errors,
-} from '@open-rights-exchange/chain-js'
+import { Interfaces, Models, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chain-js'
 import * as ethcrypto from './ethCrypto'
 import { composeAction } from './ethCompose'
 import { decomposeAction } from './ethDecompose'
@@ -55,6 +47,7 @@ import {
 } from './helpers'
 import {
   DEFAULT_ETH_UNIT,
+  ETHEREUM_EXPIRATION_SUPPORTED_OPTIONS,
   NATIVE_CHAIN_TOKEN_ADDRESS,
   NATIVE_CHAIN_TOKEN_PRECISION,
   NATIVE_CHAIN_TOKEN_SYMBOL,
@@ -63,6 +56,7 @@ import {
 // import { ChainJsPlugin, ChainJsPluginOptions, PluginType } from '../../interfaces/plugin'
 // import { assertPluginTypeNotAlreadyInstalled, initializePlugin } from '../../helpers'
 import { EthereumMultisigPlugin } from './plugins/multisig/ethereumMultisigPlugin'
+import { TransactionSupportedExpirationOptions } from '../../../chain-js/src/models'
 
 // TODO: Comsolidate use of Ethereum libraries
 
@@ -380,6 +374,11 @@ class Plugin implements Interfaces.Chain {
    */
   public get web3() {
     return this._chainState?.web3
+  }
+
+  /** Returns the supported expiration option metadata */
+  public get expirationSupportedOptions(): TransactionSupportedExpirationOptions {
+    return ETHEREUM_EXPIRATION_SUPPORTED_OPTIONS
   }
 }
 
