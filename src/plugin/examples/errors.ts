@@ -6,10 +6,11 @@
 /* eslint-disable no-console */
 // import { ChainFactory, ChainType } from '../../../index'
 // import { ChainActionType, ChainErrorType, ConfirmType } from '../../../models'
-import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chain-js'
+import { Interfaces, Models, Helpers, PluginChainFactory } from '@open-rights-exchange/chain-js'
 
 import { toEthereumPrivateKey, toWeiBN } from '../helpers'
 import { EthereumChainSettings, EthereumChainForkType, EthUnit, EthereumChainEndpoint } from '../models'
+import ChainEthereumV1 from '../ChainEthereumV1'
 ;(async () => {
   try {
     const ropstenEndpoints: EthereumChainEndpoint[] = [
@@ -27,10 +28,10 @@ import { EthereumChainSettings, EthereumChainForkType, EthUnit, EthereumChainEnd
       to: '0x27105356F6C1ede0e92020e6225E46DC1F496b81',
       value: toWeiBN(1000),
     }
-
-    const ropsten = new ChainFactory().create(Models.ChainType.EthereumV1, ropstenEndpoints, {
+    const ropsten = PluginChainFactory([ChainEthereumV1], Models.ChainType.EthereumV1, ropstenEndpoints, {
       chainForkType: ropstenChainOptions,
     } as EthereumChainSettings)
+
     await ropsten.connect()
 
     const transaction = await ropsten.new.Transaction()

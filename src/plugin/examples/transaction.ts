@@ -14,7 +14,7 @@ import { BN } from 'ethereumjs-util'
 //   ValueTransferParams,
 // } from '../../../models'
 // import { ChainEthereumV1 } from '../ChainEthereumV1'
-import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chain-js'
+import { Interfaces, Models, Helpers, PluginChainFactory } from '@open-rights-exchange/chain-js'
 import { toEthereumAddress, toEthereumPrivateKey, toEthereumSymbol } from '../helpers'
 // import { fromTokenValueString, toChainEntityName } from '../../../helpers'
 import {
@@ -32,6 +32,7 @@ import { Erc20IssueParams } from '../templates/chainActions/chainSpecific/erc20_
 import { Erc721SafeTransferFromParams } from '../templates/chainActions/chainSpecific/erc721_safeTransferFrom'
 import { EthTransferParams } from '../templates/chainActions/chainSpecific/eth_transfer'
 import { EthereumTransaction } from '../ethTransaction'
+import ChainEthereumV1 from '../ChainEthereumV1'
 
 require('dotenv').config()
 
@@ -113,8 +114,12 @@ const { env } = process
       chain: 'ropsten',
       hardfork: 'istanbul',
     }
-
-    const ropsten = new ChainFactory().create(Models.ChainType.EthereumV1, ropstenEndpoints, ropstenChainOptions)
+    const ropsten = PluginChainFactory(
+      [ChainEthereumV1],
+      Models.ChainType.EthereumV1,
+      ropstenEndpoints,
+      ropstenChainOptions,
+    )
     await ropsten.connect()
 
     // ---> Sign and send ethereum transfer with compose Action - using generic (cross-chain) native chain transfer action
