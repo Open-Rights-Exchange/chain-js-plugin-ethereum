@@ -1,6 +1,7 @@
 import Web3 from 'web3'
 import { BN, bufferToHex } from 'ethereumjs-util'
 import { Helpers } from '@open-rights-exchange/chain-js'
+import BNJs from 'bn.js'
 import { EthUnit, EthereumActionContract } from '../models'
 import { ZERO_HEX, EMPTY_HEX, ZERO_ADDRESS } from '../ethConstants'
 import { toEthereumTxData } from './cryptoModelHelpers'
@@ -35,17 +36,20 @@ export function isNullOrEmptyEthereumValue(obj: any) {
   if (
     Helpers.isNullOrEmpty(obj) ||
     obj === 0 ||
+    obj === '0' ||
+    obj === '0x0' ||
     obj === ZERO_HEX ||
     obj === EMPTY_HEX ||
     obj === ZERO_ADDRESS ||
-    obj === Buffer.from(ZERO_HEX, 'hex') ||
     obj === 'NaN'
   ) {
     return true
   }
 
   try {
-    if (Buffer.isBuffer(obj) && bufferToHex(obj) === EMPTY_HEX) return true
+    if (Buffer.isBuffer(obj)) {
+      if (bufferToHex(obj) === EMPTY_HEX || bufferToHex(obj) === ZERO_HEX) return true
+    }
   } catch (error) {
     // noting to do
   }
@@ -54,9 +58,9 @@ export function isNullOrEmptyEthereumValue(obj: any) {
 }
 
 /** Uses web3-utils toWei conversion */
-export function toWeiBN(amount: BN | number): BN {
+export function toWeiBN(amount: BNJs | number): BNJs {
   const web3 = new Web3()
-  return web3.utils.toWei(new BN(amount), 'wei')
+  return web3.utils.toWei(new BNJs(amount), 'wei')
 }
 
 /** convert a decimal string from fromType to Wei units
