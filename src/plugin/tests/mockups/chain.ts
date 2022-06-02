@@ -1,4 +1,6 @@
+import Common from "@ethereumjs/common"
+
 export const chainOptions = {
-  chain: 'ropsten',
-  hardfork: 'istanbul',
+  common: new Common({chain: 'ropsten',
+  hardfork: 'istanbul'})
 }
