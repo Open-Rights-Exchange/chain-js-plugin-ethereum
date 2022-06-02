@@ -20,9 +20,6 @@ jobs:
     shell: /bin/bash --login -e
     executor: node-executor
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "SHA256:p2QAMXNIC1TJYWeIOttrVc98/R1BUFWu3/LiyKgUfQM"
       - run:
             name: Clone frontend repository
             command: >-
@@ -110,4 +107,4 @@ workflows:
             # ignore any commit on any branch by default
             branches:
               only: 
-                - main
+                - master
