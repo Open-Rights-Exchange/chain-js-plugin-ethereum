@@ -13,8 +13,7 @@ import { BN } from 'ethereumjs-util'
 //   TxExecutionPriority,
 //   ValueTransferParams,
 // } from '../../../models'
-import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chain-js'
-import ChainEthereumV1 from '../ChainEthereumV1'
+import { Interfaces, Models, Helpers, PluginChainFactory } from '@open-rights-exchange/chain-js'
 import { toEthereumAddress, toEthereumPrivateKey, toEthereumSymbol } from '../helpers'
 // import { fromTokenValueString, toChainEntityName } from '../../../helpers'
 import {
@@ -32,6 +31,7 @@ import { Erc20IssueParams } from '../templates/chainActions/chainSpecific/erc20_
 import { Erc721TransferFromParams } from '../templates/chainActions/chainSpecific/erc721_transferFrom'
 import { EthTransferParams } from '../templates/chainActions/chainSpecific/eth_transfer'
 import { EthereumTransaction } from '../ethTransaction'
+import ChainEthereumV1 from '../ChainEthereumV1'
 
 require('dotenv').config()
 
@@ -76,8 +76,12 @@ const { env } = process
       chain: 'rinkeby',
       hardfork: 'istanbul',
     }
-
-    const rinkeby = new ChainFactory().create(Models.ChainType.EthereumV1, rinkebyEndpoints, rinkebyChainOptions)
+    const rinkeby = PluginChainFactory(
+      [ChainEthereumV1],
+      Models.ChainType.EthereumV1,
+      rinkebyEndpoints,
+      rinkebyChainOptions,
+    )
     await rinkeby.connect()
 
     // ---> Sign and send erc20 transfer Transaction

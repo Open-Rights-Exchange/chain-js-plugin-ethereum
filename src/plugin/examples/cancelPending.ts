@@ -4,12 +4,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 // import { ChainFactory, ChainType } from '../../../index'
-import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chain-js'
-import ChainEthereumV1 from '../ChainEthereumV1'
+import { Interfaces, Models, Helpers, PluginChainFactory } from '@open-rights-exchange/chain-js'
 import { EthereumChainEndpoint, EthereumChainSettings } from '../models'
 // import { asyncForEach, sleep } from '../../../helpers'
 // import { TxExecutionPriority } from '../../../models'
 import { toEthereumPrivateKey } from '../helpers'
+import ChainEthereumV1 from '../ChainEthereumV1'
 
 require('dotenv').config()
 
@@ -59,7 +59,8 @@ const privateKeyForCancelAccount = env.ROPSTEN_erc20acc_PRIVATE_KEY as any
 
 ;(async () => {
   try {
-    const ethChain = new ChainFactory().create(
+    const ethChain = PluginChainFactory(
+      [ChainEthereumV1],
       Models.ChainType.EthereumV1,
       ropstenEndpoints,
       ropstenChainOptions,

@@ -11,15 +11,7 @@ import { Transaction } from 'web3-eth'
 //   TransactionStatus,
 // } from '../../models'
 // import { ChainError, throwNewError } from '../../errors'
-import {
-  Interfaces,
-  Models,
-  ChainFactory,
-  Helpers,
-  PluginInterfaces,
-  Crypto,
-  Errors,
-} from '@open-rights-exchange/chain-js'
+import { Interfaces, Models, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chain-js'
 import * as ethcrypto from './ethCrypto'
 import { composeAction } from './ethCompose'
 import { decomposeAction } from './ethDecompose'

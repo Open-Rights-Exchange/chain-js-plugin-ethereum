@@ -10,7 +10,8 @@
 import { toEthereumPrivateKey, toEthereumPublicKey, toEthereumSignatureNative } from '../helpers'
 import { uncompressPublicKey, prepareMessageToSign, verifySignedMessage, signMessage, getEthereumPublicKeyFromSignature} from '../ethCrypto'
 import { EthereumChainEndpoint } from '../models'
-import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chain-js'
+import { Interfaces, Models, Helpers, PluginChainFactory } from '@open-rights-exchange/chain-js'
+import ChainEthereumV1 from '../ChainEthereumV1'
 
 require('dotenv').config()
 
@@ -27,7 +28,7 @@ const ropstenEndpoints: EthereumChainEndpoint[] = [
 
 async function run() {
   // Create an EOS chain and call a few functions
-  const ropsten = new ChainFactory().create(Models.ChainType.EthereumV1, ropstenEndpoints)
+  const ropsten = PluginChainFactory([ChainEthereumV1], Models.ChainType.EthereumV1, ropstenEndpoints)
   await ropsten.connect()
 
   // crypto
