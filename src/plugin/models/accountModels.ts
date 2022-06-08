@@ -1,6 +1,9 @@
 import { EthereumNewKeysOptions } from './generalModels'
 import { EthereumPublicKey } from './cryptoModels'
 
+export type EthereumAccountResources = {
+}
+
 export type EthereumCreateAccountOptions<PluginMultisigOptions> = {
   publicKey?: EthereumPublicKey
   newKeysOptions?: EthereumNewKeysOptions
