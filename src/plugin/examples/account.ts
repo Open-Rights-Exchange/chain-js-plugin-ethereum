@@ -4,8 +4,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 // import { ChainFactory, ChainType } from '../../../index'
-import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chain-js'
+import { Interfaces, Models, Helpers, PluginChainFactory } from '@open-rights-exchange/chain-js'
 import { EthereumChainEndpoint } from '../models'
+import ChainEthereumV1 from '../ChainEthereumV1'
 
 require('dotenv').config()
 
@@ -25,7 +26,7 @@ const createAccountOptions = {
 }
 ;(async () => {
   try {
-    const ropsten = new ChainFactory().create(Models.ChainType.EthereumV1, ropstenEndpoints)
+    const ropsten = PluginChainFactory([ChainEthereumV1], Models.ChainType.EthereumV1, ropstenEndpoints)
     await ropsten.connect()
     const createAccount = await ropsten.new.CreateAccount(createAccountOptions)
     await createAccount.generateKeysIfNeeded()

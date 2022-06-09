@@ -1,15 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Transaction as EthereumJsTx } from 'ethereumjs-tx'
+import { Transaction as EthereumJsTx, TxOptions } from '@ethereumjs/tx'
 import { bufferToInt, bufferToHex, BN } from 'ethereumjs-util'
-import {
-  Interfaces,
-  Models,
-  ChainFactory,
-  Helpers,
-  PluginInterfaces,
-  Crypto,
-  Errors,
-} from '@open-rights-exchange/chain-js'
+import { Interfaces, Models, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chain-js'
+import Common, { CustomChain } from '@ethereumjs/common'
 import { TRANSACTION_FEE_PRIORITY_MULTIPLIERS } from './ethConstants'
 import { EthereumChainState } from './ethChainState'
 // import { Transaction } from '../../interfaces'
@@ -31,6 +24,7 @@ import {
   EthereumTransactionResources,
   EthUnit,
   EthereumSignatureNative,
+  EthereumJSCommonChains,
 } from './models'
 // import { ChainError, throwNewError } from '../../errors'
 // import { ensureHexPrefix, isArrayLengthOne, isNullOrEmpty, nullifyIfEmpty } from '../../helpers'
@@ -130,6 +124,15 @@ export class EthereumTransaction implements Interfaces.Transaction {
       Models.TxExecutionPriority.Average
   }
 
+  get ethereumJsChainOptions(): TxOptions {
+    let { chain, hardfork } = this.options || {}
+    chain = chain ?? this._chainState.chainSettings?.chainForkType?.chainName
+    hardfork = hardfork ?? this._chainState.chainSettings?.chainForkType?.hardFork
+    const isCommonChain = Object.values(EthereumJSCommonChains).includes(chain)
+    if (isCommonChain) return { common: new Common({ chain, hardfork }) }
+    return { common: Common.custom(chain as CustomChain) }
+  }
+
   /** Returns whether the transaction is a multisig transaction */
   public get isMultisig(): boolean {
     return !Helpers.isNullOrEmpty(this.options?.multisigOptions)
@@ -150,7 +153,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
     if (Helpers.isNullOrEmpty(this.signatures)) return null
     try {
       // getSenderAddress throws if sig not attached - so we catch that and return null in that case
-      return toEthereumAddress(bufferToHex(this.ethereumJsTx.getSenderAddress()))
+      return toEthereumAddress(bufferToHex(this.ethereumJsTx.getSenderAddress()?.toBuffer()))
     } catch (error) {
       return null
     }
@@ -201,8 +204,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
 
   /** Ethereum chain module, returns a transaction instance that provides helper functions to sign, serialize etc... */
   get ethereumJsTx(): EthereumJsTx {
-    const trxOptions = this.getOptionsForEthereumJsTx()
-    return new EthereumJsTx(this.raw, trxOptions)
+    return new EthereumJsTx(this.raw, this.ethereumJsChainOptions)
   }
 
   /** Ethereum doesn't have any native multi-sig functionality */
@@ -254,8 +256,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
         'addAction failed. Transaction already has an action. Use transaction.actions to replace existing action.',
       )
     }
-    const trxOptions = this.getOptionsForEthereumJsTx()
-    this._actionHelper = new EthereumActionHelper(action, trxOptions)
+    this._actionHelper = new EthereumActionHelper(action, this.ethereumJsChainOptions)
     this.setRawProperties()
     this._isValidated = false
   }
@@ -290,8 +291,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
       gasLimit,
       contract: this._actionHelper.contract,
     }
-    const trxOptions = this.getOptionsForEthereumJsTx()
-    this._actionHelper = new EthereumActionHelper(trxBody, trxOptions)
+    this._actionHelper = new EthereumActionHelper(trxBody, this.ethereumJsChainOptions)
     if (this.isMultisig) {
       this.assertMultisigPluginIsInitialized()
       // TODO: this.multisigTransaction.clearRaw()
@@ -308,8 +308,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
       await this.updateMultisigParentTransaction()
     }
     if (transaction) {
-      const trxOptions = this.getOptionsForEthereumJsTx()
-      this._actionHelper = new EthereumActionHelper(transaction, trxOptions)
+      this._actionHelper = new EthereumActionHelper(transaction, this.ethereumJsChainOptions)
       this.setRawProperties()
       this._isValidated = false
     }
@@ -523,14 +522,13 @@ export class EthereumTransaction implements Interfaces.Transaction {
     this.assertHasAction()
     this.assertFromIsValid()
     try {
-      const trxOptions = this.getOptionsForEthereumJsTx()
       const input = {
         to: isNullOrEmptyEthereumValue(this.action.to) ? null : this.action.to,
         from: this.senderAddress, // from is required for estimateGas
         value: isNullOrEmptyEthereumValue(this.action.value) ? 0 : this.action.value,
         data: isNullOrEmptyEthereumValue(this.action.data) ? null : this.action.data,
-        chain: trxOptions?.chain,
-        fork: trxOptions.hardfork,
+        chain: this.ethereumJsChainOptions?.common?.chainName(),
+        fork: this.ethereumJsChainOptions?.common?.hardfork(),
       }
       gas = (await this._chainState.web3.eth.estimateGas(input)).toString()
       this._estimatedGas = gas
@@ -619,7 +617,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
       return null
       // throwNewError('Cant determine transaction ID - missing transaction signature')
     }
-    return Helpers.ensureHexPrefix(this.ethereumJsTx.hash(true).toString('hex'))
+    return Helpers.ensureHexPrefix(this.ethereumJsTx.hash().toString('hex'))
   }
 
   /** get the actual cost (in Ether) for executing the transaction */
@@ -690,14 +688,18 @@ export class EthereumTransaction implements Interfaces.Transaction {
   public get signBuffer(): Buffer {
     this.assertIsValidated()
     if (this.isMultisig) return this.multisigTransaction.signBuffer
-    return this.ethereumJsTx.hash(false)
+    return this.ethereumJsTx.getMessageToSign()
   }
 
   private async signAndAddSignatures(privateKey: string) {
     const privateKeyBuffer = toEthBuffer(Helpers.ensureHexPrefix(privateKey))
     const ethJsTx = this.ethereumJsTx
-    ethJsTx.sign(privateKeyBuffer)
-    const signature = { v: bufferToInt(ethJsTx.v), r: ethJsTx.r, s: ethJsTx.s } as EthereumSignatureNative
+    const signedTrx = ethJsTx.sign(privateKeyBuffer)
+    const signature = {
+      v: bufferToInt(signedTrx.v?.toBuffer()),
+      r: signedTrx.r?.toBuffer(),
+      s: signedTrx.s?.toBuffer(),
+    } as EthereumSignatureNative
     await this.addSignatures([signature])
   }
 
@@ -883,14 +885,6 @@ export class EthereumTransaction implements Interfaces.Transaction {
   /** Whether the from address is null or empty */
   private isFromEmptyOrNullAddress(): boolean {
     return isNullOrEmptyEthereumValue(this?.action?.from)
-  }
-
-  getOptionsForEthereumJsTx() {
-    const { chainForkType } = this._chainState?.chainSettings || {}
-    if (Helpers.isNullOrEmpty(chainForkType)) {
-      Errors.throwNewError('Missing chainForkType settings in Ethereum chain settings')
-    }
-    return { chain: chainForkType?.chainName, hardfork: chainForkType?.hardFork }
   }
 
   /** JSON representation of transaction data */

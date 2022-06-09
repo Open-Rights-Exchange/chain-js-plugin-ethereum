@@ -1,5 +1,5 @@
 import { bufferToHex, BN } from 'ethereumjs-util'
-import { Transaction as EthereumJsTx } from 'ethereumjs-tx'
+import { Transaction as EthereumJsTx, TxOptions } from '@ethereumjs/tx'
 import { Models, Helpers, Errors } from '@open-rights-exchange/chain-js'
 import {
   convertBufferToHexStringIfNeeded,
@@ -53,13 +53,13 @@ export class EthereumActionHelper {
 
   private _s: string
 
-  private _chainOptions: ActionChainOptions
+  private _ethereumJsChainOptions: TxOptions
 
   /** Creates a new Action from 'human-readable' transfer or contract info
    *  OR from 'raw' data property
    *  Allows access to human-readable properties (method, parameters) or raw data (hex) */
-  constructor(actionInput: EthereumActionHelperInput, chainOptions: ActionChainOptions) {
-    this._chainOptions = chainOptions
+  constructor(actionInput: EthereumActionHelperInput, ethereumJsChainOptions: TxOptions) {
+    this._ethereumJsChainOptions = ethereumJsChainOptions
     this.assertAndValidateEthereumActionInput(actionInput)
   }
 
@@ -78,9 +78,7 @@ export class EthereumActionHelper {
       s,
       contract,
     } = actionInput
-
     let gasPrice
-
     if (Helpers.isABuffer(gasPriceInput)) {
       gasPrice = convertBufferToHexStringIfNeeded(gasPriceInput as Buffer)
     } else {
@@ -93,14 +91,12 @@ export class EthereumActionHelper {
       // convert decimal strings to hex strings
       gasPrice = Helpers.toHexStringIfNeeded(gasPriceInWei)
     }
-
     const gasLimit = Helpers.isABuffer(gasLimitInput)
       ? convertBufferToHexStringIfNeeded(gasLimitInput as Buffer)
       : Helpers.toHexStringIfNeeded(gasLimitInput)
     const value = Helpers.isABuffer(valueInput)
       ? convertBufferToHexStringIfNeeded(valueInput as Buffer)
       : Helpers.toHexStringIfNeeded(valueInput)
-
     // cant provide both contract and data properties
     if (!isNullOrEmptyEthereumValue(contract) && !isNullOrEmptyEthereumValue(data)) {
       if (data !== generateDataFromContractAction(contract)) {
@@ -109,7 +105,6 @@ export class EthereumActionHelper {
         )
       }
     }
-
     // convert from param into an address string (and chack for validity)
     const fromAddress = toEthereumAddress(convertBufferToHexStringIfNeeded(from))
     if (Helpers.isNullOrEmpty(fromAddress)) {
@@ -119,7 +114,6 @@ export class EthereumActionHelper {
     } else {
       Errors.throwNewError(`From value (${from} is not a valid ethereum address`)
     }
-
     // set data from provided data or contract properties
     if (!isNullOrEmptyEthereumValue(contract)) {
       this._data = generateDataFromContractAction(contract)
@@ -127,7 +121,6 @@ export class EthereumActionHelper {
     } else if (!isNullOrEmptyEthereumValue(data)) {
       this._data = toEthereumTxData(data)
     } else this._data = toEthereumTxData(ZERO_HEX)
-
     // use helper library to consume tranasaction and allow multiple types for input params
     const ethJsTx = new EthereumJsTx(
       {
@@ -141,17 +134,17 @@ export class EthereumActionHelper {
         r,
         s,
       },
-      this._chainOptions,
+      this._ethereumJsChainOptions,
     )
-    this._nonce = bufferToHex(ethJsTx.nonce)
-    this._gasLimit = bufferToHex(ethJsTx.gasLimit)
-    this._gasPrice = bufferToHex(ethJsTx.gasPrice)
-    this._to = toEthereumAddress(bufferToHex(ethJsTx.to))
-    this._value = bufferToHex(ethJsTx.value)
+    this._nonce = Helpers.ensureHexPrefix(ethJsTx.nonce?.toString('hex'))
+    this._gasLimit = Helpers.ensureHexPrefix(ethJsTx.gasLimit?.toString('hex'))
+    this._gasPrice = Helpers.ensureHexPrefix(ethJsTx.gasPrice?.toString('hex'))
+    this._to = toEthereumAddress(bufferToHex(ethJsTx.to?.toBuffer()))
+    this._value = Helpers.ensureHexPrefix(ethJsTx.value?.toString('hex'))
     this._data = toEthereumTxData(bufferToHex(ethJsTx.data))
-    this._v = bufferToHex(ethJsTx.v)
-    this._r = bufferToHex(ethJsTx.r)
-    this._s = bufferToHex(ethJsTx.s)
+    this._v = Helpers.ensureHexPrefix(ethJsTx.v?.toString('hex'))
+    this._r = Helpers.ensureHexPrefix(ethJsTx.r?.toString('hex'))
+    this._s = Helpers.ensureHexPrefix(ethJsTx.s?.toString('hex'))
   }
 
   /** set gasLimit - value should be a decimal string in units of gas e.g. '21000' */

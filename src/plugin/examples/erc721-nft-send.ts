@@ -4,7 +4,7 @@
 /* eslint-disable no-console */
 // import { ChainFactory, ChainType } from '../../../index'
 // import { TxExecutionPriority } from '../../../models'
-import { Interfaces, Models, ChainFactory, Helpers } from '@open-rights-exchange/chain-js'
+import { Interfaces, Models, Helpers, PluginChainFactory } from '@open-rights-exchange/chain-js'
 
 import { toEthereumAddress } from '../helpers'
 import {
@@ -14,6 +14,7 @@ import {
   EthereumChainEndpoint,
 } from '../models'
 import { Erc721SafeTransferFromParams } from '../templates/chainActions/chainSpecific/erc721_safeTransferFrom'
+import ChainEthereumV1 from '../ChainEthereumV1'
 
 require('dotenv').config()
 
@@ -55,8 +56,12 @@ const { env } = process
       chain: 'rinkeby',
       hardfork: 'istanbul',
     }
-
-    const rinkeby = new ChainFactory().create(Models.ChainType.EthereumV1, rinkebyEndpoints, rinkebyChainOptions)
+    const rinkeby = PluginChainFactory(
+      [ChainEthereumV1],
+      Models.ChainType.EthereumV1,
+      rinkebyEndpoints,
+      rinkebyChainOptions,
+    )
     await rinkeby.connect()
 
     // ---> Sign and send erc721 transfer Transaction

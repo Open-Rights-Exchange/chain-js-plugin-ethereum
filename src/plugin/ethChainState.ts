@@ -1,9 +1,9 @@
 import { Contract, ethers, BigNumber } from 'ethers'
 import Web3 from 'web3'
-import BN from 'bn.js'
 import { HttpProviderOptions } from 'web3-core-helpers'
 import { BlockTransactionString, Transaction, TransactionReceipt } from 'web3-eth'
 import { Interfaces, Models, Helpers, Errors } from '@open-rights-exchange/chain-js'
+import { BN } from 'ethereumjs-util'
 import { mapChainError } from './ethErrors'
 
 import {

@@ -1,6 +1,6 @@
-import { BN } from 'ethereumjs-util'
 import BigNumber from 'bignumber.js'
 import { Models } from '@open-rights-exchange/chain-js'
+import { BN, BNLike } from 'ethereumjs-util'
 import { EthereumKeyPair } from './cryptoModels'
 
 /** Category of chain functions - useful in error mapping */
@@ -91,8 +91,7 @@ export type EthereumString = {
 }
 
 // similar to ethereum-js BufferLike but also includes string
-export type EthereumMultiValue = string | number | Buffer | BN
-
+export type EthereumMultiValue = BNLike
 /** Ethereum value units */
 // See: https://www.languagesandnumbers.com/articles/en/ethereum-ether-units
 export enum EthUnit {
@@ -125,3 +124,18 @@ export enum EthUnit {
 
 /** a map between alternate formats of a unit string and supported unit string */
 export const AlternateUnitMap = [{ from: 'eth', to: 'ether' }]
+
+export const EthereumJSCommonChains = {
+  Mainnet: 'mainnet',
+  MainnetId: 1,
+  Ropsten: 'ropsten',
+  RopstenId: 3,
+  Rinkeby: 'rinkeby',
+  RinkebyId: 4,
+  Kovan: 'kovan',
+  KovanId: 42,
+  Goerli: 'goerli',
+  GoerliId: 5,
+  Sepolia: 'sepolia',
+  SepoliaId: 11155111,
+}

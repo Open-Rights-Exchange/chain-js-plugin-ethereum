@@ -6,18 +6,19 @@
 /* eslint-disable no-console */
 // import { ChainFactory, ChainType } from '../../../index'
 // import { ChainEndpoint } from '../../../models/generalModels'
-import { Interfaces, Models, ChainFactory, Helpers, ChainError } from '@open-rights-exchange/chain-js'
+import { Interfaces, Models, Helpers, ChainError, PluginChainFactory } from '@open-rights-exchange/chain-js'
 import { toEthereumPrivateKey, toEthereumPublicKey, toEthereumSymbol } from '../helpers'
 // mport { toChainEntityName } from '../../../helpers'
 import { ropstenEndpoints } from './helpers/networks'
 // import { ChainError } from '../../../errors'
+import ChainEthereumV1 from '../ChainEthereumV1'
 
 require('dotenv').config()
 
 export const { env } = process
 ;(async () => {
   try {
-    const ropsten = new ChainFactory().create(Models.ChainType.EthereumV1, ropstenEndpoints)
+    const ropsten = PluginChainFactory([ChainEthereumV1], Models.ChainType.EthereumV1, ropstenEndpoints)
     await ropsten.connect()
 
     // crypto

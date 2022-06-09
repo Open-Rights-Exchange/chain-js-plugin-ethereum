@@ -1,14 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // import { notSupported } from '../../helpers'
-import {
-  Interfaces,
-  Models,
-  ChainFactory,
-  Helpers,
-  PluginInterfaces,
-  Crypto,
-  Errors,
-} from '@open-rights-exchange/chain-js'
+import { Interfaces, Models, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chain-js'
 import { isValidEthereumAddress, isValidEthereumPublicKey } from './helpers'
 // import { Account } from '../../interfaces'
 // import { throwNewError } from '../../errors'
