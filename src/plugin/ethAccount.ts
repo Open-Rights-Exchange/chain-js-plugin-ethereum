@@ -39,6 +39,11 @@ export class EthereumAccount implements Interfaces.Account {
     return this._publicKey
   }
 
+  /** resources not supported by eth chains */
+  get resources(): null {
+    return null
+  }
+
   /** Whether the account name can be used for new account */
   isValidNewAccountName = async (accountName: string | EthereumAddress): Promise<boolean> => {
     return isValidEthereumAddress(accountName)
