@@ -516,6 +516,11 @@ export class EthereumTransaction implements Interfaces.Transaction {
     return true
   }
 
+  /** Ethereum does not require resources for transaction on chain */
+  public get requiresResources(): boolean {
+    return false
+  }
+
   /** Gets estimated cost in units of gas to execute this transaction (at current chain rates) */
   public async resourcesRequired(): Promise<EthereumTransactionResources> {
     let gas: string
