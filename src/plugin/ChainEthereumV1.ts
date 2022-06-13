@@ -56,7 +56,6 @@ import {
 // import { ChainJsPlugin, ChainJsPluginOptions, PluginType } from '../../interfaces/plugin'
 // import { assertPluginTypeNotAlreadyInstalled, initializePlugin } from '../../helpers'
 import { EthereumMultisigPlugin } from './plugins/multisig/ethereumMultisigPlugin'
-import { TransactionSupportedExpirationOptions } from '../../../chain-js/src/models'
 
 // TODO: Comsolidate use of Ethereum libraries
 
@@ -380,7 +379,7 @@ class Plugin implements Interfaces.Chain {
   }
 
   /** Returns the supported expiration option metadata */
-  public get expirationSupportedOptions(): TransactionSupportedExpirationOptions {
+  public get expirationSupportedOptions(): Models.TransactionSupportedExpirationOptions {
     return ETHEREUM_EXPIRATION_SUPPORTED_OPTIONS
   }
 }
