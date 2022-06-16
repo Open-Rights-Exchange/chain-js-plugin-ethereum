@@ -39,8 +39,9 @@ export class EthereumAccount implements Interfaces.Account {
     return this._publicKey
   }
 
-  /** resources not supported by eth chains */
-  get resources(): null {
+  /** account resources not supported by ethereum chains */
+  get resources(): void {
+    Helpers.notSupported('Ethereum does not support account resources')
     return null
   }
 

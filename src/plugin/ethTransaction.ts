@@ -21,7 +21,6 @@ import {
   EthereumActionHelperInput,
   EthereumSetDesiredFeeOptions,
   EthereumTransactionCost,
-  EthereumTransactionResources,
   EthUnit,
   EthereumSignatureNative,
   EthereumJSCommonChains,
@@ -516,13 +515,18 @@ export class EthereumTransaction implements Interfaces.Transaction {
     return true
   }
 
-  /** Ethereum does not require resources for transaction on chain */
-  public get requiresResources(): boolean {
+  /** Ethereum does not require chain resources for a transaction */
+  public get supportsResources(): boolean {
     return false
   }
 
+  /** Ethereum transactions do not require chain resources */
+  public async resourcesRequired(): Promise<void> {
+    Helpers.notSupported('Ethereum does not require transaction resources')
+  }
+
   /** Gets estimated cost in units of gas to execute this transaction (at current chain rates) */
-  public async resourcesRequired(): Promise<EthereumTransactionResources> {
+  async cost(): Promise<{ gas: string }> {
     let gas: string
     this.assertHasAction()
     this.assertFromIsValid()
@@ -538,7 +542,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
       gas = (await this._chainState.web3.eth.estimateGas(input)).toString()
       this._estimatedGas = gas
     } catch (err) {
-      Errors.throwNewError(`ResourcesRequired failure. ${err}`)
+      Errors.throwNewError(`Transaction cost estimation failure. ${err}`)
     }
     return { gas }
   }
@@ -547,7 +551,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
    *  if refresh = true, get updated cost from chain */
   async getEstimatedGas(refresh: boolean = false) {
     if (Helpers.isNullOrEmpty(this._estimatedGas) || refresh) {
-      await this.resourcesRequired()
+      await this.cost()
     }
     return this._estimatedGas
   }
@@ -595,7 +599,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
       }
       const { gasLimitOverride, gasPriceOverride } = options || {}
       const desiredFeeWei = toWeiString(desiredFee, EthUnit.Ether)
-      const gasRequired = new BN((await this.resourcesRequired())?.gas, 10)
+      const gasRequired = new BN((await this.cost())?.gas, 10)
       const desiredFeeBn = new BN(desiredFeeWei, 10)
       const gasPriceBn = desiredFeeBn.div(gasRequired)
       this._desiredFee = desiredFeeWei
