@@ -37,6 +37,7 @@ export const TRANSACTION_FEE_PRIORITY_MULTIPLIERS: Models.IndexedObject = {
   fast: 1.12,
 }
 
-export const ETHEREUM_EXPIRATION_SUPPORTED_OPTIONS: Models.TransactionSupportedExpirationOptions = {
+/** Transaction expiration constraints */
+export const ETHEREUM_TRANSACTION_EXPIRATION_OPTIONS: Models.TransactionExpirationOptions = {
   transactionsExpirationType: Models.TransactionExpirationType.None,
 }
