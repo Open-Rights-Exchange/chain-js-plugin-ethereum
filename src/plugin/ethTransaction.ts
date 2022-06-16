@@ -521,7 +521,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
   }
 
   /** Ethereum transactions do not require chain resources */
-  public async resourcesRequired(): Promise<void> {
+  public async resourcesRequired(): Promise<Models.TransactionResources> {
     Helpers.notSupported('Ethereum does not require transaction resources')
   }
 

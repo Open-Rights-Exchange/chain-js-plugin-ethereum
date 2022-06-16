@@ -40,7 +40,7 @@ export class EthereumAccount implements Interfaces.Account {
   }
 
   /** account resources not supported by ethereum chains */
-  get resources(): void {
+  get resources(): Models.AccountResources {
     Helpers.notSupported('Ethereum does not support account resources')
     return null
   }
