@@ -47,7 +47,7 @@ import {
 } from './helpers'
 import {
   DEFAULT_ETH_UNIT,
-  ETHEREUM_EXPIRATION_SUPPORTED_OPTIONS,
+  ETHEREUM_TRANSACTION_EXPIRATION_OPTIONS,
   NATIVE_CHAIN_TOKEN_ADDRESS,
   NATIVE_CHAIN_TOKEN_PRECISION,
   NATIVE_CHAIN_TOKEN_SYMBOL,
@@ -378,9 +378,9 @@ class Plugin implements Interfaces.Chain {
     return this._chainState?.web3
   }
 
-  /** Returns the supported expiration option metadata */
-  public get expirationSupportedOptions(): Models.TransactionSupportedExpirationOptions {
-    return ETHEREUM_EXPIRATION_SUPPORTED_OPTIONS
+  /** Transaction expiration constraints */
+  public get transactionExpirationOptions(): Models.TransactionExpirationOptions {
+    return ETHEREUM_TRANSACTION_EXPIRATION_OPTIONS
   }
 }
 
