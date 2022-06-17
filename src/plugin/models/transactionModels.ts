@@ -124,11 +124,6 @@ export type EthereumTransactionCost = {
   fee: string
 }
 
-/** Resouces required for transaction (in terms of gas) */
-export type EthereumTransactionResources = {
-  gas: string
-}
-
 /** TransactionReceipt - result from sending a transaction
  * imported from web3-core' */
 export interface TransactionReceipt {

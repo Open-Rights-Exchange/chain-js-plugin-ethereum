@@ -47,6 +47,7 @@ import {
 } from './helpers'
 import {
   DEFAULT_ETH_UNIT,
+  ETHEREUM_TRANSACTION_EXPIRATION_OPTIONS,
   NATIVE_CHAIN_TOKEN_ADDRESS,
   NATIVE_CHAIN_TOKEN_PRECISION,
   NATIVE_CHAIN_TOKEN_SYMBOL,
@@ -281,6 +282,9 @@ class Plugin implements Interfaces.Chain {
   /** Whether chain supports ability to get a publicKey from a signature */
   supportsGetPublicKeyFromSignature = true
 
+  /** Whether the chain supports resources */
+  supportsResources = false
+
   /** Verify that a 'personal message' was signed using the given key (signed with the private key for the provided public key)
    * A message differs than verifySignedWithPublicKey() because it might additional strings appended (as required by chain best-practices)
    * This differs from verifySignedWithPublicKey() because a message might include additional strings appended (as required by chain best-practices) */
@@ -372,6 +376,11 @@ class Plugin implements Interfaces.Chain {
    */
   public get web3() {
     return this._chainState?.web3
+  }
+
+  /** Transaction expiration constraints */
+  public get transactionExpirationOptions(): Models.TransactionExpirationOptions {
+    return ETHEREUM_TRANSACTION_EXPIRATION_OPTIONS
   }
 }
 
