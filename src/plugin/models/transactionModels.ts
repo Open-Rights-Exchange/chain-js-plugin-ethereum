@@ -94,6 +94,7 @@ export type EthereumTransactionOptions<PluginMultisigOptions> = {
   maxFeeIncreasePercentage?: number
   executionPriority?: Models.TxExecutionPriority
   multisigOptions?: PluginMultisigOptions
+  feeMultiplier?: Models.TransactionFeePriorityMultipliers
 }
 
 export type EthereumSetDesiredFeeOptions = {
