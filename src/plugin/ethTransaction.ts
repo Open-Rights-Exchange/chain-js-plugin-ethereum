@@ -556,6 +556,15 @@ export class EthereumTransaction implements Interfaces.Transaction {
     return this._estimatedGas
   }
 
+  /** Gets fee multiplier data from the transaction options */
+  get feeMultiplier(): Models.IndexedObject {
+    const { feeMultiplier } = this.options
+    const multipliers: Models.IndexedObject = feeMultiplier
+      ? { ...feeMultiplier }
+      : TRANSACTION_FEE_PRIORITY_MULTIPLIERS
+    return multipliers
+  }
+
   /** Get the suggested Eth fee (in Ether) for this transaction */
   public async getSuggestedFee(
     priority: Models.TxExecutionPriority = Models.TxExecutionPriority.Average,
@@ -566,7 +575,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
       this.assertHasAction()
       const gasPriceString = await this._chainState.getCurrentGasPriceFromChain()
       let gasPriceinWeiBN = new BN(gasPriceString)
-      const multiplier: number = TRANSACTION_FEE_PRIORITY_MULTIPLIERS[priority]
+      const multiplier: number = this.feeMultiplier[priority]
       gasPriceinWeiBN = gasPriceinWeiBN.muln(multiplier)
       const totalFee = gasPriceinWeiBN.mul(new BN(await this.getEstimatedGas(), 10))
       return convertEthUnit(totalFee.toString(10), EthUnit.Wei, EthUnit.Ether)
