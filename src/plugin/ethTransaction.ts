@@ -510,11 +510,6 @@ export class EthereumTransaction implements Interfaces.Transaction {
     return true
   }
 
-  /** Ethereum has a fee for transactions */
-  public get supportsFee(): boolean {
-    return true
-  }
-
   /** Ethereum does not require chain resources for a transaction */
   public get supportsResources(): boolean {
     return false
