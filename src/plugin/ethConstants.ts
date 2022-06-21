@@ -31,13 +31,13 @@ export const NATIVE_CHAIN_TOKEN_SYMBOL = 'ETH'
 export const NATIVE_CHAIN_TOKEN_ADDRESS: any = null
 export const NATIVE_CHAIN_TOKEN_PRECISION = 18
 
-export const TRANSACTION_FEE_PRIORITY_MULTIPLIERS: Models.IndexedObject = {
-  slow: 0.96,
-  average: 1.0,
-  fast: 1.12,
+export const TRANSACTION_FEE_PRIORITY_MULTIPLIERS: Models.TransactionFeePriorityMultipliers = {
+  [Models.TxExecutionPriority.Slow]: 0.96,
+  [Models.TxExecutionPriority.Average]: 1.0,
+  [Models.TxExecutionPriority.Fast]: 1.12,
 }
 
 /** Transaction expiration constraints */
 export const ETHEREUM_TRANSACTION_EXPIRATION_OPTIONS: Models.TransactionExpirationOptions = {
-  transactionsExpirationType: Models.TransactionExpirationType.None,
+  transactionExpirationType: Models.TransactionExpirationType.None,
 }

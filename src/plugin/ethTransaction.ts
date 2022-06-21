@@ -510,11 +510,6 @@ export class EthereumTransaction implements Interfaces.Transaction {
     return true
   }
 
-  /** Ethereum has a fee for transactions */
-  public get supportsFee(): boolean {
-    return true
-  }
-
   /** Ethereum does not require chain resources for a transaction */
   public get supportsResources(): boolean {
     return false
@@ -523,6 +518,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
   /** Ethereum transactions do not require chain resources */
   public async resourcesRequired(): Promise<Models.TransactionResources> {
     Helpers.notSupported('Ethereum does not require transaction resources')
+    return null // quiets linter
   }
 
   /** Gets estimated cost in units of gas to execute this transaction (at current chain rates) */
@@ -556,6 +552,13 @@ export class EthereumTransaction implements Interfaces.Transaction {
     return this._estimatedGas
   }
 
+  /** Fee multipliers effective for this transaction - uses default values if not set via transaction options  */
+  get feeMultipliers() {
+    const { feeMultipliers: feeMultiplier } = this.options
+    const multipliers = feeMultiplier ? { ...feeMultiplier } : TRANSACTION_FEE_PRIORITY_MULTIPLIERS
+    return multipliers
+  }
+
   /** Get the suggested Eth fee (in Ether) for this transaction */
   public async getSuggestedFee(
     priority: Models.TxExecutionPriority = Models.TxExecutionPriority.Average,
@@ -566,7 +569,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
       this.assertHasAction()
       const gasPriceString = await this._chainState.getCurrentGasPriceFromChain()
       let gasPriceinWeiBN = new BN(gasPriceString)
-      const multiplier: number = TRANSACTION_FEE_PRIORITY_MULTIPLIERS[priority]
+      const multiplier = this.feeMultipliers[priority]
       gasPriceinWeiBN = gasPriceinWeiBN.muln(multiplier)
       const totalFee = gasPriceinWeiBN.mul(new BN(await this.getEstimatedGas(), 10))
       return convertEthUnit(totalFee.toString(10), EthUnit.Wei, EthUnit.Ether)

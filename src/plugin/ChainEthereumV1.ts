@@ -279,6 +279,9 @@ class Plugin implements Interfaces.Chain {
   /** Signs data as a message using private key (first appending additional required data if any) */
   signMessage = ethcrypto.signMessage
 
+  /** Whether the chain supports resources */
+  supportsFee = true
+
   /** Whether chain supports ability to get a publicKey from a signature */
   supportsGetPublicKeyFromSignature = true
 
