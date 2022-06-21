@@ -523,6 +523,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
   /** Ethereum transactions do not require chain resources */
   public async resourcesRequired(): Promise<Models.TransactionResources> {
     Helpers.notSupported('Ethereum does not require transaction resources')
+    return null // quiets linter
   }
 
   /** Gets estimated cost in units of gas to execute this transaction (at current chain rates) */
@@ -556,12 +557,10 @@ export class EthereumTransaction implements Interfaces.Transaction {
     return this._estimatedGas
   }
 
-  /** Gets fee multiplier data from the transaction options */
-  get feeMultiplier() {
-    const { feeMultiplier } = this.options
-    const multipliers = feeMultiplier
-      ? { ...feeMultiplier }
-      : TRANSACTION_FEE_PRIORITY_MULTIPLIERS
+  /** Fee multipliers effective for this transaction - uses default values if not set via transaction options  */
+  get feeMultipliers() {
+    const { feeMultipliers: feeMultiplier } = this.options
+    const multipliers = feeMultiplier ? { ...feeMultiplier } : TRANSACTION_FEE_PRIORITY_MULTIPLIERS
     return multipliers
   }
 
@@ -575,7 +574,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
       this.assertHasAction()
       const gasPriceString = await this._chainState.getCurrentGasPriceFromChain()
       let gasPriceinWeiBN = new BN(gasPriceString)
-      const multiplier = this.feeMultiplier[priority]
+      const multiplier = this.feeMultipliers[priority]
       gasPriceinWeiBN = gasPriceinWeiBN.muln(multiplier)
       const totalFee = gasPriceinWeiBN.mul(new BN(await this.getEstimatedGas(), 10))
       return convertEthUnit(totalFee.toString(10), EthUnit.Wei, EthUnit.Ether)
