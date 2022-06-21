@@ -39,5 +39,5 @@ export const TRANSACTION_FEE_PRIORITY_MULTIPLIERS: Models.TransactionFeePriority
 
 /** Transaction expiration constraints */
 export const ETHEREUM_TRANSACTION_EXPIRATION_OPTIONS: Models.TransactionExpirationOptions = {
-  transactionsExpirationType: Models.TransactionExpirationType.None,
+  transactionExpirationType: Models.TransactionExpirationType.None,
 }
