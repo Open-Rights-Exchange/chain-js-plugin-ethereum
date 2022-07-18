@@ -11,5 +11,6 @@ export { Erc721TransferFromParams } from './chainActions/chainSpecific/erc721_tr
 export { Erc1155ApproveParams } from './chainActions/chainSpecific/erc1155_approve'
 export { Erc1155SafeTransferFromParams } from './chainActions/chainSpecific/erc1155_safeTransferFrom'
 export { Erc1155TransferParams } from './chainActions/chainSpecific/erc1155_transfer'
+export { EthereumValueTransferParams } from './chainActions/standard/value_transfer'
 
 // Be sure to update chainActionTypeModels.ts to reflect any changes here
