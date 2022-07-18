@@ -24,7 +24,7 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'node'],
   globals: {
     'ts-jest': {
-      tsConfig: 'tsconfig-cjs.json',
+      tsConfig: 'tsconfig-cjs-local.json',
       diagnostics: {
         warnOnly: true,
       },
