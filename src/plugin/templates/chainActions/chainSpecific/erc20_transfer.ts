@@ -15,9 +15,21 @@ export interface Erc20TransferParams {
   precision?: number
   to: EthereumAddress
   value: string
+  gasPrice?: string
+  gasLimit?: string
+  nonce?: string
 }
 
-export const composeAction = ({ contractAddress, from, precision, to, value }: Erc20TransferParams) => {
+export const composeAction = ({
+  contractAddress,
+  from,
+  precision,
+  to,
+  value,
+  gasPrice,
+  gasLimit,
+  nonce,
+}: Erc20TransferParams) => {
   const valueString = Helpers.toTokenValueString(value, 10, precision)
   const contract = {
     abi: erc20Abi,
@@ -28,6 +40,9 @@ export const composeAction = ({ contractAddress, from, precision, to, value }: E
     to: contractAddress,
     from,
     contract,
+    gasPrice,
+    gasLimit,
+    nonce,
   }
 }
 

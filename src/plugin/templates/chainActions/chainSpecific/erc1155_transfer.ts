@@ -18,23 +18,42 @@ export interface Erc1155TransferParams {
   tokenId: number
   quantity: number
   data?: EthereumMultiValue[]
+  gasPrice?: string
+  gasLimit?: string
+  nonce?: string
 }
 
-export const composeAction = ({ contractAddress, from, to, tokenId, quantity, data }: Erc1155TransferParams) => {
+export const composeAction = ({
+  contractAddress,
+  from,
+  to,
+  tokenId,
+  quantity,
+  data,
+  gasPrice,
+  gasLimit,
+  nonce,
+}: Erc1155TransferParams) => {
   const contract = {
     abi: erc1155Abi,
     parameters: [to, tokenId, quantity, data || 0],
     method: 'transfer',
+    gasPrice,
+    gasLimit,
+    nonce,
   }
   return {
     to: contractAddress,
     from,
     contract,
+    gasPrice,
+    gasLimit,
+    nonce,
   }
 }
 
 export const decomposeAction = (action: EthereumTransactionAction): EthereumDecomposeReturn => {
-  const { to, from, contract } = action
+  const { to, from, contract, gasPrice, gasLimit, nonce } = action
   if (contract?.abi === erc1155Abi && contract?.method === 'transfer') {
     const returnData: Erc1155TransferParams = {
       contractAddress: to,
@@ -43,6 +62,9 @@ export const decomposeAction = (action: EthereumTransactionAction): EthereumDeco
       tokenId: Helpers.getArrayIndexOrNull(contract?.parameters, 1) as number,
       quantity: Helpers.getArrayIndexOrNull(contract?.parameters, 2) as number,
       data: Helpers.getArrayIndexOrNull(contract?.parameters, 3) as EthereumMultiValue[],
+      gasPrice,
+      gasLimit,
+      nonce,
     }
     const partial = !returnData?.from || isNullOrEmptyEthereumValue(to)
     return {

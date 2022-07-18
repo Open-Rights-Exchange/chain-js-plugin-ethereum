@@ -1,4 +1,4 @@
-import { Helpers } from '@open-rights-exchange/chain-js'
+import { Helpers, } from '@open-rights-exchange/chain-js'
 import {
   EthereumAddress,
   EthereumTransactionAction,
@@ -16,6 +16,9 @@ export interface Erc20TransferFromParams {
   transferFrom: EthereumAddress
   to: EthereumAddress
   value: string
+  gasPrice?: string
+  gasLimit?: string
+  nonce?: string
 }
 
 export const composeAction = ({
@@ -25,6 +28,9 @@ export const composeAction = ({
   transferFrom,
   to,
   value,
+  gasPrice,
+  gasLimit,
+  nonce,
 }: Erc20TransferFromParams) => {
   const valueString = Helpers.toTokenValueString(value, 10, precision)
   const contract = {
@@ -36,11 +42,14 @@ export const composeAction = ({
     to: contractAddress,
     from,
     contract,
+    gasPrice,
+    gasLimit,
+    nonce,
   }
 }
 
 export const decomposeAction = (action: EthereumTransactionAction): EthereumDecomposeReturn => {
-  const { to, from, contract } = action
+  const { to, from, contract, gasPrice, gasLimit, nonce } = action
   if (contract?.abi === erc20Abi && contract?.method === 'transferFrom') {
     const returnData: Erc20TransferFromParams = {
       contractAddress: to,
@@ -48,6 +57,9 @@ export const decomposeAction = (action: EthereumTransactionAction): EthereumDeco
       transferFrom: toEthereumAddress(Helpers.getArrayIndexOrNull(contract?.parameters, 0) as string),
       to: toEthereumAddress(Helpers.getArrayIndexOrNull(contract?.parameters, 1) as string),
       value: Helpers.getArrayIndexOrNull(contract?.parameters, 2) as string,
+      gasPrice,
+      gasLimit,
+      nonce,
     }
     const partial = !returnData?.from || isNullOrEmptyEthereumValue(to)
     return {

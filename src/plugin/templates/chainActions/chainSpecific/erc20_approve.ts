@@ -16,9 +16,21 @@ export interface Erc20ApproveParams {
   precision?: number
   spender: EthereumAddress
   value: string
+  gasPrice?: string
+  gasLimit?: string
+  nonce?: string
 }
 
-export const composeAction = ({ contractAddress, from, precision, spender, value }: Erc20ApproveParams) => {
+export const composeAction = ({
+  contractAddress,
+  from,
+  precision,
+  spender,
+  value,
+  gasPrice,
+  gasLimit,
+  nonce,
+}: Erc20ApproveParams) => {
   const valueString = Helpers.toTokenValueString(value, 10, precision)
   const contract = {
     abi: erc20Abi,
@@ -29,17 +41,23 @@ export const composeAction = ({ contractAddress, from, precision, spender, value
     to: contractAddress,
     from,
     contract,
+    gasPrice,
+    gasLimit,
+    nonce,
   }
 }
 
 export const decomposeAction = (action: EthereumTransactionAction): EthereumDecomposeReturn => {
-  const { to, from, contract } = action
+  const { to, from, contract, gasPrice, gasLimit, nonce } = action
   if (contract?.abi === erc20Abi && contract?.method === 'approve') {
     const returnData: Erc20ApproveParams = {
       contractAddress: to,
       from,
       spender: toEthereumAddress(Helpers.getArrayIndexOrNull(contract?.parameters, 0) as string),
       value: Helpers.getArrayIndexOrNull(contract?.parameters, 1) as string,
+      gasPrice,
+      gasLimit,
+      nonce,
     }
     const partial = !returnData?.from || isNullOrEmptyEthereumValue(to)
     return {
