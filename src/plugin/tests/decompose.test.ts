@@ -23,6 +23,7 @@ describe('Decompose Chain Actions', () => {
   }
 
   it('decomposes eth transfer action object', async () => {
+    // ! migrated to value_transfer.spec.ts
     const expAction = [
       {
         chainActionType: 'ValueTransfer',

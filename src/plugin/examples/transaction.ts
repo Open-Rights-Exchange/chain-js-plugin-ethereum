@@ -71,8 +71,7 @@ const { env } = process
 
     const composeValueTransferParams: Models.ValueTransferParams = {
       toAccountName: Helpers.toChainEntityName('0x27105356F6C1ede0e92020e6225E46DC1F496b81'),
-      amount: '0.000000000000000001',
-      symbol: toEthereumSymbol(EthUnit.Ether),
+      amount: '0.000000000000000001', // should it be? amount: '1000000000000000',
     }
 
     const composeEthTransferParams: EthTransferParams = {
@@ -141,6 +140,7 @@ const { env } = process
     console.log('send response:', JSON.stringify(await transaction.send(Models.ConfirmType.None)))
     // console.log('send response:', JSON.stringify(await transaction.send(ConfirmType.After001))) // wait for transaction to complete on-chain before returning
     // console.log(`actual cost of tx in ETH - available once tx is processed: ${await transaction.getActualCost()}`) // getActualCost will throw if called before tx is commited to chain
+
 
     // ---> Sign and send default transfer Transaction - using generic (cross-chain) token transfer action
     // const transaction = await ropsten.new.Transaction(defaultEthTxOptions)
