@@ -7,7 +7,7 @@ import {
 } from '../../../models'
 import { erc20Abi } from '../../abis/erc20Abi'
 // import { getArrayIndexOrNull, toTokenValueString } from '../../../../../helpers'
-import { isNullOrEmptyEthereumValue } from '../../../helpers'
+import { isNullOrEmptyEthereumValue, removeEmptyValuesFromGasOptions } from '../../../helpers'
 
 export interface Erc20IssueParams {
   contractAddress: EthereumAddress
@@ -38,9 +38,7 @@ export const composeAction = ({
     to: contractAddress,
     from,
     contract,
-    gasPrice,
-    gasLimit,
-    nonce,
+    ...removeEmptyValuesFromGasOptions(gasPrice, gasLimit, nonce),
   }
 }
 
@@ -51,9 +49,7 @@ export const decomposeAction = (action: EthereumTransactionAction): EthereumDeco
       contractAddress: to,
       from,
       value: Helpers.getArrayIndexOrNull(contract?.parameters, 0) as string,
-      gasPrice,
-      gasLimit,
-      nonce,
+      ...removeEmptyValuesFromGasOptions(gasPrice, gasLimit, nonce),
     }
     const partial = !returnData?.from || isNullOrEmptyEthereumValue(to)
     return {

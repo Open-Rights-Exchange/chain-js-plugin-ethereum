@@ -7,7 +7,7 @@ import {
   EthereumDecomposeReturn,
 } from '../../../models'
 import { erc20Abi } from '../../abis/erc20Abi'
-import { toEthereumAddress, isNullOrEmptyEthereumValue } from '../../../helpers'
+import { toEthereumAddress, isNullOrEmptyEthereumValue, removeEmptyValuesFromGasOptions } from '../../../helpers'
 // import { getArrayIndexOrNull, toTokenValueString } from '../../../../../helpers'
 
 export interface Erc20ApproveParams {
@@ -41,9 +41,7 @@ export const composeAction = ({
     to: contractAddress,
     from,
     contract,
-    gasPrice,
-    gasLimit,
-    nonce,
+    ...removeEmptyValuesFromGasOptions(gasPrice, gasLimit, nonce),
   }
 }
 
@@ -55,9 +53,7 @@ export const decomposeAction = (action: EthereumTransactionAction): EthereumDeco
       from,
       spender: toEthereumAddress(Helpers.getArrayIndexOrNull(contract?.parameters, 0) as string),
       value: Helpers.getArrayIndexOrNull(contract?.parameters, 1) as string,
-      gasPrice,
-      gasLimit,
-      nonce,
+      ...removeEmptyValuesFromGasOptions(gasPrice, gasLimit, nonce),
     }
     const partial = !returnData?.from || isNullOrEmptyEthereumValue(to)
     return {

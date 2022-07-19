@@ -7,7 +7,7 @@ import {
   EthereumChainActionType,
 } from '../../../models'
 import { erc721Abi } from '../../abis/erc721Abi'
-import { toEthereumAddress, isNullOrEmptyEthereumValue } from '../../../helpers'
+import { toEthereumAddress, isNullOrEmptyEthereumValue, removeEmptyValuesFromGasOptions } from '../../../helpers'
 // import { getArrayIndexOrNull } from '../../../../../helpers'
 
 export interface Erc721ApproveParams {
@@ -38,9 +38,7 @@ export const composeAction = ({
     to: contractAddress,
     from,
     contract,
-    gasPrice,
-    gasLimit,
-    nonce,
+    ...removeEmptyValuesFromGasOptions(gasPrice, gasLimit, nonce),
   }
 }
 
@@ -52,9 +50,7 @@ export const decomposeAction = (action: EthereumTransactionAction): EthereumDeco
       from,
       to: toEthereumAddress(Helpers.getArrayIndexOrNull(contract?.parameters, 0) as string),
       tokenId: Helpers.getArrayIndexOrNull(contract?.parameters, 1) as number,
-      gasPrice,
-      gasLimit,
-      nonce,
+      ...removeEmptyValuesFromGasOptions(gasPrice, gasLimit, nonce),
     }
     const partial = !returnData?.from || isNullOrEmptyEthereumValue(to)
     return {

@@ -6,12 +6,6 @@ import {
   decomposeAction as erc20TokenTransferDecomposeAction,
 } from '../chainSpecific/erc20_transfer'
 
-export interface EthereumTokenTransferParams extends Models.TokenTransferParams {
-  gasPrice?: string
-  gasLimit?: string
-  nonce?: string
-}
-
 /** Calls ERC20Transfer as default token template for Ethereum */
 export const composeAction = ({
   fromAccountName,
@@ -19,19 +13,13 @@ export const composeAction = ({
   amount,
   contractName,
   precision,
-  gasPrice,
-  gasLimit,
-  nonce,
-}: EthereumTokenTransferParams) => ({
+}: Models.TokenTransferParams) => ({
   ...erc20TokenTransferComposeAction({
     contractAddress: contractName,
     from: fromAccountName,
     to: toAccountName,
     precision,
     value: amount,
-    gasPrice,
-    gasLimit,
-    nonce,
   }),
 })
 

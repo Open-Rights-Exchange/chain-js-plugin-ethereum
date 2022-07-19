@@ -34,3 +34,19 @@ export function isSameEthHexValue(
 export function isSameEthPublicKey(value1: EthereumPublicKey, value2: EthereumPublicKey) {
   return Helpers.ensureHexPrefixForPublicKey(value1) === Helpers.ensureHexPrefixForPublicKey(value2)
 }
+
+type GasOptions = {
+  gasPrice?: string
+  gasLimit?: string
+  nonce?: string
+}
+
+export function removeEmptyValuesFromGasOptions(gasPrice?: string, gasLimit?: string, nonce?: string): GasOptions {
+  const gasOptions: GasOptions = {
+    gasPrice,
+    gasLimit,
+    nonce,
+  }
+  Helpers.removeEmptyValuesInJsonObject(gasOptions)
+  return gasOptions
+}

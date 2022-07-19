@@ -10,24 +10,15 @@ import {
   EthTransferParams,
 } from '../chainSpecific/eth_transfer'
 
-export interface EthereumValueTransferParams extends Models.ValueTransferParams {
-  gasPrice?: string
-  gasLimit?: string
-  nonce?: string
-}
-
 /** Sends ETH (in units of Wei) */
-export const composeAction = (params: EthereumValueTransferParams) => {
-  const { fromAccountName, toAccountName, amount, symbol = DEFAULT_ETH_UNIT, gasPrice, gasLimit, nonce } = params
+export const composeAction = (params: Models.ValueTransferParams) => {
+  const { fromAccountName, toAccountName, amount, symbol = DEFAULT_ETH_UNIT } = params
   const ethUnit = toEthUnit(symbol)
   const value = toWeiString(amount, ethUnit) // using 0 precision since the toWei already converts to right precision for EthUnit
   return ethTransferComposeAction({
     from: fromAccountName,
     to: toAccountName,
     value,
-    gasPrice,
-    gasLimit,
-    nonce,
   } as EthTransferParams)
 }
 
@@ -41,9 +32,6 @@ export const decomposeAction = (action: EthereumTransactionAction): Models.Actio
         fromAccountName: decomposedArgs.from,
         toAccountName: decomposedArgs.to,
         symbol: EthUnit.Wei,
-        gasPrice: decomposedArgs.gasPrice,
-        gasLimit: decomposedArgs.gasLimit,
-        nonce: decomposedArgs.gasLimit,
       },
       chainActionType: Models.ChainActionType.ValueTransfer,
       partial: decomposedArgs.partial,

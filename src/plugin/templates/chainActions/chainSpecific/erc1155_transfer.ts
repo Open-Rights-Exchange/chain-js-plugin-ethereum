@@ -8,7 +8,7 @@ import {
   EthereumMultiValue,
 } from '../../../models'
 import { erc1155Abi } from '../../abis/erc1155Abi'
-import { toEthereumAddress, isNullOrEmptyEthereumValue } from '../../../helpers'
+import { toEthereumAddress, isNullOrEmptyEthereumValue, removeEmptyValuesFromGasOptions } from '../../../helpers'
 // import { getArrayIndexOrNull } from '../../../../../helpers'
 
 export interface Erc1155TransferParams {
@@ -38,17 +38,12 @@ export const composeAction = ({
     abi: erc1155Abi,
     parameters: [to, tokenId, quantity, data || 0],
     method: 'transfer',
-    gasPrice,
-    gasLimit,
-    nonce,
   }
   return {
     to: contractAddress,
     from,
     contract,
-    gasPrice,
-    gasLimit,
-    nonce,
+    ...removeEmptyValuesFromGasOptions(gasPrice, gasLimit, nonce),
   }
 }
 
@@ -62,9 +57,7 @@ export const decomposeAction = (action: EthereumTransactionAction): EthereumDeco
       tokenId: Helpers.getArrayIndexOrNull(contract?.parameters, 1) as number,
       quantity: Helpers.getArrayIndexOrNull(contract?.parameters, 2) as number,
       data: Helpers.getArrayIndexOrNull(contract?.parameters, 3) as EthereumMultiValue[],
-      gasPrice,
-      gasLimit,
-      nonce,
+      ...removeEmptyValuesFromGasOptions(gasPrice, gasLimit, nonce),
     }
     const partial = !returnData?.from || isNullOrEmptyEthereumValue(to)
     return {
