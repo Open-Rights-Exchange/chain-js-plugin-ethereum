@@ -58,7 +58,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
 
   private _chainState: EthereumChainState
 
-  private _actualCost: string
+  private _actualCost: Models.ActualCost
 
   private _desiredFee: string
 
@@ -632,21 +632,20 @@ export class EthereumTransaction implements Interfaces.Transaction {
     return Helpers.ensureHexPrefix(this.ethereumJsTx.hash().toString('hex'))
   }
 
+  /** Returns fee after transaction execution is done in wei format */
+  public get actualCost(): Models.ActualCost {
+    return this._actualCost
+  }
+
   /** get the actual cost (in Ether) for executing the transaction */
-  public async getActualCost(): Promise<string> {
-    if (!isNullOrEmptyEthereumValue(this._actualCost)) {
-      return this._actualCost
-    }
+  private async setActualCost() {
     const transaction = await this._chainState.getExecutedTransactionById(this.transactionId)
     if (!transaction) {
-      throw new Errors.ChainError(
-        Models.ChainErrorType.TxNotFoundOnChain,
-        'Cant retrieve actual cost - Transaction not found on chain',
-      )
+      return
     }
-
-    this._actualCost = (parseInt(this.action.gasPrice, 16) * transaction?.gasUsed || 0).toString(10)
-    return convertEthUnit(this._actualCost, EthUnit.Wei, EthUnit.Ether)
+    this._actualCost = {
+      fee: (parseInt(this.action.gasPrice, 16) * transaction?.gasUsed || 0).toString(10),
+    }
   }
 
   /** get the estimated cost for sending the transaction */
@@ -777,6 +776,9 @@ export class EthereumTransaction implements Interfaces.Transaction {
     // Serialize the entire transaction for sending to chain (prepared transaction that includes signatures { v, r , s })
     const signedTransaction = bufferToHex(this.ethereumJsTx.serialize())
     const response = await this._chainState.sendTransaction(signedTransaction, waitForConfirm, communicationSettings)
+    if (waitForConfirm !== Models.ConfirmType.None) {
+      await this.setActualCost()
+    }
     return response
   }
 
