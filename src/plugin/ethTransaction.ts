@@ -638,7 +638,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
   }
 
   /** get the actual cost (in Ether) for executing the transaction */
-  public async setActualCost() {
+  private async setActualCost() {
     const transaction = await this._chainState.getExecutedTransactionById(this.transactionId)
     if (!transaction) {
       return
