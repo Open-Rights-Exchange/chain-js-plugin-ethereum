@@ -16,6 +16,7 @@ import { EthereumChainActionType } from '../models'
 describe('Compose Chain Actions', () => {
   // sets fetchMock to throw an error on the next call to fetch (jsonRpc.get_abi calls fetch and triggers the error to be thrown)
   it('creates eth transfer action object', async () => {
+    // ! migrated to value_transfer.spec.ts
     const expAction = {
       to: '0x27105356F6C1ede0e92020e6225E46DC1F496b81',
       value: '0xa', // number 10 (in hex)
