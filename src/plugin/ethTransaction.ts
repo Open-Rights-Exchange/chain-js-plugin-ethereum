@@ -554,7 +554,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
 
   /** Fee multipliers effective for this transaction - uses default values if not set via transaction options  */
   get feeMultipliers() {
-    const { feeMultipliers: feeMultiplier } = this.options
+    const { feeMultipliers: feeMultiplier } = this.options || {}
     const multipliers = feeMultiplier ? { ...feeMultiplier } : TRANSACTION_FEE_PRIORITY_MULTIPLIERS
     return multipliers
   }

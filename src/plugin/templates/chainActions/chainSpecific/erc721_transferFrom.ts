@@ -7,7 +7,7 @@ import {
   EthereumDecomposeReturn,
 } from '../../../models'
 import { erc721Abi } from '../../abis/erc721Abi'
-import { toEthereumAddress, isNullOrEmptyEthereumValue } from '../../../helpers'
+import { toEthereumAddress, isNullOrEmptyEthereumValue, removeEmptyValuesFromGasOptions } from '../../../helpers'
 // import { getArrayIndexOrNull } from '../../../../../helpers'
 
 export interface Erc721TransferFromParams {
@@ -16,9 +16,21 @@ export interface Erc721TransferFromParams {
   transferFrom: EthereumAddress
   to: EthereumAddress
   tokenId: number
+  gasPrice?: string
+  gasLimit?: string
+  nonce?: string
 }
 
-export const composeAction = ({ contractAddress, from, transferFrom, to, tokenId }: Erc721TransferFromParams) => {
+export const composeAction = ({
+  contractAddress,
+  from,
+  transferFrom,
+  to,
+  tokenId,
+  gasPrice,
+  gasLimit,
+  nonce,
+}: Erc721TransferFromParams) => {
   const contract = {
     abi: erc721Abi,
     parameters: [transferFrom, to, tokenId],
@@ -28,11 +40,12 @@ export const composeAction = ({ contractAddress, from, transferFrom, to, tokenId
     to: contractAddress,
     from,
     contract,
+    ...removeEmptyValuesFromGasOptions(gasPrice, gasLimit, nonce),
   }
 }
 
 export const decomposeAction = (action: EthereumTransactionAction): EthereumDecomposeReturn => {
-  const { to, from, contract } = action
+  const { to, from, contract, gasPrice, gasLimit, nonce } = action
   if (contract?.abi === erc721Abi && contract?.method === 'transferFrom') {
     const returnData: Erc721TransferFromParams = {
       contractAddress: to,
@@ -40,6 +53,7 @@ export const decomposeAction = (action: EthereumTransactionAction): EthereumDeco
       transferFrom: toEthereumAddress(Helpers.getArrayIndexOrNull(contract?.parameters, 0) as string),
       to: toEthereumAddress(Helpers.getArrayIndexOrNull(contract?.parameters, 1) as string),
       tokenId: Helpers.getArrayIndexOrNull(contract?.parameters, 2) as number,
+      ...removeEmptyValuesFromGasOptions(gasPrice, gasLimit, nonce),
     }
     const partial = !returnData?.from || isNullOrEmptyEthereumValue(to)
     return {

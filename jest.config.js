@@ -9,7 +9,7 @@ module.exports = {
   testMatch: ['<rootDir>/**/?(*.)(spec|test).(js|jsx|ts|tsx)'],
   globals: {
     'ts-jest': {
-      tsconfig: 'tsconfig-test.json',
+      tsConfig: 'tsconfig-cjs-local.json',
       diagnostics: {
         warnOnly: true,
       },

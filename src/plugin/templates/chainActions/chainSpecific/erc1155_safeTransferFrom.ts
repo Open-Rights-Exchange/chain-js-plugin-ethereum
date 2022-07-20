@@ -7,7 +7,7 @@ import {
   EthereumDecomposeReturn,
 } from '../../../models'
 import { erc1155Abi } from '../../abis/erc1155Abi'
-import { toEthereumAddress, isNullOrEmptyEthereumValue } from '../../../helpers'
+import { toEthereumAddress, isNullOrEmptyEthereumValue, removeEmptyValuesFromGasOptions } from '../../../helpers'
 // import { getArrayIndexOrNull } from '../../../../../helpers'
 
 export interface Erc1155SafeTransferFromParams {
@@ -18,6 +18,9 @@ export interface Erc1155SafeTransferFromParams {
   tokenId: number
   quantity: number
   data?: number
+  gasPrice?: string
+  gasLimit?: string
+  nonce?: string
 }
 
 export const composeAction = ({
@@ -28,6 +31,9 @@ export const composeAction = ({
   tokenId,
   quantity,
   data,
+  gasPrice,
+  gasLimit,
+  nonce,
 }: Erc1155SafeTransferFromParams) => {
   const contract = {
     abi: erc1155Abi,
@@ -38,11 +44,12 @@ export const composeAction = ({
     to: contractAddress,
     from,
     contract,
+    ...removeEmptyValuesFromGasOptions(gasPrice, gasLimit, nonce),
   }
 }
 
 export const decomposeAction = (action: EthereumTransactionAction): EthereumDecomposeReturn => {
-  const { to, from, contract } = action
+  const { to, from, contract, gasPrice, gasLimit, nonce } = action
   if (contract?.abi === erc1155Abi && contract?.method === 'safeTransferFrom') {
     const returnData: Erc1155SafeTransferFromParams = {
       contractAddress: to,
@@ -52,6 +59,7 @@ export const decomposeAction = (action: EthereumTransactionAction): EthereumDeco
       tokenId: Helpers.getArrayIndexOrNull(contract?.parameters, 2) as number,
       quantity: Helpers.getArrayIndexOrNull(contract?.parameters, 3) as number,
       data: Helpers.getArrayIndexOrNull(contract?.parameters, 4) as number,
+      ...removeEmptyValuesFromGasOptions(gasPrice, gasLimit, nonce),
     }
     const partial = !returnData?.from || isNullOrEmptyEthereumValue(to)
     return {
