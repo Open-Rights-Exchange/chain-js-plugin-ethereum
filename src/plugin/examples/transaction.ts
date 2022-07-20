@@ -141,7 +141,6 @@ const { env } = process
     // console.log('send response:', JSON.stringify(await transaction.send(ConfirmType.After001))) // wait for transaction to complete on-chain before returning
     // console.log(`actual cost of tx in ETH - available once tx is processed: ${await transaction.getActualCost()}`) // getActualCost will throw if called before tx is commited to chain
 
-
     // ---> Sign and send default transfer Transaction - using generic (cross-chain) token transfer action
     // const transaction = await ropsten.new.Transaction(defaultEthTxOptions)
     // transaction.actions = [await ropsten.composeAction(ChainActionType.TokenTransfer, composeTokenTransferParams)]
