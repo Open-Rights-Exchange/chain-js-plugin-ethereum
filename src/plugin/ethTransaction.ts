@@ -916,6 +916,24 @@ export class EthereumTransaction implements Interfaces.Transaction {
     return toEthereumSignature(value) // returns stringified sig
   }
 
+  /** Whether transaction has expired */
+  public async isExpired(): Promise<boolean> {
+    Helpers.notSupported('Ethereum transactions dont expire')
+    return null
+  }
+
+  /** Date (and time) when transaction can first be sent to the chain (before which the transaction will fail) */
+  public async validOn(): Promise<Date> {
+    Helpers.notSupported('Ethereum transactions dont have a valid from date')
+    return null
+  }
+
+  /** Whether transaction has expired */
+  public async expiresOn(): Promise<Date> {
+    Helpers.notSupported('Ethereum transactions dont expire')
+    return null
+  }
+
   // ------------------------ Ethereum Specific functionality -------------------------------
   // Put any Ethereum chain specific feature that aren't included in the standard Transaction interface below here  */
   // calling code can access these functions by first casting the generic object into an eos-specific flavor

@@ -1,6 +1,6 @@
 {
   "name": "@open-rights-exchange/chain-js-plugin-ethereum",
-  "version": "4.8.1",
+  "version": "4.9.0",
   "description": "Chain-js plug-in for Ethereum networks.",
   "license": "MIT",
   "main": "dist/cjs/src/index.js",
@@ -75,7 +75,7 @@
     "webpack-cli": "^4.9.2"
   },
   "peerDependencies": {
-    "@open-rights-exchange/chain-js": "^4.8.0"
+    "@open-rights-exchange/chain-js": "^4.9.0"
   },
   "files": [
     "dist",
