@@ -71,7 +71,7 @@ const { env } = process
 
     const composeValueTransferParams: Models.ValueTransferParams = {
       toAccountName: Helpers.toChainEntityName('0x27105356F6C1ede0e92020e6225E46DC1F496b81'),
-      amount: '0.000000000000000001', // should it be? amount: '1000000000000000',
+      amount: '1000000000000000',
     }
 
     const composeEthTransferParams: EthTransferParams = {
@@ -129,8 +129,8 @@ const { env } = process
     console.log('transaction.actions[0]:', JSON.stringify(transaction.actions[0]))
     const decomposed = await ropsten.decomposeAction(transaction.actions[0])
     console.log(JSON.stringify(decomposed))
-    const fee = await transaction.getSuggestedFee(Models.TxExecutionPriority.Fast)
-    await transaction.setDesiredFee(fee)
+    const { feeStringified } = await transaction.getSuggestedFee(Models.TxExecutionPriority.Fast)
+    await transaction.setDesiredFee(feeStringified)
     await transaction.prepareToBeSigned()
     await transaction.validate()
     await transaction.sign([toEthereumPrivateKey(env.ROPSTEN_erc20acc_PRIVATE_KEY)])
@@ -167,8 +167,8 @@ const { env } = process
     // // extract out the transaction object sent to the eth chain
     // const { contract, ...actionSentToEthChain } = transaction.actions[0]
     // console.log('actionSentToEthChain:', actionSentToEthChain)
-    // const fee = await transaction.getSuggestedFee(TxExecutionPriority.Fast)
-    // await transaction.setDesiredFee(fee)
+    // const { feeStringified } = await transaction.getSuggestedFee(Models.TxExecutionPriority.Fast)
+    // await transaction.setDesiredFee(feeStringified)
     // await transaction.prepareToBeSigned()
     // await transaction.validate()
     // await transaction.sign([toEthereumPrivateKey(env.ROPSTEN_erc20acc_PRIVATE_KEY)])
@@ -185,8 +185,8 @@ const { env } = process
     //   'token value converted back using precision:',
     //   fromTokenValueString(decomposed[0]?.args?.amount, 10, composeERC20TransferParams?.precision),
     // )
-    // const fee = await transaction.getSuggestedFee(TxExecutionPriority.Fast)
-    // await transaction.setDesiredFee(fee)
+    // const { feeStringified } = await transaction.getSuggestedFee(Models.TxExecutionPriority.Fast)
+    // await transaction.setDesiredFee(feeStringified)
     // await transaction.prepareToBeSigned()
     // await transaction.validate()
     // await transaction.sign([toEthereumPrivateKey(env.ROPSTEN_erc20acc_PRIVATE_KEY)])

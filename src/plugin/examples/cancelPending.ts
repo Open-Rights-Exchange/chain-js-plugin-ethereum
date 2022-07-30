@@ -81,8 +81,8 @@ const privateKeyForCancelAccount = env.ROPSTEN_erc20acc_PRIVATE_KEY as any
       await Helpers.asyncForEach(nonceRange, async nonce => {
         const transaction = await ethChain.new.Transaction()
         await transaction.setTransaction({ ...cancelationTrx, nonce })
-        const fee = await transaction.getSuggestedFee(Models.TxExecutionPriority.Fast)
-        await transaction.setDesiredFee(fee)
+        const { feeStringified } = await transaction.getSuggestedFee(Models.TxExecutionPriority.Fast)
+        await transaction.setDesiredFee(feeStringified)
         await transaction.validate()
         await transaction.prepareToBeSigned()
         await transaction.sign([toEthereumPrivateKey(privateKeyForCancelAccount)])
