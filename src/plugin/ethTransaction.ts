@@ -660,11 +660,6 @@ export class EthereumTransaction implements Interfaces.Transaction {
     }
   }
 
-  /** get the estimated cost for sending the transaction */
-  public async getEstimatedCost(refresh: boolean = false): Promise<EthereumTransactionCost> {
-    return { fee: await this.getEstimatedGas(refresh) }
-  }
-
   public get maxFeeIncreasePercentage(): number {
     return this._maxFeeIncreasePercentage || 0
   }
