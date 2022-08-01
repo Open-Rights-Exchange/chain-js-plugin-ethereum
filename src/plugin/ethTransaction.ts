@@ -51,7 +51,6 @@ import {
   EthereumMultisigPluginTransaction,
 } from './plugins/multisig/ethereumMultisigPlugin'
 import { mapChainError } from './ethErrors'
-import { isAString, tryParseJSON } from '../../../chain-js/src/helpers'
 
 export class EthereumTransaction implements Interfaces.Transaction {
   private _actionHelper: EthereumActionHelper
@@ -563,12 +562,12 @@ export class EthereumTransaction implements Interfaces.Transaction {
   /** Get the suggested Eth fee (in Ether) for this transaction */
   public async getSuggestedFee(
     priority: Models.TxExecutionPriority = Models.TxExecutionPriority.Average,
-  ): Promise<{ estimationType: Models.ResourceEstimationType, feeStringified: string}> {
+  ): Promise<{ estimationType: Models.ResourceEstimationType; feeStringified: string }> {
     try {
       // fees for 'child' transaction are always null (if we set here, this value will be used instead of re-caclulating for parent)
       if (this.requiresParentTransaction) {
         return { estimationType: Models.ResourceEstimationType.Exact, feeStringified: null } // exactly no fees are required
-    }
+      }
       this.assertHasAction()
       const gasPriceString = await this._chainState.getCurrentGasPriceFromChain()
       let gasPriceinWeiBN = new BN(gasPriceString)
@@ -577,7 +576,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
       // multiply estimated fee times gas price
       const feeInWei = gasPriceinWeiBN.mul(new BN(await this.getEstimatedGas(), 10))
       const fee = convertEthUnit(feeInWei.toString(10), EthUnit.Wei, EthUnit.Ether)
-      const feeStringified = JSON.stringify({fee})
+      const feeStringified = JSON.stringify({ fee })
       return { estimationType: Models.ResourceEstimationType.Estimate, feeStringified } // estimated since gas price can change
     } catch (error) {
       const chainError = mapChainError(error)
@@ -601,7 +600,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
       this.assertNoSignatures()
       this.assertHasAction()
       // TODO: Consider whether this should set the fees using the gasPriceOverride, gasLimitOverride if they exist
-      const desiredFeeJson = tryParseJSON(desiredFeeStringified) as EthereumTransactionFee
+      const desiredFeeJson = Helpers.tryParseJSON(desiredFeeStringified) as EthereumTransactionFee
       // clear fee
       if (!desiredFeeJson || desiredFeeJson?.fee === null) {
         this._desiredFee = null
@@ -609,8 +608,10 @@ export class EthereumTransaction implements Interfaces.Transaction {
         this._actionHelper.gasLimit = null
         return
       }
-      if(!isAString(desiredFeeJson?.fee)) {
-        throw new Error(`desiredFeeStringified invalid: Expected stringified object of type: { fee: '.00000000001' } where string value is in Eth`)
+      if (!Helpers.isAString(desiredFeeJson?.fee)) {
+        throw new Error(
+          `desiredFeeStringified invalid: Expected stringified object of type: { fee: '.00000000001' } where string value is in Eth`,
+        )
       }
       const { gasLimitOverride, gasPriceOverride } = options || {}
       const desiredFeeWei = toWeiString(desiredFeeJson.fee, EthUnit.Ether)
