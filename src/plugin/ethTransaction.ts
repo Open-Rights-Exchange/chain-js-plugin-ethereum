@@ -610,7 +610,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
       }
       if (!Helpers.isAString(desiredFeeJson?.fee)) {
         throw new Error(
-          `desiredFeeStringified invalid: Expected stringified object of type: { fee: '.00000000001' } where string value is in Eth`,
+          'desiredFeeStringified invalid: Expected stringified object of type: { fee: ".00000000001" } where string value is in Eth',
         )
       }
       const { gasLimitOverride, gasPriceOverride } = options || {}
