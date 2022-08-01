@@ -74,7 +74,6 @@ require('dotenv').config()
       await transactionBMultisig.parentTransaction.sign([
         toEthereumPrivateKey(process.env.TESTNET_multisigOwner_1_PRIVATE_KEY),
       ])
-      console.log('Cost', await transactionBMultisig.parentTransaction.getEstimatedCost())
       console.log('ParentTransaction: ', transactionBMultisig.parentTransaction.actions[0])
       console.log('Trx result: ', await transactionBMultisig.parentTransaction.send())
     } else {

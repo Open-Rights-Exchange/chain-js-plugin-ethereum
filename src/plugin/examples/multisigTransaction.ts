@@ -70,7 +70,6 @@ require('dotenv').config()
     if (transaction.requiresParentTransaction) {
       // Must sign parent Transaction with any of the multisig account private keys - this signer pays the fees
       await transaction.parentTransaction.sign([toEthereumPrivateKey(process.env.TESTNET_multisigOwner_1_PRIVATE_KEY)])
-      console.log('Cost', await transaction.parentTransaction.getEstimatedCost())
       console.log('ParentTransaction: ', transaction.parentTransaction.actions[0])
       console.log('Trx result: ', await transaction.parentTransaction.send())
     } else {

@@ -120,9 +120,9 @@ export type EthereumTxResult = {
 /** Response from chain after sending transaction */
 export type EthereumTxChainResponse = TransactionReceipt
 
-/** Cost in chain resources to run the transaction
- *  Fee is in GWEI */
-export type EthereumTransactionCost = {
+/** Cost in Eth to run the transaction */
+export type EthereumTransactionFee = {
+  /**  fee is a string value in units of Eth - e.g. { fee: '.00000000001' } */
   fee: string
 }
 
