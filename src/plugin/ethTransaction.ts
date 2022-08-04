@@ -256,7 +256,6 @@ export class EthereumTransaction implements Interfaces.Transaction {
       )
     }
     this._actionHelper = new EthereumActionHelper(action, this.ethereumJsChainOptions)
-    this.setRawProperties()
     this._isValidated = false
   }
 
@@ -608,6 +607,11 @@ export class EthereumTransaction implements Interfaces.Transaction {
         this._actionHelper.gasLimit = null
         return
       }
+      if (this.action.gasPrice && this.action.gasLimit) {
+        // If a gasPrice has already been set at a Transaction or Action level then we don't want to set it again
+        // Users that really want to overwrite the Transaction or Action level value should call setDesiredFee(null) and then call setDesiredFee() again.
+        return
+      }
       if (!Helpers.isAString(desiredFeeJson?.fee)) {
         throw new Error(
           'desiredFeeStringified invalid: Expected stringified object of type: { fee: ".00000000001" } where string value is in Eth',
@@ -619,9 +623,11 @@ export class EthereumTransaction implements Interfaces.Transaction {
       const desiredFeeBn = new BN(desiredFeeWei, 10)
       const gasPriceBn = desiredFeeBn.div(gasRequiredBn)
       this._desiredFee = desiredFeeWei
-      let gasPriceString = gasPriceBn.toString(10).slice(0, -9)
-      const gasRequiredInt = parseInt(gasRequiredBn.toString(10), 10)
-      let gasLimitString = Math.round(gasRequiredInt * (1 + this.maxFeeIncreasePercentage / 100)).toString()
+      let gasPriceString = convertEthUnit(gasPriceBn.toString(10), EthUnit.Wei, EthUnit.Gwei)
+      // The below logic uses the BN library to add maxFeeIncreasePercentage to gasRequiredBn
+      const maxFeeIncreasePercentageBN = new BN(this.maxFeeIncreasePercentage, 10)
+      const additionalGasRequired = gasRequiredBn.mul(maxFeeIncreasePercentageBN).div(new BN(100, 10))
+      let gasLimitString = gasRequiredBn.add(additionalGasRequired).toString()
       if (gasLimitOverride) {
         gasLimitString = gasLimitOverride
       }
