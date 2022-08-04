@@ -607,11 +607,6 @@ export class EthereumTransaction implements Interfaces.Transaction {
         this._actionHelper.gasLimit = null
         return
       }
-      if (this.action.gasPrice && this.action.gasLimit) {
-        // If a gasPrice has already been set at a Transaction or Action level then we don't want to set it again
-        // Users that really want to overwrite the Transaction or Action level value should call setDesiredFee(null) and then call setDesiredFee() again.
-        return
-      }
       if (!Helpers.isAString(desiredFeeJson?.fee)) {
         throw new Error(
           'desiredFeeStringified invalid: Expected stringified object of type: { fee: ".00000000001" } where string value is in Eth',

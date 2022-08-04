@@ -50,3 +50,9 @@ export function removeEmptyValuesFromGasOptions(gasPrice?: string, gasLimit?: st
   Helpers.removeEmptyValuesInJsonObject(gasOptions)
   return gasOptions
 }
+
+export function increaseBNbyPercentage(baseValue: BN, percentageIncrease: number): BN {
+  const percentageIncreaseBN = new BN(percentageIncrease, 10)
+  const toAdd = baseValue.mul(percentageIncreaseBN).div(new BN(100, 10))
+  return baseValue.add(toAdd)
+}
