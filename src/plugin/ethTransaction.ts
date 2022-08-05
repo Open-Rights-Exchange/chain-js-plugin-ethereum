@@ -30,6 +30,7 @@ import {
 import {
   convertBufferToHexStringIfNeeded,
   convertEthUnit,
+  increaseBNbyPercentage,
   isNullOrEmptyEthereumValue,
   isSameEthHexValue,
   isSameEthPublicKey,
@@ -256,7 +257,6 @@ export class EthereumTransaction implements Interfaces.Transaction {
       )
     }
     this._actionHelper = new EthereumActionHelper(action, this.ethereumJsChainOptions)
-    this.setRawProperties()
     this._isValidated = false
   }
 
@@ -619,9 +619,10 @@ export class EthereumTransaction implements Interfaces.Transaction {
       const desiredFeeBn = new BN(desiredFeeWei, 10)
       const gasPriceBn = desiredFeeBn.div(gasRequiredBn)
       this._desiredFee = desiredFeeWei
-      let gasPriceString = gasPriceBn.toString(10).slice(0, -9)
-      const gasRequiredInt = parseInt(gasRequiredBn.toString(10), 10)
-      let gasLimitString = Math.round(gasRequiredInt * (1 + this.maxFeeIncreasePercentage / 100)).toString()
+      let gasPriceString = convertEthUnit(gasPriceBn.toString(10), EthUnit.Wei, EthUnit.Gwei)
+      // increase gasRequiredBn by percentage (maxFeeIncreasePercentage)
+      let gasLimitString = increaseBNbyPercentage(gasRequiredBn, this.maxFeeIncreasePercentage).toString()
+
       if (gasLimitOverride) {
         gasLimitString = gasLimitOverride
       }

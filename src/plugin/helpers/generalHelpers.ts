@@ -41,6 +41,7 @@ type GasOptions = {
   nonce?: string
 }
 
+/** Returns an object with gasPrice, gasLimit, nonce - but excludes any of these if empty */
 export function removeEmptyValuesFromGasOptions(gasPrice?: string, gasLimit?: string, nonce?: string): GasOptions {
   const gasOptions: GasOptions = {
     gasPrice,
@@ -49,4 +50,11 @@ export function removeEmptyValuesFromGasOptions(gasPrice?: string, gasLimit?: st
   }
   Helpers.removeEmptyValuesInJsonObject(gasOptions)
   return gasOptions
+}
+
+/** use BN math functions to increase value by percentage */
+export function increaseBNbyPercentage(baseValue: BN, percentageIncrease: number): BN {
+  const percentageIncreaseBN = new BN(percentageIncrease, 10)
+  const toAdd = baseValue.mul(percentageIncreaseBN).div(new BN(100, 10))
+  return baseValue.add(toAdd)
 }

@@ -24,6 +24,7 @@ import { composeAction as ERC721SafeTransferFromTemplate } from './templates/cha
 import { composeAction as ERC1155ApproveTemplate } from './templates/chainActions/chainSpecific/erc1155_approve'
 import { composeAction as ERC1155TransferTemplate } from './templates/chainActions/chainSpecific/erc1155_transfer'
 import { composeAction as ERC1155SafeTransferFromTemplate } from './templates/chainActions/chainSpecific/erc1155_safeTransferFrom'
+import { composeAction as ETHTransferTemplate } from './templates/chainActions/chainSpecific/eth_transfer'
 import { EthereumChainActionType, EthereumTransactionAction } from './models'
 
 // map a key name to a function that returns an object
@@ -47,6 +48,7 @@ const ComposeAction: { [key: string]: (args: any) => any } = {
   ERC1155Approve: ERC1155ApproveTemplate,
   ERC1155Transfer: ERC1155TransferTemplate,
   ERC1155SafeTransferFrom: ERC1155SafeTransferFromTemplate,
+  ETHTransfer: ETHTransferTemplate,
 }
 
 /** Compose an object for a chain contract action */

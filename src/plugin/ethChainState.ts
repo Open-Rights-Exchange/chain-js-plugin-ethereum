@@ -184,7 +184,7 @@ export class EthereumChainState implements Interfaces.ChainState {
 
   /** return (string) of the last retrieved gas price - rounded up to GWEI */
   public get currentGasPriceInGwei(): string {
-    return Math.round(toGweiFromWei(new BN(this.chainInfo.nativeInfo.currentGasPrice))).toString()
+    return toGweiFromWei(new BN(this.chainInfo.nativeInfo.currentGasPrice)).toString()
   }
 
   /** Confirm that we've connected to the chain - throw if not */

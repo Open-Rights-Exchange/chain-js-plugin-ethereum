@@ -12,4 +12,5 @@ export enum EthereumChainActionType {
   ERC1155Approve = 'ERC1155Approve',
   ERC1155SafeTransferFrom = 'ERC1155SafeTransferFrom',
   ERC1155Transfer = 'ERC1155Transfer',
+  ETHTransfer = 'ETHTransfer',
 }

@@ -1,6 +1,6 @@
 {
   "name": "@open-rights-exchange/chain-js-plugin-ethereum",
-  "version": "4.9.1",
+  "version": "4.10.0",
   "description": "Chain-js plug-in for Ethereum networks.",
   "license": "MIT",
   "main": "dist/cjs/src/index.js",
