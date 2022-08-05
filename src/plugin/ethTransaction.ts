@@ -30,6 +30,7 @@ import {
 import {
   convertBufferToHexStringIfNeeded,
   convertEthUnit,
+  increaseBNbyPercentage,
   isNullOrEmptyEthereumValue,
   isSameEthHexValue,
   isSameEthPublicKey,
@@ -619,10 +620,9 @@ export class EthereumTransaction implements Interfaces.Transaction {
       const gasPriceBn = desiredFeeBn.div(gasRequiredBn)
       this._desiredFee = desiredFeeWei
       let gasPriceString = convertEthUnit(gasPriceBn.toString(10), EthUnit.Wei, EthUnit.Gwei)
-      // The below logic uses the BN library to add maxFeeIncreasePercentage to gasRequiredBn
-      const maxFeeIncreasePercentageBN = new BN(this.maxFeeIncreasePercentage, 10)
-      const additionalGasRequired = gasRequiredBn.mul(maxFeeIncreasePercentageBN).div(new BN(100, 10))
-      let gasLimitString = gasRequiredBn.add(additionalGasRequired).toString()
+      // increase gasRequiredBn by percentage (maxFeeIncreasePercentage)
+      let gasLimitString = increaseBNbyPercentage(gasRequiredBn, this.maxFeeIncreasePercentage).toString()
+
       if (gasLimitOverride) {
         gasLimitString = gasLimitOverride
       }
