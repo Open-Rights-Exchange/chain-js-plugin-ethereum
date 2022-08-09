@@ -1,0 +1,23 @@
+// import { getChain } from '../tests/helpers'
+// import { Chain, Models, Transaction } from '@open-rights-exchange/chain-js'
+// import { ChainNetwork } from '../tests/mockups/chainConfig'
+// import { account1, account2, actionRawTransactionExpired1, actionSendTokenEos } from '../tests/mockups/eosTransactions'
+
+describe('Transaction properties', () => {
+  // let chain: Chain
+  // let tx: Transaction
+  // let action: any
+
+  beforeEach(async () => {
+    // chain = await getChain(ChainNetwork.EosJungle, true)
+    // tx = await chain.new.Transaction({})
+    // // const action = await chain.composeAction(Models.ChainActionType.TokenTransfer, actionTokenTransferStandard(account1, account2))
+    // action = actionSendTokenEos(account1, account2)
+    // await tx.setTransaction([action])
+  })
+
+  test('GasFee and multiplier are applied correctly to the transaction', async () => {
+    /** throws before prepared */
+    await expect(tx.expiresOn()).rejects.toThrow('Transaction has not been prepared')
+  })
+})
