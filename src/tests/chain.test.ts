@@ -3,11 +3,11 @@
 // import { toChainEntityName } from '../../../helpers'
 // import { ChainType } from '../../..'
 import { Interfaces, Models, PluginChainFactory, Helpers } from '@open-rights-exchange/chain-js'
-import { ropstenEndpoints } from '../examples/helpers/networks'
-import { toEthereumSymbol } from '../helpers'
+import { ropstenEndpoints } from '../plugin/examples/helpers/networks'
+import { toEthereumSymbol } from '../plugin/helpers'
 // import { ChainFactory } from '../../../chainFactory'
 // import { Chain } from '../../../interfaces'
-import plugin from '../ChainEthereumV1'
+import plugin from '../plugin/ChainEthereumV1'
 
 describe('Ethereum Helper Functions', () => {
   let ropsten: Interfaces.Chain

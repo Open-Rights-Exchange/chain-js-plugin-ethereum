@@ -1,5 +1,5 @@
-import { EthereumActionHelper } from '../ethAction'
-import { toEthereumTxData, toEthereumAddress } from '../helpers'
+import { EthereumActionHelper } from '../plugin/ethAction'
+import { toEthereumTxData, toEthereumAddress } from '../plugin/helpers'
 import { chainOptions } from './mockups/chain'
 
 describe('Ethereum Action Tests', () => {

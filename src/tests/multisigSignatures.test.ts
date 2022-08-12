@@ -1,9 +1,9 @@
-import { EthereumTransaction } from '../ethTransaction'
-import { connectChain, ropstenChainOptions, ropstenEndpoints } from '../examples/helpers/networks'
-import { toEthereumAddress, toEthereumPrivateKey } from '../helpers'
-import { EthereumTransactionOptions } from '../models'
-import { EthereumGnosisMultisigTransactionOptions } from '../plugins/multisig/gnosisSafeV1/models'
-import { GnosisSafeMultisigPlugin } from '../plugins/multisig/gnosisSafeV1/plugin'
+import { EthereumTransaction } from '../plugin/ethTransaction'
+import { connectChain, ropstenChainOptions, ropstenEndpoints } from '../plugin/examples/helpers/networks'
+import { toEthereumAddress, toEthereumPrivateKey } from '../plugin/helpers'
+import { EthereumTransactionOptions } from '../plugin/models'
+import { EthereumGnosisMultisigTransactionOptions } from '../plugin/plugins/multisig/gnosisSafeV1/models'
+import { GnosisSafeMultisigPlugin } from '../plugin/plugins/multisig/gnosisSafeV1/plugin'
 import { getSignatures } from './mockups/multisig'
 
 jest.setTimeout(30000)

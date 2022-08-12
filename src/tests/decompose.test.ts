@@ -1,5 +1,5 @@
 // How to use fetch mocks - https://www.npmjs.com/package/jest-fetch-mock
-import { decomposeAction } from '../ethDecompose'
+import { decomposeAction } from '../plugin/ethDecompose'
 
 import {
   composedERC20IssueAction,
@@ -11,8 +11,8 @@ import {
   composedERC721TransferAction,
   composedERC721TransferFromAction,
 } from './mockups/composedActions'
-import { EthereumTransactionAction } from '../models'
-import { toEthereumAddress, toEthereumTxData } from '../helpers'
+import { EthereumTransactionAction } from '../plugin/models'
+import { toEthereumAddress, toEthereumTxData } from '../plugin/helpers'
 
 describe('Decompose Chain Actions', () => {
   const composedEthTransferAction: EthereumTransactionAction = {

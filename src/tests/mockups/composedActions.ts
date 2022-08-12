@@ -1,7 +1,7 @@
-import { erc20Abi } from '../../templates/abis/erc20Abi'
-import { erc721Abi } from '../../templates/abis/erc721Abi'
-import { EthereumTransactionAction } from '../../models'
-import { toEthereumAddress, toEthereumTxData } from '../../helpers'
+import { erc20Abi } from '../../plugin/templates/abis/erc20Abi'
+import { erc721Abi } from '../../plugin/templates/abis/erc721Abi'
+import { EthereumTransactionAction } from '../../plugin/models'
+import { toEthereumAddress, toEthereumTxData } from '../../plugin/helpers'
 
 export const composedERC20ApproveAction: EthereumTransactionAction = {
   to: toEthereumAddress('0x27105356f6c1ede0e92020e6225e46dc1f496b81'),
