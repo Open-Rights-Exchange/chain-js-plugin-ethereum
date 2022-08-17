@@ -313,6 +313,20 @@ export class EthereumTransaction implements Interfaces.Transaction {
     }
   }
 
+  getExplictlySetGasPriceAndGasLimit() {
+    const { gasLimit: gasLimitOptions, gasPrice: gasPriceOptions } = this._options || {}
+    const { gasLimit: gasLimitAction, gasPrice: gasPriceAction } = this._actionHelper.action
+    const explicitGasPriceValue = gasPriceOptions || gasPriceAction
+    const explicitGasLimitValue = gasLimitOptions || gasLimitAction
+
+    let explicitGasPriceOrGasLimitIsProvided = true
+    if (isNullOrEmptyEthereumValue(explicitGasPriceValue) && isNullOrEmptyEthereumValue(explicitGasLimitValue)) {
+      explicitGasPriceOrGasLimitIsProvided = false
+    }
+
+    return { explicitGasPriceValue, explicitGasLimitValue, explicitGasPriceOrGasLimitIsProvided }
+  }
+
   /**
    *  Updates nonce and gas fees (if necessary) - these values must be present
    */
@@ -321,14 +335,12 @@ export class EthereumTransaction implements Interfaces.Transaction {
     this.assertHasAction()
 
     if (!this.requiresParentTransaction) {
-      const { gasLimit: gasLimitOptions, gasPrice: gasPriceOptions } = this._options || {}
-      const { gasLimit: gasLimitAction, gasPrice: gasPriceAction } = this._actionHelper.action
-      const gasPriceValue = gasPriceOptions || gasPriceAction
-      const gasLimitValue = gasLimitOptions || gasLimitAction
+      const { explicitGasPriceValue, explicitGasLimitValue, explicitGasPriceOrGasLimitIsProvided } =
+        this.getExplictlySetGasPriceAndGasLimit()
 
       // If no GasPrice or GasLimit were provided in options or the action, then get and set the suggested fee.
       // Else we need to consider recieving just the GasLimit or just the GasPrice.
-      if (isNullOrEmptyEthereumValue(gasPriceValue) && isNullOrEmptyEthereumValue(gasLimitValue)) {
+      if (!explicitGasPriceOrGasLimitIsProvided) {
         // set gasLimit if not already set, set it using the execution Priority specified for this transaction
         // NOTE: we don't set fees here if we'll have a parent trnsaction. That will happen when the parent tx is set
         const { feeStringified } = await this.getSuggestedFee(this._executionPriority)
@@ -340,22 +352,25 @@ export class EthereumTransaction implements Interfaces.Transaction {
         const overideOptions: EthereumSetDesiredFeeOptions = {}
         // If we have a GasPrice that was supplied in the options or the transaction us that.
         // Else we need to calculate a suggestedFee and overwrite the above 0 fee.
-        if (gasPriceValue) {
+        if (explicitGasPriceValue) {
           // The internals of setDesiredFee() expects gasPriceOverride to be a string and in Gwei.
           // What the user would expect to set in the transaction or the options is a in Wei (hex value), so convert that hex value to Gwei
-          const gasPriceWeiBN = this._chainState.web3.utils.toBN(gasPriceValue)
-          const gasPriceGweiString = convertEthUnit(gasPriceWeiBN.toString(10), EthUnit.Wei, EthUnit.Gwei)
+          const gasPriceWeiBN = this._chainState.web3.utils.toBN(explicitGasPriceValue)
+          // const gasPriceGweiString = convertEthUnit(gasPriceWeiBN.toString(10), EthUnit.Wei, EthUnit.Gwei)
+          const gasPriceGweiString = this._chainState.web3.utils.fromWei(gasPriceWeiBN, 'Gwei')
           overideOptions.gasPriceOverride = gasPriceGweiString
         } else {
+          // If no gasPrice was explicity set then we'll need to calculate a suggesed fee.
           const { feeStringified } = await this.getSuggestedFee(this._executionPriority)
           feeStringifiedCustom = feeStringified
         }
         // Add the GasLimit to the overide options if it was provided.
-        if (gasLimitValue) {
-          const gasLimitBN = this._chainState.web3.utils.toBN(gasLimitValue)
+        if (explicitGasLimitValue) {
+          const gasLimitBN = this._chainState.web3.utils.toBN(explicitGasLimitValue)
           overideOptions.gasLimitOverride = gasLimitBN.toString(10)
         }
         await this.setDesiredFee(feeStringifiedCustom, overideOptions)
+        this.setRawProperties()
       }
     }
     if (this.isMultisig) {
@@ -364,6 +379,8 @@ export class EthereumTransaction implements Interfaces.Transaction {
     } else {
       await this.setNonceIfEmpty(this.senderAddress)
     }
+
+
   }
 
   /** calculates a unique nonce value for the tx (if not already set) by using the chain transaction count for a given address */
