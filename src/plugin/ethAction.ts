@@ -8,7 +8,6 @@ import {
   isValidEthereumAddress,
   toEthereumTxData,
   toEthBuffer,
-  toWeiString,
   toEthereumAddress,
 } from './helpers'
 import {
@@ -18,10 +17,10 @@ import {
   EthereumRawTransactionAction,
   EthereumTxData,
   EthereumTransactionAction,
-  EthUnit,
   EthereumSignatureNative,
 } from './models'
 import { ZERO_HEX, ZERO_ADDRESS } from './ethConstants'
+
 
 export type ActionChainOptions = {
   chain: string
@@ -82,14 +81,8 @@ export class EthereumActionHelper {
     if (Helpers.isABuffer(gasPriceInput)) {
       gasPrice = convertBufferToHexStringIfNeeded(gasPriceInput as Buffer)
     } else {
-      // if value is hex encoded string, then it doesnt need to be converted (already in units of Wei)
-      // otherwise, a decimal string value is expected to be in units of Gwei - we convert to Wei
-      const gasPriceInWei = Helpers.hasHexPrefix(gasPriceInput)
-        ? gasPriceInput
-        : toWeiString(gasPriceInput as string, EthUnit.Gwei)
-
-      // convert decimal strings to hex strings
-      gasPrice = Helpers.toHexStringIfNeeded(gasPriceInWei)
+      // convert strings to hex strings
+      gasPrice = Helpers.toHexStringIfNeeded(gasPriceInput)
     }
     const gasLimit = Helpers.isABuffer(gasLimitInput)
       ? convertBufferToHexStringIfNeeded(gasLimitInput as Buffer)
@@ -153,9 +146,9 @@ export class EthereumActionHelper {
     this.updateActionProperty('gasLimit', valueHex)
   }
 
-  /** set gasPrice - value should be a decimal string in units of GWEI e.g. '123' */
+  /** set gasPrice - value should be a string in units of WEI or a Hex value e.g. '123' */
   set gasPrice(value: string) {
-    const valueHex = Helpers.decimalToHexString(toWeiString(value, EthUnit.Gwei))
+    const valueHex = Helpers.toHexStringIfNeeded(value)
     this.updateActionProperty('gasPrice', valueHex)
   }
 
