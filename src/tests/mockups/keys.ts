@@ -1,0 +1,18 @@
+const keys = {
+  eth_ropsten_account1_address: '0x60d5DA4FC785Dd1dA9c2dAF084B2D5ba478c8f8b',
+  eth_ropsten_account1_privateKey: '0x06bd15b1936bea7f639c0528f601d3bffc971a36f467ced228a7be9d711e485a',
+  eth_ropsten_account2_address: '0x509fB4916F34D74202B3290928fFAB7e17024f99',
+  eth_ropsten_account2_privateKey: '0x512d0120137645c30c78fcd3ceb0dd0fba485050809e11b95ff03ee0abd7cbea',
+
+  eth_rinkeby_account1_address: '0xF3B21102E8e7D30795aF9bedd76154480852BB01',
+  eth_rinkeby_account1_privateKey: '0x06bd15b1936bea7f639c0528f601d3bffc971a36f467ced228a7be9d711e485a',
+  eth_rinkeby_account2_address: '0x509fB4916F34D74202B3290928fFAB7e17024f99',
+  eth_rinkeby_account2_privateKey: '0x512d0120137645c30c78fcd3ceb0dd0fba485050809e11b95ff03ee0abd7cbea',
+
+  eth_polygon_account1_address: '0xF3B21102E8e7D30795aF9bedd76154480852BB01',
+  eth_polygon_account1_privateKey: '0x06bd15b1936bea7f639c0528f601d3bffc971a36f467ced228a7be9d711e485a',
+  eth_polygon_account2_address: '0x509fB4916F34D74202B3290928fFAB7e17024f99',
+  eth_polygon_account2_privateKey: '0x512d0120137645c30c78fcd3ceb0dd0fba485050809e11b95ff03ee0abd7cbea',
+}
+
+export default keys

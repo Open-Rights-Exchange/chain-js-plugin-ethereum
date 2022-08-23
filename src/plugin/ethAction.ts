@@ -21,7 +21,6 @@ import {
 } from './models'
 import { ZERO_HEX, ZERO_ADDRESS } from './ethConstants'
 
-
 export type ActionChainOptions = {
   chain: string
   hardfork: string

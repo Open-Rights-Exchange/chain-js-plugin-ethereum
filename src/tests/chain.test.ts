@@ -22,7 +22,7 @@ describe('Ethereum Helper Functions', () => {
       Helpers.toChainEntityName('0xA2910d9b2Bd0Bdc1DfCCDDAd532680b167Df1894'),
       toEthereumSymbol('eth'),
     )
-    console.log('Eth Balance: ', balance)
+    // console.log('Eth Balance: ', balance)
     expect(balance).toBeTruthy()
   })
 
@@ -32,7 +32,7 @@ describe('Ethereum Helper Functions', () => {
       toEthereumSymbol('AQA'),
       '0x9699f68bebf4b360d9a529523d7d6d23b6f52d44',
     )
-    console.log('ERC20 Token Balance: ', balance)
+    // console.log('ERC20 Token Balance: ', balance)
     expect(balance).toBeTruthy()
   })
 })
