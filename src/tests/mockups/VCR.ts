@@ -2,8 +2,9 @@ import nock from 'nock'
 import { promises as fs } from 'fs'
 
 type CassetteFile = Record<string, nock.Definition[]>
+type DefinitionProcessor = (defns: nock.Definition[]) => nock.Definition[]
 
-export async function startVCR(): Promise<void> {
+export async function startVCR(processDefns: DefinitionProcessor = defns => defns): Promise<void> {
   const defns = await currentCassettes()
   if (!defns) {
     // No cassettes found - recording responses
@@ -11,7 +12,7 @@ export async function startVCR(): Promise<void> {
   } else {
     // Cassettes found - using saved responses
     // set up the mocks
-    nock.define(defns)
+    nock.define(processDefns(defns))
   }
 }
 

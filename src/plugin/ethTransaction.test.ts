@@ -1,8 +1,27 @@
 import { Chain, Models, Transaction, Helpers } from '@open-rights-exchange/chain-js'
+import nock from 'nock'
 import { getChain } from '../tests/helpers'
 import { ChainNetwork } from '../tests/mockups/chainConfig'
 import { account2, composeSendTokenEthereum } from '../tests/mockups/ethereumTransactions'
 import { startVCR, stopVCR } from '../tests/mockups/VCR'
+
+function withFixedRequestIds(defns: nock.Definition[]) {
+  let id = 0
+  return defns.map(def => {
+    id++
+    return {
+      ...def,
+      body: {
+        ...(def.body as nock.DataMatcherMap),
+        id,
+      },
+      response: {
+        ...(def.response as Record<string, any>),
+        id,
+      },
+    }
+  })
+}
 
 describe('Transaction properties', () => {
   let chain: Chain
@@ -10,7 +29,7 @@ describe('Transaction properties', () => {
   let action: any
 
   beforeEach(async () => {
-    await startVCR()
+    await startVCR(withFixedRequestIds)
     chain = await getChain(ChainNetwork.EthRopsten, true)
   })
   afterEach(async () => {
