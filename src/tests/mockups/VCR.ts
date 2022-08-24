@@ -21,6 +21,7 @@ export async function stopVCR() {
   if (defns.length) {
     await saveCassettes(defns)
   }
+  nock.restore()
   nock.cleanAll()
 }
 

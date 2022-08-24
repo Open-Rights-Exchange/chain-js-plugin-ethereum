@@ -76,7 +76,7 @@ describe('Transaction properties', () => {
     expect(tx.actions[0].gasLimit.toString()).toEqual('0x55f0')
   })
 
-  test('When gasFee and gasLimit are not provided in any capacity both values are calculated', async () => {
+  test('When gasFee and gasLimit are not provided in any capacity AND no Multiplier is present both values are calculated', async () => {
     tx = await chain.new.Transaction({})
     action = await composeSendTokenEthereum(chain, account2, null, null)
 
@@ -87,6 +87,7 @@ describe('Transaction properties', () => {
     expect(tx.actions[0].gasLimit.toString()).toEqual('0x520c')
   })
 
+  // TODO: Test - {Duplicate the name of your test here}
   test('When gasFee and gasLimit are not provided in any capacity AND a Multiplier present, the multiplied is applied to the gasPrice and not the gasLimit', async () => {
     const defaultTransactionOptions = {
       feeMultipliers: {
