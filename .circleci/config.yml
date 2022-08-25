@@ -90,10 +90,7 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - setup-chainjs
       - setup:
-          requires:
-            - setup-chainjs
       - test:
           requires:
             - setup
