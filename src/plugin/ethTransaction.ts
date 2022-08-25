@@ -50,7 +50,6 @@ import {
   EthereumMultisigPluginTransaction,
 } from './plugins/multisig/ethereumMultisigPlugin'
 import { mapChainError } from './ethErrors'
-import { toHexStringIfNeeded } from '../../../chain-js/src/helpers'
 
 export class EthereumTransaction implements Interfaces.Transaction {
   private _actionHelper: EthereumActionHelper
