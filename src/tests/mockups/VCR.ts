@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import nock from 'nock'
 import { promises as fs } from 'fs'
 
@@ -26,11 +27,11 @@ export async function stopVCR() {
   nock.cleanAll()
 }
 
-function timeString(...args: Parameters<typeof Date>) {
-  const date = new Date(...args)
-  // the dates returned by this api appear to be iso string formatted but without the Z
-  return date.toISOString().replace(/Z$/, '')
-}
+// function timeString(...args: Parameters<typeof Date>) {
+//   const date = new Date(...args)
+//   // the dates returned by this api appear to be iso string formatted but without the Z
+//   return date.toISOString().replace(/Z$/, '')
+// }
 
 function cassettePath(): string {
   const state: jest.MatcherState = expect.getState()
