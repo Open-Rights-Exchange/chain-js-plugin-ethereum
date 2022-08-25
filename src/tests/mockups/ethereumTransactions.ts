@@ -1,4 +1,4 @@
-import { Chain, Models, Helpers } from '@open-rights-exchange/chain-js'
+import { Chain, Models } from '@open-rights-exchange/chain-js'
 import { chainConfig } from './chainConfig'
 import { ModelsEthereum } from '../../index'
 
@@ -269,45 +269,25 @@ export const actionSendTokenEthereum = (fromAccount: string, toAccount: string) 
   }
 }
 
-const gasPriceX = Helpers.decimalToHexString('2000000000')
-const gasLimitX = Helpers.decimalToHexString((21000 + 4).toString()) // 21000 + 4
-
-export const composeSendTokenEthereumWithGasPriceAndGasLimitSet = async (chain: Chain, toAccount: string) => {
-  const txn: ModelsEthereum.EthTransferParams = {
-    to: toAccount as Models.ChainEntityNameBrand,
-    value: '1',
-    gasLimit: gasLimitX, // 21000 + 4
-    gasPrice: gasPriceX, // Set a very low gas price if you want your transaction to get "stuck"
-  }
-
-  const action = await chain.composeAction(ModelsEthereum.EthereumChainActionType.ETHTransfer, txn)
-
-  return action
-}
-
-export const composeSendTokenEthereumNoGasOptions = async (chain: Chain, toAccount: string) => {
-  const txn: ModelsEthereum.EthTransferParams = {
-    to: toAccount as Models.ChainEntityNameBrand,
-    value: '1',
-  }
-
-  const action = await chain.composeAction(ModelsEthereum.EthereumChainActionType.ETHTransfer, txn)
-
-  return action
-}
-
 const removeEmpty = (obj: any) => {
   // eslint-disable-next-line no-param-reassign
   Object.keys(obj).forEach(k => !obj[k] && obj[k] !== undefined && delete obj[k])
   return obj
 }
 
-export const composeSendTokenEthereum = async (chain: Chain, toAccount: string, gasPrice: string, gasLimit: string) => {
+export const composeSendTokenEthereum = async (
+  chain: Chain,
+  toAccount: string,
+  gasPrice: string,
+  gasLimit: string,
+  nonce: string,
+) => {
   let txn: ModelsEthereum.EthTransferParams = {
     to: toAccount as Models.ChainEntityNameBrand,
     value: '1',
     gasPrice,
     gasLimit,
+    nonce,
   }
 
   txn = removeEmpty(txn)

@@ -307,7 +307,6 @@ export class EthereumTransaction implements Interfaces.Transaction {
     }
     if (transaction) {
       this._actionHelper = new EthereumActionHelper(transaction, this.ethereumJsChainOptions)
-      this.setRawProperties()
       this._isValidated = false
     }
   }
@@ -352,11 +351,6 @@ export class EthereumTransaction implements Interfaces.Transaction {
         // If we have a GasPrice that was supplied in the options or the transaction us that.
         // Else we need to calculate a suggestedFee and overwrite the above 0 fee.
         if (explicitGasPriceValue) {
-          // The internals of setDesiredFee() expects gasPriceOverride to be a string and in Gwei.
-          // What the user would expect to set in the transaction or the options is a in Wei (hex value), so convert that hex value to Gwei
-          // const gasPriceWeiBN = this._chainState.web3.utils.toBN(explicitGasPriceValue)
-          // const gasPriceGweiString = convertEthUnit(gasPriceWeiBN.toString(10), EthUnit.Wei, EthUnit.Gwei)
-          // const gasPriceGweiString = this._chainState.web3.utils.fromWei(gasPriceWeiBN, 'Gwei')
           overideOptions.gasPriceOverride = explicitGasPriceValue
         } else {
           // If no gasPrice was explicity set then we'll need to calculate a suggesed fee.
@@ -369,7 +363,6 @@ export class EthereumTransaction implements Interfaces.Transaction {
           overideOptions.gasLimitOverride = gasLimitBN.toString(10)
         }
         await this.setDesiredFee(feeStringifiedCustom, overideOptions)
-        this.setRawProperties()
       }
     }
     if (this.isMultisig) {
@@ -378,6 +371,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
     } else {
       await this.setNonceIfEmpty(this.senderAddress)
     }
+    this.setRawProperties()
   }
 
   /** calculates a unique nonce value for the tx (if not already set) by using the chain transaction count for a given address */
@@ -614,12 +608,13 @@ export class EthereumTransaction implements Interfaces.Transaction {
       }
       this.assertHasAction()
       const gasPriceString = await this._chainState.getCurrentGasPriceFromChain()
-      let gasPriceinWeiBN = new BN(gasPriceString)
+      const gasPriceinWeiBN = new BN(gasPriceString)
       const multiplier = this.feeMultipliers[priority]
-      gasPriceinWeiBN = gasPriceinWeiBN.muln(multiplier)
+      const multiplierPercentage = multiplier * 100 - 100
+      const gasPriceinWeiBNWithMultiplierApplied = increaseBNbyPercentage(gasPriceinWeiBN, multiplierPercentage) // apply the multiplier specified in the options
       // multiply estimated fee times gas price
       const estimatedGas = await this.getEstimatedGas()
-      const feeInWei = gasPriceinWeiBN.mul(new BN(estimatedGas, 10))
+      const feeInWei = gasPriceinWeiBNWithMultiplierApplied.mul(new BN(estimatedGas, 10))
       const feeStringified = JSON.stringify({ fee: feeInWei.toString() })
       return { estimationType: Models.ResourceEstimationType.Estimate, feeStringified } // estimated since gas price can change
     } catch (error) {
@@ -671,8 +666,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
         gasRequiredBn = new BN((await this.updateEstimatedGas())?.gas, 10) // Get the total # of gas units
         const desiredFeeWeiBn = new BN(desiredFeeWei, 10)
         const gasPriceWeiBn = desiredFeeWeiBn.div(gasRequiredBn) // Div the desiredFee / gas units required to get a per unit cost
-        const gasPriceWeiWithMultiplierApplied = increaseBNbyPercentage(gasPriceWeiBn, this.maxFeeIncreasePercentage) // apply the multiplier specified in the options
-        gasPriceString = gasPriceWeiWithMultiplierApplied.toString()
+        gasPriceString = gasPriceWeiBn.toString()
       }
 
       // If gasLimitOverride is provided then there's no need to do any math. Just use the value.
@@ -690,7 +684,12 @@ export class EthereumTransaction implements Interfaces.Transaction {
         if (gasRequiredBn === null) {
           gasRequiredBn = new BN((await this.updateEstimatedGas())?.gas, 10)
         }
-        gasLimitString = gasRequiredBn.add(byteFee).toString(10)
+        const gasRequiredWithIntrinsicBn = gasRequiredBn.add(byteFee)
+        const gasRequiredWithIntrinsicAndBnAndMaxFeeIncreasePercentageApplied = increaseBNbyPercentage(
+          gasRequiredWithIntrinsicBn,
+          this.maxFeeIncreasePercentage,
+        ) // apply the multiplier specified in the options
+        gasLimitString = gasRequiredWithIntrinsicAndBnAndMaxFeeIncreasePercentageApplied.toString(10)
       }
 
       this._actionHelper.gasPrice = gasPriceString
