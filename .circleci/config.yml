@@ -90,7 +90,7 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - setup:
+      - setup
       - test:
           requires:
             - setup
