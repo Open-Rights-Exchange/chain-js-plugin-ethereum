@@ -1,4 +1,4 @@
-import { toGnosisSignature } from '../../plugins/multisig/gnosisSafeV1/helpers'
+import { toGnosisSignature } from '../../plugin/plugins/multisig/gnosisSafeV1/helpers'
 
 export const getSignatures = [
   toGnosisSignature(

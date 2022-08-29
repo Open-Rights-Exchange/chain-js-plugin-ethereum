@@ -61,6 +61,19 @@ jobs:
             - chain-js-plugin-ethereum
 
   # job to run the tests
+  lint:
+    # directory commands will run from by default
+    # usually set to organization/repo
+    working_directory: ~/API-market/chain-js-plugin-ethereum
+    shell: /bin/bash --login -e
+    executor: node-executor
+    steps:
+      - attach_workspace:
+          at: ~/API-market
+      - run: npm run lint
+
+
+  # job to run the tests
   test:
     # directory commands will run from by default
     # usually set to organization/repo
@@ -70,7 +83,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/API-market
-      - run: npm run test
+      - run: npm run test      
 
   deploy:
     # directory commands will run from by default
@@ -90,13 +103,13 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - setup-chainjs
-      - setup:
+      - setup
+      - lint:
           requires:
-            - setup-chainjs
+            - setup      
       - test:
           requires:
-            - setup
+            - lint
       - deploy:
           requires:
             - test

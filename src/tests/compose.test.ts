@@ -1,6 +1,6 @@
 // How to use fetch mocks - https://www.npmjs.com/package/jest-fetch-mock
 import { Models } from '@open-rights-exchange/chain-js'
-import { composeAction } from '../ethCompose'
+import { composeAction } from '../plugin/ethCompose'
 import {
   composedERC20TransferAction,
   composedERC20ApproveAction,
@@ -11,7 +11,7 @@ import {
   composedERC721TransferAction,
   composedERC721TransferFromAction,
 } from './mockups/composedActions'
-import { EthereumChainActionType } from '../models'
+import { EthereumChainActionType } from '../plugin/models'
 
 describe('Compose Chain Actions', () => {
   // sets fetchMock to throw an error on the next call to fetch (jsonRpc.get_abi calls fetch and triggers the error to be thrown)

@@ -187,6 +187,11 @@ export class EthereumChainState implements Interfaces.ChainState {
     return toGweiFromWei(new BN(this.chainInfo.nativeInfo.currentGasPrice)).toString()
   }
 
+  /** return (string) of the last retrieved gas price  in WEI */
+  public get currentGasPriceInWei(): string {
+    return this.chainInfo.nativeInfo.currentGasPrice
+  }
+
   /** Confirm that we've connected to the chain - throw if not */
   public assertIsConnected(): void {
     if (!this._isConnected) {

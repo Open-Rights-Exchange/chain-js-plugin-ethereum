@@ -8,7 +8,6 @@ import {
   isValidEthereumAddress,
   toEthereumTxData,
   toEthBuffer,
-  toWeiString,
   toEthereumAddress,
 } from './helpers'
 import {
@@ -18,7 +17,6 @@ import {
   EthereumRawTransactionAction,
   EthereumTxData,
   EthereumTransactionAction,
-  EthUnit,
   EthereumSignatureNative,
 } from './models'
 import { ZERO_HEX, ZERO_ADDRESS } from './ethConstants'
@@ -82,14 +80,8 @@ export class EthereumActionHelper {
     if (Helpers.isABuffer(gasPriceInput)) {
       gasPrice = convertBufferToHexStringIfNeeded(gasPriceInput as Buffer)
     } else {
-      // if value is hex encoded string, then it doesnt need to be converted (already in units of Wei)
-      // otherwise, a decimal string value is expected to be in units of Gwei - we convert to Wei
-      const gasPriceInWei = Helpers.hasHexPrefix(gasPriceInput)
-        ? gasPriceInput
-        : toWeiString(gasPriceInput as string, EthUnit.Gwei)
-
-      // convert decimal strings to hex strings
-      gasPrice = Helpers.toHexStringIfNeeded(gasPriceInWei)
+      // convert strings to hex strings
+      gasPrice = Helpers.toHexStringIfNeeded(gasPriceInput)
     }
     const gasLimit = Helpers.isABuffer(gasLimitInput)
       ? convertBufferToHexStringIfNeeded(gasLimitInput as Buffer)
@@ -153,9 +145,12 @@ export class EthereumActionHelper {
     this.updateActionProperty('gasLimit', valueHex)
   }
 
-  /** set gasPrice - value should be a decimal string in units of GWEI e.g. '123' */
+  /** set gasPrice - value should be a string in units of WEI or a Hex value e.g. '123' */
+  /** note that the unit if WEI has no decimal places so you should never be providing 1.1 etc.  */
+  /** since WEI is the smallest unit you should expect to be proving what looks like a big number 1100000000 (This is 1.1 Gwei converted to WEI - https://eth-converter.com/) .  */
+  /* The user can also supply a hex value like 0x2b9f86bc6 */
   set gasPrice(value: string) {
-    const valueHex = Helpers.decimalToHexString(toWeiString(value, EthUnit.Gwei))
+    const valueHex = Helpers.toHexStringIfNeeded(value)
     this.updateActionProperty('gasPrice', valueHex)
   }
 

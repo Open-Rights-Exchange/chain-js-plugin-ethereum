@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Transaction as EthereumJsTx, TxOptions } from '@ethereumjs/tx'
 import { bufferToInt, bufferToHex, BN } from 'ethereumjs-util'
-import { Interfaces, Models, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chain-js'
+import { Interfaces, Models, Helpers, Errors } from '@open-rights-exchange/chain-js'
 import Common, { CustomChain } from '@ethereumjs/common'
+import { bufferPadStart } from 'pad-buffer'
 import { TRANSACTION_FEE_PRIORITY_MULTIPLIERS } from './ethConstants'
 import { EthereumChainState } from './ethChainState'
-// import { Transaction } from '../../interfaces'
-// import { ChainErrorType, ChainSettingsCommunicationSettings, ConfirmType, TxExecutionPriority } from '../../models'
 import {
   EthereumPrivateKey,
   EthereumRawTransaction,
@@ -25,8 +24,6 @@ import {
   EthereumSignatureNative,
   EthereumJSCommonChains,
 } from './models'
-// import { ChainError, throwNewError } from '../../errors'
-// import { ensureHexPrefix, isArrayLengthOne, isNullOrEmpty, nullifyIfEmpty } from '../../helpers'
 import {
   convertBufferToHexStringIfNeeded,
   convertEthUnit,
@@ -43,7 +40,6 @@ import {
   toEthereumPublicKey,
   toEthereumSignature,
   toEthereumSignatureNative,
-  toWeiString,
 } from './helpers'
 import { EthereumActionHelper } from './ethAction'
 import {
@@ -279,7 +275,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
     const gasPrice =
       Helpers.nullifyIfEmpty(gasPriceAction) ||
       Helpers.nullifyIfEmpty(gasPriceOptions) ||
-      this._chainState.currentGasPriceInGwei
+      this._chainState.currentGasPriceInWei
     const gasLimit = Helpers.nullifyIfEmpty(gasLimitAction) || Helpers.nullifyIfEmpty(gasLimitOptions)
     const nonce = Helpers.nullifyIfEmpty(nonceAction) || Helpers.nullifyIfEmpty(nonceOptions)
     // update action helper with updated nonce and gas values
@@ -308,9 +304,27 @@ export class EthereumTransaction implements Interfaces.Transaction {
     }
     if (transaction) {
       this._actionHelper = new EthereumActionHelper(transaction, this.ethereumJsChainOptions)
-      this.setRawProperties()
       this._isValidated = false
     }
+  }
+
+  /**
+   * Checks to see if gasPrice or GasLimit have  been set at either the Action or the Transactino level
+   * The value set at the Action Level takes precidence and will overwrite the value set at the transaction level
+   * If it is found that GasPrice of GasLimit is set at the transaction or Action level, then explicitGasPriceOrGasLimitIsProvided is set to true
+   */
+  getExplictlySetGasPriceAndGasLimit() {
+    const { gasLimit: gasLimitOptions, gasPrice: gasPriceOptions } = this._options || {}
+    const { gasLimit: gasLimitAction, gasPrice: gasPriceAction } = this._actionHelper.action
+    const explicitGasPriceValue = gasPriceOptions || gasPriceAction
+    const explicitGasLimitValue = gasLimitOptions || gasLimitAction
+
+    let explicitGasPriceOrGasLimitIsProvided = true
+    if (isNullOrEmptyEthereumValue(explicitGasPriceValue) && isNullOrEmptyEthereumValue(explicitGasLimitValue)) {
+      explicitGasPriceOrGasLimitIsProvided = false
+    }
+
+    return { explicitGasPriceValue, explicitGasLimitValue, explicitGasPriceOrGasLimitIsProvided }
   }
 
   /**
@@ -321,11 +335,23 @@ export class EthereumTransaction implements Interfaces.Transaction {
     this.assertHasAction()
 
     if (!this.requiresParentTransaction) {
-      // set gasLimit if not already set, set it using the execution Priority specified for this transaction
-      // NOTE: we don't set fees here if we'll have a parent trnsaction. That will happen when the parent tx is set
-      if (isNullOrEmptyEthereumValue(this._actionHelper.action.gasLimit)) {
+      const { explicitGasPriceValue, explicitGasLimitValue, explicitGasPriceOrGasLimitIsProvided } =
+        this.getExplictlySetGasPriceAndGasLimit()
+
+      // If no GasPrice or GasLimit were provided in options or the action, then get and set the suggested fee.
+      // Else we need to consider recieving just the GasLimit or just the GasPrice.
+      if (!explicitGasPriceOrGasLimitIsProvided) {
+        // set gasLimit if not already set, set it using the execution Priority specified for this transaction
+        // NOTE: we don't set fees here if we'll have a parent trnsaction. That will happen when the parent tx is set
         const { feeStringified } = await this.getSuggestedFee(this._executionPriority)
         await this.setDesiredFee(feeStringified)
+      } else {
+        const { feeStringifiedCustom, overideOptions } =
+          await this.getExplicitGasFeeOrLimitAndCalculateSuggestedFeeIfNotexplicitlyProvided(
+            explicitGasPriceValue,
+            explicitGasLimitValue,
+          )
+        await this.setDesiredFee(feeStringifiedCustom, overideOptions)
       }
     }
     if (this.isMultisig) {
@@ -334,6 +360,37 @@ export class EthereumTransaction implements Interfaces.Transaction {
     } else {
       await this.setNonceIfEmpty(this.senderAddress)
     }
+    this.setRawProperties()
+  }
+
+  /**
+   *  If an explicit gasPrice was provided then set gasPriceOverride to that value
+   *  If not then calculate a suggested fee
+   *  If a explicit GasLimit was supplied then set that in the overide options
+   */
+  private async getExplicitGasFeeOrLimitAndCalculateSuggestedFeeIfNotexplicitlyProvided(
+    explicitGasPriceValue: string,
+    explicitGasLimitValue: string,
+  ): Promise<{ feeStringifiedCustom: string; overideOptions: EthereumSetDesiredFeeOptions }> {
+    // When gasPriceOverride is supplied as an option to setDesiredFee(), that is the gasPrice that will be used.
+    // Since the suggested fee has no impact in that case, we'll set a 0 fee
+    let feeStringifiedCustom = '{ "fee": "0" }'
+    const overideOptions: EthereumSetDesiredFeeOptions = {}
+    // If we have a GasPrice that was supplied in the options or the transaction us that.
+    // Else we need to calculate a suggestedFee and overwrite the above 0 fee.
+    if (explicitGasPriceValue) {
+      overideOptions.gasPriceOverride = explicitGasPriceValue
+    } else {
+      // If no gasPrice was explicity set then we'll need to calculate a suggesed fee.
+      const { feeStringified } = await this.getSuggestedFee(this._executionPriority)
+      feeStringifiedCustom = feeStringified
+    }
+    // Add the GasLimit to the overide options if it was provided.
+    if (explicitGasLimitValue) {
+      const gasLimitBN = this._chainState.web3.utils.toBN(explicitGasLimitValue)
+      overideOptions.gasLimitOverride = gasLimitBN.toString(10)
+    }
+    return { feeStringifiedCustom, overideOptions }
   }
 
   /** calculates a unique nonce value for the tx (if not already set) by using the chain transaction count for a given address */
@@ -392,8 +449,8 @@ export class EthereumTransaction implements Interfaces.Transaction {
       }
       const signature = toEthereumSignatureNative({
         v: bufferToInt(v),
-        r,
-        s,
+        r: bufferPadStart(r, 32), // The validate signature logic expects 32 bytes. Some r and s values can result in 31 bytes - pad the number to ensure it's seen as valid.
+        s: bufferPadStart(s, 32), // The validate signature logic expects 32 bytes. Some r and s values can result in 31 bytes - pad the number to ensure it's seen as valid.
       })
       signatures = [toEthereumSignature(signature)] // cast to stringifed sig
     }
@@ -559,7 +616,7 @@ export class EthereumTransaction implements Interfaces.Transaction {
     return multipliers
   }
 
-  /** Get the suggested Eth fee (in Ether) for this transaction */
+  /** Get the suggested Eth fee (in Wei) for this transaction */
   public async getSuggestedFee(
     priority: Models.TxExecutionPriority = Models.TxExecutionPriority.Average,
   ): Promise<{ estimationType: Models.ResourceEstimationType; feeStringified: string }> {
@@ -570,13 +627,14 @@ export class EthereumTransaction implements Interfaces.Transaction {
       }
       this.assertHasAction()
       const gasPriceString = await this._chainState.getCurrentGasPriceFromChain()
-      let gasPriceinWeiBN = new BN(gasPriceString)
+      const gasPriceinWeiBN = new BN(gasPriceString)
       const multiplier = this.feeMultipliers[priority]
-      gasPriceinWeiBN = gasPriceinWeiBN.muln(multiplier)
+      const multiplierPercentage = multiplier * 100 - 100
+      const gasPriceinWeiBNWithMultiplierApplied = increaseBNbyPercentage(gasPriceinWeiBN, multiplierPercentage) // apply the multiplier specified in the options
       // multiply estimated fee times gas price
-      const feeInWei = gasPriceinWeiBN.mul(new BN(await this.getEstimatedGas(), 10))
-      const fee = convertEthUnit(feeInWei.toString(10), EthUnit.Wei, EthUnit.Ether)
-      const feeStringified = JSON.stringify({ fee })
+      const estimatedGas = await this.getEstimatedGas()
+      const feeInWei = gasPriceinWeiBNWithMultiplierApplied.mul(new BN(estimatedGas, 10))
+      const feeStringified = JSON.stringify({ fee: feeInWei.toString() })
       return { estimationType: Models.ResourceEstimationType.Estimate, feeStringified } // estimated since gas price can change
     } catch (error) {
       const chainError = mapChainError(error)
@@ -590,16 +648,15 @@ export class EthereumTransaction implements Interfaces.Transaction {
     return convertEthUnit(this._desiredFee, EthUnit.Wei, EthUnit.Ether)
   }
 
-  /** set the fee that you would like to pay (in Ether) - this will set the gasPrice and gasLimit (based on maxFeeIncreasePercentage)
+  /** set the fee that you would like to pay (in Wei) - this will set the gasPrice and gasLimit (based on maxFeeIncreasePercentage)
    *  If gasLimitOverride is provided, gasPrice will be calculated and gasLimit will be set to gasLimitOverride
-   *  desiredFeeStringified is stringified JSON object object of type: { fee: '.00000000001' } where string value is in Eth
+   *  desiredFeeStringified is stringified JSON object object of type: { fee: '123' } where string value is in Wei
    *  clear fees by passing in desiredFeeStringified = null
    */
   public async setDesiredFee(desiredFeeStringified: string, options?: EthereumSetDesiredFeeOptions) {
     try {
       this.assertNoSignatures()
       this.assertHasAction()
-      // TODO: Consider whether this should set the fees using the gasPriceOverride, gasLimitOverride if they exist
       const desiredFeeJson = Helpers.tryParseJSON(desiredFeeStringified) as EthereumTransactionFee
       // clear fee
       if (!desiredFeeJson || desiredFeeJson?.fee === null) {
@@ -610,25 +667,50 @@ export class EthereumTransaction implements Interfaces.Transaction {
       }
       if (!Helpers.isAString(desiredFeeJson?.fee)) {
         throw new Error(
-          'desiredFeeStringified invalid: Expected stringified object of type: { fee: ".00000000001" } where string value is in Eth',
+          'desiredFeeStringified invalid: Expected stringified object of type: { fee: "123" } where string value is in Wei',
         )
       }
       const { gasLimitOverride, gasPriceOverride } = options || {}
-      const desiredFeeWei = toWeiString(desiredFeeJson.fee, EthUnit.Ether)
-      const gasRequiredBn = new BN((await this.updateEstimatedGas())?.gas, 10) // get latest gas price
-      const desiredFeeBn = new BN(desiredFeeWei, 10)
-      const gasPriceBn = desiredFeeBn.div(gasRequiredBn)
+      const desiredFeeWei = desiredFeeJson.fee
       this._desiredFee = desiredFeeWei
-      let gasPriceString = convertEthUnit(gasPriceBn.toString(10), EthUnit.Wei, EthUnit.Gwei)
-      // increase gasRequiredBn by percentage (maxFeeIncreasePercentage)
-      let gasLimitString = increaseBNbyPercentage(gasRequiredBn, this.maxFeeIncreasePercentage).toString()
 
+      // If gasPriceOverride is provided then there's no need to do any math. Just use the value.
+      let gasPriceString = null
+      let gasRequiredBn = null
+      if (gasPriceOverride) {
+        gasPriceString = gasPriceOverride // It is expected that gasPriceOverride will be in Gwei
+      } else {
+        // The desired fee = the total the user would like to pay
+        // We need to divide desired fee by the # of gas units required to run the txn. The result is a per gas unit cost
+        gasRequiredBn = new BN((await this.updateEstimatedGas())?.gas, 10) // Get the total # of gas units
+        const desiredFeeWeiBn = new BN(desiredFeeWei, 10)
+        const gasPriceWeiBn = desiredFeeWeiBn.div(gasRequiredBn) // Div the desiredFee / gas units required to get a per unit cost
+        gasPriceString = gasPriceWeiBn.toString()
+      }
+
+      // If gasLimitOverride is provided then there's no need to do any math. Just use the value.
+      let gasLimitString = null
       if (gasLimitOverride) {
         gasLimitString = gasLimitOverride
+      } else {
+        // The intrinsic gas for a transaction is the amount of gas that the transaction uses before any code runs. It is a constant “transaction fee” (currently 21000 gas) plus a fee for every byte of data supplied with the transaction (4 gas for a zero byte, 68 gas for non-zeros).
+        // Note: If you don't add 4 or 68 (depending if your txn has data) you'll get the following error 'intrinsic gas too low'
+        let byteFee: BN = new BN(4)
+        if (this.action.data) {
+          byteFee = new BN(68)
+        }
+        // If gasPriceOverride was provided then we would not have estimated the gas usage
+        if (gasRequiredBn === null) {
+          gasRequiredBn = new BN((await this.updateEstimatedGas())?.gas, 10)
+        }
+        const gasRequiredWithIntrinsicBn = gasRequiredBn.add(byteFee)
+        const gasRequiredWithIntrinsicAndBnAndMaxFeeIncreasePercentageApplied = increaseBNbyPercentage(
+          gasRequiredWithIntrinsicBn,
+          this.maxFeeIncreasePercentage,
+        ) // apply the multiplier specified in the options
+        gasLimitString = gasRequiredWithIntrinsicAndBnAndMaxFeeIncreasePercentageApplied.toString(10)
       }
-      if (gasPriceOverride) {
-        gasPriceString = gasPriceOverride
-      }
+
       this._actionHelper.gasPrice = gasPriceString
       this._actionHelper.gasLimit = gasLimitString
     } catch (error) {
@@ -717,8 +799,8 @@ export class EthereumTransaction implements Interfaces.Transaction {
     const signedTrx = ethJsTx.sign(privateKeyBuffer)
     const signature = {
       v: bufferToInt(signedTrx.v?.toBuffer()),
-      r: signedTrx.r?.toBuffer(),
-      s: signedTrx.s?.toBuffer(),
+      r: bufferPadStart(signedTrx.r?.toBuffer(), 32), // The validate signature logic expects 32 bytes. Some r and s values can result in 31 bytes - pad the number to ensure it's seen as valid.
+      s: bufferPadStart(signedTrx.s?.toBuffer(), 32), // The validate signature logic expects 32 bytes. Some r and s values can result in 31 bytes - pad the number to ensure it's seen as valid.
     } as EthereumSignatureNative
     await this.addSignatures([signature])
   }
