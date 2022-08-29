@@ -146,6 +146,9 @@ export class EthereumActionHelper {
   }
 
   /** set gasPrice - value should be a string in units of WEI or a Hex value e.g. '123' */
+  /** note that the unit if WEI has no decimal places so you should never be providing 1.1 etc.  */
+  /** since WEI is the smallest unit you should expect to be proving what looks like a big number 1100000000 (This is 1.1 Gwei converted to WEI - https://eth-converter.com/) .  */
+  /* The user can also supply a hex value like 0x2b9f86bc6 */
   set gasPrice(value: string) {
     const valueHex = Helpers.toHexStringIfNeeded(value)
     this.updateActionProperty('gasPrice', valueHex)

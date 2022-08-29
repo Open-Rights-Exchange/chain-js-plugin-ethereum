@@ -40,8 +40,6 @@ import {
   toEthereumPublicKey,
   toEthereumSignature,
   toEthereumSignatureNative,
-  toWeiString,
-  toGweiFromWei,
 } from './helpers'
 import { EthereumActionHelper } from './ethAction'
 import {
@@ -310,6 +308,11 @@ export class EthereumTransaction implements Interfaces.Transaction {
     }
   }
 
+  /**
+   * Checks to see if gasPrice or GasLimit have  been set at either the Action or the Transactino level
+   * The value set at the Action Level takes precidence and will overwrite the value set at the transaction level
+   * If it is found that GasPrice of GasLimit is set at the transaction or Action level, then explicitGasPriceOrGasLimitIsProvided is set to true
+   */
   getExplictlySetGasPriceAndGasLimit() {
     const { gasLimit: gasLimitOptions, gasPrice: gasPriceOptions } = this._options || {}
     const { gasLimit: gasLimitAction, gasPrice: gasPriceAction } = this._actionHelper.action
@@ -343,24 +346,11 @@ export class EthereumTransaction implements Interfaces.Transaction {
         const { feeStringified } = await this.getSuggestedFee(this._executionPriority)
         await this.setDesiredFee(feeStringified)
       } else {
-        // When gasPriceOverride is supplied as an option to setDesiredFee(), that is the gasPrice that will be used.
-        // Since the suggested fee has no impact in that case, we'll set a 0 fee
-        let feeStringifiedCustom = '{ "fee": "0" }'
-        const overideOptions: EthereumSetDesiredFeeOptions = {}
-        // If we have a GasPrice that was supplied in the options or the transaction us that.
-        // Else we need to calculate a suggestedFee and overwrite the above 0 fee.
-        if (explicitGasPriceValue) {
-          overideOptions.gasPriceOverride = explicitGasPriceValue
-        } else {
-          // If no gasPrice was explicity set then we'll need to calculate a suggesed fee.
-          const { feeStringified } = await this.getSuggestedFee(this._executionPriority)
-          feeStringifiedCustom = feeStringified
-        }
-        // Add the GasLimit to the overide options if it was provided.
-        if (explicitGasLimitValue) {
-          const gasLimitBN = this._chainState.web3.utils.toBN(explicitGasLimitValue)
-          overideOptions.gasLimitOverride = gasLimitBN.toString(10)
-        }
+        const { feeStringifiedCustom, overideOptions } =
+          await this.getExplicitGasFeeOrLimitAndCalculateSuggestedFeeIfNotexplicitlyProvided(
+            explicitGasPriceValue,
+            explicitGasLimitValue,
+          )
         await this.setDesiredFee(feeStringifiedCustom, overideOptions)
       }
     }
@@ -371,6 +361,36 @@ export class EthereumTransaction implements Interfaces.Transaction {
       await this.setNonceIfEmpty(this.senderAddress)
     }
     this.setRawProperties()
+  }
+
+  /**
+   *  If an explicit gasPrice was provided then set gasPriceOverride to that value
+   *  If not then calculate a suggested fee
+   *  If a explicit GasLimit was supplied then set that in the overide options
+   */
+  private async getExplicitGasFeeOrLimitAndCalculateSuggestedFeeIfNotexplicitlyProvided(
+    explicitGasPriceValue: string,
+    explicitGasLimitValue: string,
+  ): Promise<{ feeStringifiedCustom: string; overideOptions: EthereumSetDesiredFeeOptions }> {
+    // When gasPriceOverride is supplied as an option to setDesiredFee(), that is the gasPrice that will be used.
+    // Since the suggested fee has no impact in that case, we'll set a 0 fee
+    let feeStringifiedCustom = '{ "fee": "0" }'
+    const overideOptions: EthereumSetDesiredFeeOptions = {}
+    // If we have a GasPrice that was supplied in the options or the transaction us that.
+    // Else we need to calculate a suggestedFee and overwrite the above 0 fee.
+    if (explicitGasPriceValue) {
+      overideOptions.gasPriceOverride = explicitGasPriceValue
+    } else {
+      // If no gasPrice was explicity set then we'll need to calculate a suggesed fee.
+      const { feeStringified } = await this.getSuggestedFee(this._executionPriority)
+      feeStringifiedCustom = feeStringified
+    }
+    // Add the GasLimit to the overide options if it was provided.
+    if (explicitGasLimitValue) {
+      const gasLimitBN = this._chainState.web3.utils.toBN(explicitGasLimitValue)
+      overideOptions.gasLimitOverride = gasLimitBN.toString(10)
+    }
+    return { feeStringifiedCustom, overideOptions }
   }
 
   /** calculates a unique nonce value for the tx (if not already set) by using the chain transaction count for a given address */
