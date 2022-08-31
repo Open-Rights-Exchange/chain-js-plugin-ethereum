@@ -192,7 +192,10 @@ export class EthereumActionHelper {
       to: isNullOrEmptyEthereumValue(this._to) ? null : this._to,
       from: isNullOrEmptyEthereumValue(this._from) ? null : this._from,
       data: isNullOrEmptyEthereumValue(this._data) ? null : toEthereumTxData(this._data),
-      value: isNullOrEmptyEthereumValue(this._value) ? null : this._value,
+      // Note that if 0x0 was supplied for the value, we want this to persist.
+      // isNullOrEmptyEthereumValue() will consider 0x0 to be "empty" and this is not the behaviour we want for value
+      // in some cases you do want to send a 0 value in order to cancel tranasactions
+      value: Helpers.isNullOrEmpty(this._value) ? null : this._value,
       v: isNullOrEmptyEthereumValue(this._v) ? null : this._v,
       r: isNullOrEmptyEthereumValue(this._r) ? null : this._r,
       s: isNullOrEmptyEthereumValue(this._s) ? null : this._s,
