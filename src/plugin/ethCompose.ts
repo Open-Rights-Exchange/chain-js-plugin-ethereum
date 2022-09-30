@@ -26,9 +26,10 @@ import { composeAction as ERC1155TransferTemplate } from './templates/chainActio
 import { composeAction as ERC1155SafeTransferFromTemplate } from './templates/chainActions/chainSpecific/erc1155_safeTransferFrom'
 import { composeAction as ETHTransferTemplate } from './templates/chainActions/chainSpecific/eth_transfer'
 import { EthereumChainActionType, EthereumTransactionAction } from './models'
+import { EthereumChainState } from './ethChainState'
 
 // map a key name to a function that returns an object
-const ComposeAction: { [key: string]: (args: any) => any } = {
+const ComposeAction: { [key: string]: (args: any, settings: any) => any } = {
   // Standard actions
   TokenApprove: TokenApproveTemplate,
   TokenTransfer: TokenTransferTemplate,
@@ -53,6 +54,7 @@ const ComposeAction: { [key: string]: (args: any) => any } = {
 
 /** Compose an object for a chain contract action */
 export async function composeAction(
+  chainState: EthereumChainState,
   chainActionType: Models.ChainActionType | EthereumChainActionType,
   args: any,
 ): Promise<EthereumTransactionAction> {
@@ -60,5 +62,5 @@ export async function composeAction(
   if (!composerFunction) {
     Helpers.notSupported(`ComposeAction:${chainActionType}`)
   }
-  return composerFunction(args)
+  return composerFunction(args, chainState.chainSettings)
 }

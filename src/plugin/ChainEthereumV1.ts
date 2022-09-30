@@ -103,6 +103,10 @@ class Plugin implements Interfaces.Chain {
     return this._chainState.chainInfo
   }
 
+  public get chainState(): EthereumChainState {
+    return this._chainState
+  }
+
   public get endpoints(): EthereumChainEndpoint[] {
     return this._endpoints
   }
@@ -115,7 +119,7 @@ class Plugin implements Interfaces.Chain {
     actionType: Models.ChainActionType | EthereumChainActionType,
     args: any,
   ): Promise<EthereumTransactionAction> => {
-    return composeAction(actionType, args)
+    return composeAction(this._chainState, actionType, args)
   }
 
   public decomposeAction = async (action: EthereumTransactionAction): Promise<EthereumDecomposeReturn[]> => {

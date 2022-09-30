@@ -1,3 +1,4 @@
+import { EthereumChainSettings } from 'src/plugin/models'
 import { composeAction, decomposeAction } from './value_transfer'
 
 const getComposedAction = () => ({
@@ -14,7 +15,7 @@ const getDefaultArgs = () => ({
 
 test('Compose ValueTransfer object', () => {
   const args: any = getDefaultArgs()
-  const actAction = composeAction(args)
+  const actAction = composeAction(args, {} as EthereumChainSettings)
   expect(actAction).toEqual(getComposedAction())
 })
 
@@ -34,7 +35,7 @@ test('Decomposes ValueTransfer object', () => {
 })
 
 test('Compose and Decompose ValueTransfer', () => {
-  const action = composeAction(getDefaultArgs() as any)
+  const action = composeAction(getDefaultArgs() as any, {} as EthereumChainSettings)
   const decomposed = decomposeAction(action)
 
   // ! Ideally, these should be equal, but this case is not like that.
@@ -43,3 +44,6 @@ test('Compose and Decompose ValueTransfer', () => {
   const { symbol, ...decomposedArgs } = decomposed.args
   expect(decomposedArgs).toEqual(getDefaultArgs())
 })
+
+test('Compose and Decompose ValueTransfer using custom chain settings', () => {})
+test.skip('Compose ValueTransfer object using custom chain settings', () => {})

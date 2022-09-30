@@ -26,6 +26,7 @@ export type EthereumChainSettings = {
     executionPriority: Models.TxExecutionPriority
     maxFeeIncreasePercentage?: number
   }
+  ethereumTokenEquivalenceMapping?: any
 }
 
 export type EthereumChainForkType = {
