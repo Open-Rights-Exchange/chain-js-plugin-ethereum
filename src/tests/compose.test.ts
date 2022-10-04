@@ -1,8 +1,6 @@
 // How to use fetch mocks - https://www.npmjs.com/package/jest-fetch-mock
 import { Interfaces, Models, PluginChainFactory } from '@open-rights-exchange/chain-js'
-import { EthereumChainState } from 'src/plugin/ethChainState'
 import { ropstenEndpoints } from '../plugin/examples/helpers/networks'
-import { composeAction } from '../plugin/ethCompose'
 import {
   composedERC20TransferAction,
   composedERC20ApproveAction,
@@ -20,7 +18,6 @@ describe('Compose Chain Actions', () => {
   let ropsten: Interfaces.Chain
   beforeAll(async () => {
     ropsten = PluginChainFactory([plugin], Models.ChainType.EthereumV1, ropstenEndpoints)
-    // await ropsten.connect()
   })
 
   // sets fetchMock to throw an error on the next call to fetch (jsonRpc.get_abi calls fetch and triggers the error to be thrown)
