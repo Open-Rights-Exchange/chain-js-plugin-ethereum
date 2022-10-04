@@ -29,7 +29,7 @@ import { EthereumChainActionType, EthereumTransactionAction } from './models'
 import { EthereumChainState } from './ethChainState'
 
 // map a key name to a function that returns an object
-const ComposeAction: { [key: string]: (args: any, settings: any) => any } = {
+const ComposeAction: { [key: string]: (args: any, chainSettings: any) => any } = {
   // Standard actions
   TokenApprove: TokenApproveTemplate,
   TokenTransfer: TokenTransferTemplate,
