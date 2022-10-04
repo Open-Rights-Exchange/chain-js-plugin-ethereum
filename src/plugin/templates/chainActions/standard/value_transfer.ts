@@ -1,5 +1,5 @@
 import { Helpers, Models } from '@open-rights-exchange/chain-js'
-import { EthUnit, EthereumTransactionAction } from '../../../models'
+import { EthUnit, EthereumTransactionAction, EthereumChainSettings } from '../../../models'
 import { toEthUnit, toWeiString } from '../../../helpers'
 import { DEFAULT_ETH_UNIT } from '../../../ethConstants'
 // import { ChainActionType, ValueTransferParams, ActionDecomposeReturn } from '../../../../../models'
@@ -11,8 +11,14 @@ import {
 } from '../chainSpecific/eth_transfer'
 
 /** Sends ETH (in units of Wei) */
-export const composeAction = (params: Models.ValueTransferParams) => {
-  const { fromAccountName, toAccountName, amount, symbol = DEFAULT_ETH_UNIT } = params
+export const composeAction = (params: Models.ValueTransferParams, settings: EthereumChainSettings) => {
+  const { fromAccountName, toAccountName, amount } = params
+  let { symbol = DEFAULT_ETH_UNIT } = params
+  // toWeiString() uses web3.utils.toWei() to do unit conversion. This lib only supports converting between ETH units, so if the ETH unit we're working with has an ETH equivelant, then switch to that symbol.
+  // Note that the symbol is not used in the transaction itself, it's only used to do the unit conversion.
+  if (settings?.ethereumTokenEquivalenceMapping && settings.ethereumTokenEquivalenceMapping[symbol]) {
+    symbol = settings.ethereumTokenEquivalenceMapping[symbol]
+  }
   const ethUnit = toEthUnit(symbol)
   const value = toWeiString(amount, ethUnit) // using 0 precision since the toWei already converts to right precision for EthUnit
   return ethTransferComposeAction({

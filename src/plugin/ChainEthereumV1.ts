@@ -115,7 +115,7 @@ class Plugin implements Interfaces.Chain {
     actionType: Models.ChainActionType | EthereumChainActionType,
     args: any,
   ): Promise<EthereumTransactionAction> => {
-    return composeAction(actionType, args)
+    return composeAction(this._chainState, actionType, args)
   }
 
   public decomposeAction = async (action: EthereumTransactionAction): Promise<EthereumDecomposeReturn[]> => {
