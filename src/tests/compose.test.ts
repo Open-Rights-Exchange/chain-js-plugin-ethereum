@@ -35,11 +35,7 @@ describe('Compose Chain Actions', () => {
       toAccountName: '0x27105356F6C1ede0e92020e6225E46DC1F496b81',
       amount: '10',
     }
-    const actAction = await composeAction(
-      ropsten.chainState as EthereumChainState,
-      Models.ChainActionType.ValueTransfer,
-      args,
-    )
+    const actAction = await ropsten.composeAction(Models.ChainActionType.ValueTransfer, args)
 
     expect({ to: actAction.to, value: actAction.value }).toEqual(expAction)
   })
