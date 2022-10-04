@@ -103,10 +103,6 @@ class Plugin implements Interfaces.Chain {
     return this._chainState.chainInfo
   }
 
-  public get chainState(): EthereumChainState {
-    return this._chainState
-  }
-
   public get endpoints(): EthereumChainEndpoint[] {
     return this._endpoints
   }
