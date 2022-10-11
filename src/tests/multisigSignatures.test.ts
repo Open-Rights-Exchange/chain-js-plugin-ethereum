@@ -1,5 +1,5 @@
 import { EthereumTransaction } from '../plugin/ethTransaction'
-import { connectChain, ropstenChainOptions, ropstenEndpoints } from '../plugin/examples/helpers/networks'
+import { connectChain, ropstenChainOptions, goerliEndpoints, goerliChainOptions } from '../plugin/examples/helpers/networks'
 import { toEthereumAddress, toEthereumPrivateKey } from '../plugin/helpers'
 import { EthereumTransactionOptions } from '../plugin/models'
 import { EthereumGnosisMultisigTransactionOptions } from '../plugin/plugins/multisig/gnosisSafeV1/models'
@@ -34,7 +34,7 @@ describe('Ethereum ParentTransaction Tests', () => {
   let transaction: EthereumTransaction
 
   it('sign and get strigified signatures', async () => {
-    const ropsten = await connectChain(ropstenEndpoints, ropstenChainOptions)
+    const ropsten = await connectChain(goerliEndpoints, goerliChainOptions)
     await ropsten.installPlugin(gnosisSafePlugin)
 
     transaction = await ropsten.new.Transaction(transactionOptions)
@@ -52,7 +52,7 @@ describe('Ethereum ParentTransaction Tests', () => {
   })
 
   it('set signatures', async () => {
-    const ropsten = await connectChain(ropstenEndpoints, ropstenChainOptions)
+    const ropsten = await connectChain(goerliEndpoints, goerliChainOptions)
     await ropsten.installPlugin(gnosisSafePlugin)
 
     transaction = await ropsten.new.Transaction(transactionOptions)

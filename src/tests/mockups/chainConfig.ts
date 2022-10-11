@@ -4,6 +4,7 @@ import keys from './keys'
 export enum ChainNetwork {
   EthRopsten = 'eth_ropsten',
   EthRinkeby = 'eth_rinkeby',
+  EthGoerli = 'eth_goerli',
 }
 
 export interface IChainSettings {
@@ -85,6 +86,31 @@ export const chainConfig: IAllChainSettings = {
     permission2: null,
     privateKey_singleSign: process.env.eth_rinkeby_privateKey ?? '',
     privateKeys_MSIG: [process.env.eth_rinkeby_msig_1_privateKey],
+    transferAmount: '10001',
+    precision: 18,
+  },
+  eth_goerli: {
+    defaultTransactionOptions: {},
+    chainType: Models.ChainType.EthereumV1,
+    endpoints: [{ url: 'https://goerli.infura.io/v3/b1664813d49f45c7a5bb42a395447977' }],
+    account_MSIG: keys.eth_rinkeby_account1_privateKey,
+    account1: keys.eth_ropsten_account1_address,
+    account2: keys.eth_ropsten_account2_address,
+    chainSettings: {
+      chainForkType: {
+        chainName: 'goerli',
+        hardFork: 'istanbul',
+      },
+      defaultTransactionSettings: {
+        maxFeeIncreasePercentage: 20,
+        executionPriority: Models.TxExecutionPriority.Fast,
+      },
+    },
+    symbol: 'gwei',
+    permission1: null,
+    permission2: null,
+    privateKey_singleSign: process.env.eth_ropsten_privateKey ?? '',
+    privateKeys_MSIG: [process.env.eth_ropsten_msig_1_privateKey],
     transferAmount: '10001',
     precision: 18,
   },
