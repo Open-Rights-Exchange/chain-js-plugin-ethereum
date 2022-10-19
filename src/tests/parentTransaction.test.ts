@@ -1,11 +1,26 @@
+import { startVCR, stopVCR } from '@aikon/network-vcr'
+import nock from 'nock'
 import { EthereumTransaction } from '../plugin/ethTransaction'
-import { connectChain, ropstenChainOptions, ropstenEndpoints } from '../plugin/examples/helpers/networks'
+import {
+  connectChain,
+  goerliChainOptions as testNetOptions,
+  goerliEndpoints as testNetEndpoints,
+} from '../plugin/examples/helpers/networks'
 import { toEthereumAddress, toEthereumPrivateKey } from '../plugin/helpers'
 import { EthereumTransactionOptions } from '../plugin/models'
 import { EthereumGnosisMultisigTransactionOptions } from '../plugin/plugins/multisig/gnosisSafeV1/models'
 import { GnosisSafeMultisigPlugin } from '../plugin/plugins/multisig/gnosisSafeV1/plugin'
 
 jest.setTimeout(30000)
+nock.disableNetConnect()
+
+beforeEach(async () => {
+  await startVCR()
+})
+
+afterEach(async () => {
+  await stopVCR()
+})
 
 // const multisigOwner = '0x31DF49653c72933A4b99aF6fb5d5b77Cc169346a'
 const multisigOwnerPrivateKey = '0xbafee378c528ac180d309760f24378a2cfe47d175691966d15c83948e4a7faa6'
@@ -18,7 +33,7 @@ describe('Ethereum ParentTransaction Tests', () => {
     multisigAddress: toEthereumAddress('0xE5B218cc277BB9907d91B3B8695931963b411f2A'), // 0x6E94F570f5639bAb0DD3d9ab050CAf1Ad45BB764 for goerli
   }
   const transactionOptions: EthereumTransactionOptions<EthereumGnosisMultisigTransactionOptions> = {
-    chain: 'ropsten',
+    chain: 'goerli',
     hardfork: 'istanbul',
     multisigOptions,
   }
@@ -33,10 +48,10 @@ describe('Ethereum ParentTransaction Tests', () => {
   let transaction: EthereumTransaction
 
   it('parentRawTransaction should be undefined when there is missingSignatures', async () => {
-    const ropsten = await connectChain(ropstenEndpoints, ropstenChainOptions)
-    await ropsten.installPlugin(gnosisSafePlugin)
+    const testNet = await connectChain(testNetEndpoints, testNetOptions)
+    await testNet.installPlugin(gnosisSafePlugin)
 
-    transaction = await ropsten.new.Transaction(transactionOptions)
+    transaction = await testNet.new.Transaction(transactionOptions)
 
     transaction.actions = [sampleAction]
 

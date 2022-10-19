@@ -13,6 +13,9 @@ import {
 } from './mockups/composedActions'
 import { EthereumChainActionType } from '../plugin/models'
 import plugin from '../plugin/ChainEthereumV1'
+import nock from 'nock'
+
+nock.disableNetConnect()
 
 describe('Compose Chain Actions', () => {
   let ropsten: Interfaces.Chain

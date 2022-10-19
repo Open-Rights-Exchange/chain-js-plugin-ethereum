@@ -1,0 +1,567 @@
+{
+  "Ethereum ParentTransaction Tests parentRawTransaction should be undefined when there is missingSignatures": [
+    {
+      "scope": "https://goerli.infura.io:443",
+      "method": "POST",
+      "path": "/v3/fc379c787fde4363b91a61a345e3620a",
+      "body": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "eth_getBlockByNumber",
+        "params": [
+          "latest",
+          false
+        ]
+      },
+      "status": 200,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "result": {
+          "baseFeePerGas": "0x126fe5fe",
+          "difficulty": "0x0",
+          "extraData": "0x",
+          "gasLimit": "0x1c9c380",
+          "gasUsed": "0x14d93ca",
+          "hash": "0x1f40cf49500af2afac758a47914a569b158c7a5e41bf23bec7c7d34f99540427",
+          "logsBloom": "0x000408000090082000000048e04021410200090000110102048010001a03000000081040800428084014010001010c1008420d0200421025100096000c24243008814040c0800040000a08080000002c0085280180a601411000800800010d002200810002000044200001c000000b00020000080000122481000010009000400209200e0020000000001802000080082000841020000005020308e4200000010e2640100100201800013002021080000040240200008004000000400002c0018840810a19020040008000001000800142208026040000211080000084486200401021492282001100016001000000040041000c180000050000000010014004",
+          "miner": "0xb52e8626827103fe6f18c9c72acc0775230b2bf7",
+          "mixHash": "0xcfb4a56c7d9c7d5fdf63f1a568dbfc5e9910f6b82f85d287fab522a1081b7424",
+          "nonce": "0x0000000000000000",
+          "number": "0x76ff3f",
+          "parentHash": "0x53a2503a9f73e683c82ba10c7b37716ee08aba8a800ae8a909fbc75d1768959f",
+          "receiptsRoot": "0xa66a4f0cb6eb76798116c56c308d48dd2d83f5a6afb860473cf00730063f6701",
+          "sha3Uncles": "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",
+          "size": "0x2fbdb",
+          "stateRoot": "0x9f7af3e49b33255eb29dc90815af8eb51dc6ae0de814c15e30223a29e6c4270d",
+          "timestamp": "0x63505818",
+          "totalDifficulty": "0xa4a470",
+          "transactions": [
+            "0xc3ab8e3c1f672c8aa3f705587099bf28c073c3cd9705582cf3eb3a9dab7ed798",
+            "0xbf837d87d4b991b53e71dbc8b458203022d4ecb6cfa3badec85414ce16973859",
+            "0xa7ba77fd8d5fadc970591bc88ff16dcd923a38783f73659972bda161f0470bf6",
+            "0x3caa11ccdd376e69ee6fb98464e5b447b9553d430ce7ee76f508a9b7dc5b3a8d",
+            "0x0f41977de802737ab2232510285b1f462766f2b8286b39dcf1a9c674e78075df",
+            "0xa4de3fc2e904a0a15fa3b644a277a9e804de92cb555cf5b8575d413fc311ae61",
+            "0xb6b9b76c02bce32d08debeff4c86fb5ad1bd209c279deb2bccd3ddeaa628beec",
+            "0xbace6b10ab9ed6af582895918fbb394b763584e736a2c1c44a8e77b4fc8eec73",
+            "0x2179537ae80115455ae889bb4be3d09b867a0fdd7a5ae7b3874fc9ad326d4e84",
+            "0x90a96a510e43568ef78208a83a2ea8b7bc1bcae85db3da0fbb191aaa11d14e9e",
+            "0x389de908acf353cb9ecc8f142fe00d75a02b0fd8703a216bb3b73bf74b3ec2e3",
+            "0x0eddbb55b1d77d6e8d678f16d5eb7b937ab3dd11da83c15cffa54b581d05186d",
+            "0x4552f20344be1f8de703fd181e536884398918adc19a951de6c5b9f7f5e6476e",
+            "0x4db99f4ab4361d453e3e0274bcadaebf2156d38635f4b8b4542097e236e308db",
+            "0x39791113d6bd8bdebd9c780e4e696e2552178edd75caa3cb0ff0f497dc55f5e9",
+            "0xef5e71aa97fe4a0ad5b6456c4bd1b0803fe399d4fbc760c62d576f6e9de49b37",
+            "0x5bb4249a3e9d435e0b000efcf0b92b48abe246ebb48efd12e63e2a78046df5e8",
+            "0x445bac43ac5c3199e8aaf7cad0babc452bfe81fff777c7ac59173d165a775d65",
+            "0x15dd11ecd025fdd1103702a2f7233779a61ca83ab08eca3f524dcae110ea6f61",
+            "0x8f89a1801217607ef207adb1b53a2c4fcd9143e25ad8ff2bcf9bd0d8f492db5d",
+            "0xdd97028451047fae9c3ae0eb33884a990e6940777297e69593738969760475d9",
+            "0xcd9af5e3199f55da165ba6c49ac717f75bbed24390623f46ca256c8d8230a26b",
+            "0x77d2d30f588e6668c5805ac3f95e189036a957aa2cd1bf0047206da4f600be88",
+            "0x5654df5a515a01c2cab611d3c4f851fdb383f051204fdb13708ae5377865fe8a",
+            "0xb8bcd2ea2b183261a4f8124ccb2e1c2d8fdeb668111eaf6879c52e255287cfea",
+            "0x956454b2220ab0623d9eb9e431646e77706d544c6d03f886943dd37f803c8824",
+            "0xb442200dba51b7f55f24ffaeb530e50996e92e7fd983371667ff8b47d0d05ab1",
+            "0x47e31d23add9f663721e2fabd6229427b97b6b23d4dc99a93ef65699a0974be5",
+            "0xe1ec878c8b810c253a0567f994b5e7685aaad071dcea6d76210296aedba6fd1a",
+            "0x429d852025c9b405602d33cef4189f66c9833175d7ed779bcdc25ac0283d58eb",
+            "0x8f2b064afa6cc84fed137ce1cf6b7e6528b6bde506fa74c98dbf080c47caae88",
+            "0x98fb8a7376faf740da7d535f696d0c11020496dbc1b3ea12aefae5ca0c34a231",
+            "0x947dffc93ffc237f92fda5d20fa8fef211f9772e957265ba2a273c0dc2052668",
+            "0x3524c74b6ad8ffc7c1c748f95a360f5f0a954ed2647cc9d9fc0dda9bff82c9b0",
+            "0xb08abd389d37a77b0e73808afceb0d0b5feeb5df43c978ef9a47582d24b812a6",
+            "0x55ae2798278a6df4329e97979eb511e04e53788e8cb81b51fad7a3faa88bae0e",
+            "0x1a21ac9b53273d1027515ad50764cdf394050fc765df59210dc6349f78e3c5fe",
+            "0x4f09fe143212d78fb79423b09f4d116f0de78eb56ea90b606bc4835cc82efe98",
+            "0x6801937630edccf8eade2b21abdb78503490ec855ef241e2ebf4c3fb48b7e1c9",
+            "0xc8ae4667e72a4b90a63dbcdb7cff2a4ccf2c78c65e89d1900e2382c2e0428004",
+            "0xdf766ddf3ac1948a43cca546498f655100d55934be62d380e5a6ad96c570fd5a",
+            "0x99edc7643aaeff9de73db9acb6065ae3873b9368a927b297ee607e54276811f9",
+            "0x6b1397b965a7d34c98072eae2d602fc08d5e1c3e340b87dfdb8135f0a0507ae1",
+            "0xe7a264fc023304c3a3ce1284b7004ad94908f9a1dc255116e4a183cd0db95fc3",
+            "0xb8feb66bf37deae8d40167fd2aef17fb3e1de9214472b43cd1a2a563eebf631a",
+            "0xa961f600538ec8183c2b4bf373d82c0abe26c0189981ac89343101d4d7ecd6fb",
+            "0x8c40d2022bd9b263d4aa8a8eca2f255e68e482f8a6a8da3482cd8896bf52f1a9",
+            "0x2b79608e415100d3c11588e4481cf7eaefaafdaa24222f13a816df021b3cb358",
+            "0xbe02cc250484bc7c17bfa2c0d6fcb983b3f6e7b687d9409d918292ce7335ec1f",
+            "0x917d6b2bc381048dc8a258e33cdc68bdae3ff395b4258c86528e0ec80e99f2da",
+            "0xb9c55ccb2115104dfaca27229417951fc85cef1803fdec52a1889c55f7f3fbb6",
+            "0x97be22f1e2cbe2d7dd88bdc50ca8763574514f35b7b27a1a87f12f518637235a",
+            "0xd0d0174f50c477411950eedb0c76fb72c7543184535123d5c57342eacd1b62b4",
+            "0xb83a2b1463bd815f2109f6df5464cb5bf51c02a9aece0693d7a68505758353cd",
+            "0xdab6dc39594c38b8c682a62a71c414c465cbc83b32ccd1b44187cc71a6cb351f",
+            "0x0f20ec7887e8f2826033beda1db49bfb555df697ddc19cd9f18b1f514d8f71ea",
+            "0xb88e4459504b36f3238a501d7d4e8d54aefe4e1d44290a7340441be7aacdf865",
+            "0xaed58addc4bdbbabbeb792a9344ad80053051b6a86622d486beaf9718b232900",
+            "0xf971c3020d44c94770ed457a90879fac3259b16e227cd33e7f94ca5f63e66d39",
+            "0x2d16ae0bf4aed1c967545f984de17f9a629de5a6a1ed3c347ef32adb629f0dd8",
+            "0x077e6707ce16906530c9f755ff9871252c6b6e2e81c13c308ff5ae41b01d1322",
+            "0x3033877c33154332e7a1a09e9f9db818119f8b350149bea9d3d54643bee7e83e",
+            "0xce452ec96329b690a3974518b9f43ebc68006411ee5cd688bf309f25ee148b33",
+            "0x9695d35bee535e79c95bf87ef3086389ef4352a6ed7630d60296fe568e46b4cc",
+            "0x022948911745ea1860847f8d892d29d0fc59a67effd0f8179cdf04747a06b040"
+          ],
+          "transactionsRoot": "0xf876c2ade5ddaaca2fff5b1d04405cbcd467d7fcf95a7efe1f628c87d6db3321",
+          "uncles": []
+        }
+      },
+      "rawHeaders": [
+        "Date",
+        "Wed, 19 Oct 2022 20:03:39 GMT",
+        "Content-Type",
+        "application/json",
+        "Transfer-Encoding",
+        "chunked",
+        "Connection",
+        "keep-alive",
+        "Vary",
+        "Accept-Encoding",
+        "Vary",
+        "Origin"
+      ],
+      "responseIsBinary": false
+    },
+    {
+      "scope": "https://goerli.infura.io:443",
+      "method": "POST",
+      "path": "/v3/fc379c787fde4363b91a61a345e3620a",
+      "body": {
+        "jsonrpc": "2.0",
+        "id": 2,
+        "method": "eth_chainId",
+        "params": []
+      },
+      "status": 200,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 2,
+        "result": "0x5"
+      },
+      "rawHeaders": [
+        "Date",
+        "Wed, 19 Oct 2022 20:03:39 GMT",
+        "Content-Type",
+        "application/json",
+        "Content-Length",
+        "39",
+        "Connection",
+        "keep-alive",
+        "Vary",
+        "Accept-Encoding",
+        "Vary",
+        "Origin"
+      ],
+      "responseIsBinary": false
+    },
+    {
+      "scope": "https://goerli.infura.io:443",
+      "method": "POST",
+      "path": "/v3/fc379c787fde4363b91a61a345e3620a",
+      "body": {
+        "jsonrpc": "2.0",
+        "id": 3,
+        "method": "web3_clientVersion",
+        "params": []
+      },
+      "status": 200,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 3,
+        "result": "Geth/v1.10.23-omnibus-b38477ec/linux-amd64/go1.18.5"
+      },
+      "rawHeaders": [
+        "Date",
+        "Wed, 19 Oct 2022 20:03:39 GMT",
+        "Content-Type",
+        "application/json",
+        "Content-Length",
+        "87",
+        "Connection",
+        "keep-alive",
+        "Vary",
+        "Accept-Encoding",
+        "Vary",
+        "Origin"
+      ],
+      "responseIsBinary": false
+    },
+    {
+      "scope": "https://goerli.infura.io:443",
+      "method": "POST",
+      "path": "/v3/fc379c787fde4363b91a61a345e3620a",
+      "body": {
+        "jsonrpc": "2.0",
+        "id": 4,
+        "method": "eth_gasPrice",
+        "params": []
+      },
+      "status": 200,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 4,
+        "result": "0x13fe1af2"
+      },
+      "rawHeaders": [
+        "Date",
+        "Wed, 19 Oct 2022 20:03:39 GMT",
+        "Content-Type",
+        "application/json",
+        "Content-Length",
+        "46",
+        "Connection",
+        "keep-alive",
+        "Vary",
+        "Accept-Encoding",
+        "Vary",
+        "Origin"
+      ],
+      "responseIsBinary": false
+    },
+    {
+      "scope": "https://goerli.infura.io:443",
+      "method": "POST",
+      "path": "/v3/fc379c787fde4363b91a61a345e3620a",
+      "body": {
+        "method": "eth_chainId",
+        "params": [],
+        "id": 42,
+        "jsonrpc": "2.0"
+      },
+      "status": 200,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 42,
+        "result": "0x5"
+      },
+      "rawHeaders": [
+        "Date",
+        "Wed, 19 Oct 2022 20:03:39 GMT",
+        "Content-Type",
+        "application/json",
+        "Content-Length",
+        "40",
+        "Connection",
+        "close",
+        "Vary",
+        "Accept-Encoding",
+        "Vary",
+        "Origin"
+      ],
+      "responseIsBinary": false
+    },
+    {
+      "scope": "https://goerli.infura.io:443",
+      "method": "POST",
+      "path": "/v3/fc379c787fde4363b91a61a345e3620a",
+      "body": {
+        "method": "eth_chainId",
+        "params": [],
+        "id": 43,
+        "jsonrpc": "2.0"
+      },
+      "status": 200,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 43,
+        "result": "0x5"
+      },
+      "rawHeaders": [
+        "Date",
+        "Wed, 19 Oct 2022 20:03:40 GMT",
+        "Content-Type",
+        "application/json",
+        "Content-Length",
+        "40",
+        "Connection",
+        "close",
+        "Vary",
+        "Accept-Encoding",
+        "Vary",
+        "Origin"
+      ],
+      "responseIsBinary": false
+    },
+    {
+      "scope": "https://goerli.infura.io:443",
+      "method": "POST",
+      "path": "/v3/fc379c787fde4363b91a61a345e3620a",
+      "body": {
+        "method": "eth_call",
+        "params": [
+          {
+            "to": "0xe5b218cc277bb9907d91b3b8695931963b411f2a",
+            "data": "0xa0e67e2b"
+          },
+          "latest"
+        ],
+        "id": 44,
+        "jsonrpc": "2.0"
+      },
+      "status": 200,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 44,
+        "result": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000030000000000000000000000001a70f07994876922b07e596d3940f8a81bb093a400000000000000000000000031df49653c72933a4b99af6fb5d5b77cc169346a00000000000000000000000076d1b5dcfe51dbeb3c489977faf2643272aad901"
+      },
+      "rawHeaders": [
+        "Date",
+        "Wed, 19 Oct 2022 20:03:40 GMT",
+        "Content-Type",
+        "application/json",
+        "Content-Length",
+        "359",
+        "Connection",
+        "close",
+        "Vary",
+        "Accept-Encoding",
+        "Vary",
+        "Origin"
+      ],
+      "responseIsBinary": false
+    },
+    {
+      "scope": "https://goerli.infura.io:443",
+      "method": "POST",
+      "path": "/v3/fc379c787fde4363b91a61a345e3620a",
+      "body": {
+        "method": "eth_chainId",
+        "params": [],
+        "id": 45,
+        "jsonrpc": "2.0"
+      },
+      "status": 200,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 45,
+        "result": "0x5"
+      },
+      "rawHeaders": [
+        "Date",
+        "Wed, 19 Oct 2022 20:03:40 GMT",
+        "Content-Type",
+        "application/json",
+        "Content-Length",
+        "40",
+        "Connection",
+        "close",
+        "Vary",
+        "Accept-Encoding",
+        "Vary",
+        "Origin"
+      ],
+      "responseIsBinary": false
+    },
+    {
+      "scope": "https://goerli.infura.io:443",
+      "method": "POST",
+      "path": "/v3/fc379c787fde4363b91a61a345e3620a",
+      "body": {
+        "method": "eth_call",
+        "params": [
+          {
+            "to": "0xe5b218cc277bb9907d91b3b8695931963b411f2a",
+            "data": "0xe75235b8"
+          },
+          "latest"
+        ],
+        "id": 46,
+        "jsonrpc": "2.0"
+      },
+      "status": 200,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 46,
+        "result": "0x0000000000000000000000000000000000000000000000000000000000000002"
+      },
+      "rawHeaders": [
+        "Date",
+        "Wed, 19 Oct 2022 20:03:41 GMT",
+        "Content-Type",
+        "application/json",
+        "Content-Length",
+        "103",
+        "Connection",
+        "close",
+        "Vary",
+        "Accept-Encoding",
+        "Vary",
+        "Origin"
+      ],
+      "responseIsBinary": false
+    },
+    {
+      "scope": "https://goerli.infura.io:443",
+      "method": "POST",
+      "path": "/v3/fc379c787fde4363b91a61a345e3620a",
+      "body": {
+        "method": "eth_chainId",
+        "params": [],
+        "id": 42,
+        "jsonrpc": "2.0"
+      },
+      "status": 200,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 42,
+        "result": "0x5"
+      },
+      "rawHeaders": [
+        "Date",
+        "Wed, 19 Oct 2022 20:03:41 GMT",
+        "Content-Type",
+        "application/json",
+        "Content-Length",
+        "40",
+        "Connection",
+        "close",
+        "Vary",
+        "Accept-Encoding",
+        "Vary",
+        "Origin"
+      ],
+      "responseIsBinary": false
+    },
+    {
+      "scope": "https://goerli.infura.io:443",
+      "method": "POST",
+      "path": "/v3/fc379c787fde4363b91a61a345e3620a",
+      "body": {
+        "method": "eth_chainId",
+        "params": [],
+        "id": 43,
+        "jsonrpc": "2.0"
+      },
+      "status": 200,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 43,
+        "result": "0x5"
+      },
+      "rawHeaders": [
+        "Date",
+        "Wed, 19 Oct 2022 20:03:41 GMT",
+        "Content-Type",
+        "application/json",
+        "Content-Length",
+        "40",
+        "Connection",
+        "close",
+        "Vary",
+        "Accept-Encoding",
+        "Vary",
+        "Origin"
+      ],
+      "responseIsBinary": false
+    },
+    {
+      "scope": "https://goerli.infura.io:443",
+      "method": "POST",
+      "path": "/v3/fc379c787fde4363b91a61a345e3620a",
+      "body": {
+        "method": "eth_call",
+        "params": [
+          {
+            "to": "0xe5b218cc277bb9907d91b3b8695931963b411f2a",
+            "data": "0xaffed0e0"
+          },
+          "latest"
+        ],
+        "id": 44,
+        "jsonrpc": "2.0"
+      },
+      "status": 200,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 44,
+        "result": "0x0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "rawHeaders": [
+        "Date",
+        "Wed, 19 Oct 2022 20:03:41 GMT",
+        "Content-Type",
+        "application/json",
+        "Content-Length",
+        "103",
+        "Connection",
+        "close",
+        "Vary",
+        "Accept-Encoding",
+        "Vary",
+        "Origin"
+      ],
+      "responseIsBinary": false
+    },
+    {
+      "scope": "https://goerli.infura.io:443",
+      "method": "POST",
+      "path": "/v3/fc379c787fde4363b91a61a345e3620a",
+      "body": {
+        "method": "eth_chainId",
+        "params": [],
+        "id": 45,
+        "jsonrpc": "2.0"
+      },
+      "status": 200,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 45,
+        "result": "0x5"
+      },
+      "rawHeaders": [
+        "Date",
+        "Wed, 19 Oct 2022 20:03:42 GMT",
+        "Content-Type",
+        "application/json",
+        "Content-Length",
+        "40",
+        "Connection",
+        "close",
+        "Vary",
+        "Accept-Encoding",
+        "Vary",
+        "Origin"
+      ],
+      "responseIsBinary": false
+    },
+    {
+      "scope": "https://goerli.infura.io:443",
+      "method": "POST",
+      "path": "/v3/fc379c787fde4363b91a61a345e3620a",
+      "body": {
+        "method": "eth_call",
+        "params": [
+          {
+            "to": "0xe5b218cc277bb9907d91b3b8695931963b411f2a",
+            "data": "0xd8d11f78000000000000000000000000a200c9fe7f747e10dbcca5f85a0a126c9bffe40000000000000000000000000000000000000000000000000000000000000007d0000000000000000000000000000000000000000000000000000000000000014000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "latest"
+        ],
+        "id": 46,
+        "jsonrpc": "2.0"
+      },
+      "status": 200,
+      "response": {
+        "jsonrpc": "2.0",
+        "id": 46,
+        "result": "0xb563dd40ef95c4c4f817e2b600562776545fb692d8dab7257ee536f928a281c4"
+      },
+      "rawHeaders": [
+        "Date",
+        "Wed, 19 Oct 2022 20:03:42 GMT",
+        "Content-Type",
+        "application/json",
+        "Content-Length",
+        "103",
+        "Connection",
+        "close",
+        "Vary",
+        "Accept-Encoding",
+        "Vary",
+        "Origin"
+      ],
+      "responseIsBinary": false
+    }
+  ]
+}

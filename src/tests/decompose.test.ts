@@ -13,6 +13,9 @@ import {
 } from './mockups/composedActions'
 import { EthereumTransactionAction } from '../plugin/models'
 import { toEthereumAddress, toEthereumTxData } from '../plugin/helpers'
+import nock from 'nock'
+
+nock.disableNetConnect()
 
 describe('Decompose Chain Actions', () => {
   const composedEthTransferAction: EthereumTransactionAction = {
