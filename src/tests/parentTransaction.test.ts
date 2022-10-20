@@ -47,7 +47,7 @@ describe('Ethereum ParentTransaction Tests', () => {
 
   let transaction: EthereumTransaction
 
-  it('parentRawTransaction should be undefined when there is missingSignatures', async () => {
+  beforeEach(async () => {
     const testNet = await connectChain(testNetEndpoints, testNetOptions)
     await testNet.installPlugin(gnosisSafePlugin)
 
@@ -57,7 +57,9 @@ describe('Ethereum ParentTransaction Tests', () => {
 
     await transaction.prepareToBeSigned()
     await transaction.validate()
+  })
 
+  it('parentRawTransaction should be undefined when there is missingSignatures', async () => {
     await transaction.sign([toEthereumPrivateKey(multisigOwnerPrivateKey)])
 
     const stringifiedMissingSignatures = JSON.stringify([
@@ -72,7 +74,9 @@ describe('Ethereum ParentTransaction Tests', () => {
       const value = transaction.parentTransaction // must wrap property in func for Jest to catch
     }).toThrow('ParentTransaction is not yet set')
   })
+
   it('generate and return rawTransaction when no missing signatures', async () => {
+    await transaction.sign([toEthereumPrivateKey(multisigOwnerPrivateKey)])
     await transaction.sign([toEthereumPrivateKey(multisigOwnerPrivateKey2)])
 
     expect(transaction.missingSignatures).toBeNull()
