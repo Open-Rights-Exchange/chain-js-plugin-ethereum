@@ -1,7 +1,7 @@
+import nock from 'nock'
 import { EthereumActionHelper } from '../plugin/ethAction'
 import { toEthereumTxData, toEthereumAddress } from '../plugin/helpers'
 import { chainOptions } from './mockups/chain'
-import nock from 'nock'
 
 nock.disableNetConnect()
 

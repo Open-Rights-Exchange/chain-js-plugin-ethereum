@@ -75,7 +75,6 @@ describe('Ethereum ParentTransaction Tests', () => {
 
       const inter: any = (scope as any).interceptors[0]
       if (inter._requestBody.method === 'eth_chainId') {
-        console.log('persisnt chain id')
         scope.persist()
         persisted = true
       }

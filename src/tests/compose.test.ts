@@ -1,5 +1,6 @@
 // How to use fetch mocks - https://www.npmjs.com/package/jest-fetch-mock
 import { Interfaces, Models, PluginChainFactory } from '@open-rights-exchange/chain-js'
+import nock from 'nock'
 import { ropstenEndpoints } from '../plugin/examples/helpers/networks'
 import {
   composedERC20TransferAction,
@@ -13,7 +14,6 @@ import {
 } from './mockups/composedActions'
 import { EthereumChainActionType } from '../plugin/models'
 import plugin from '../plugin/ChainEthereumV1'
-import nock from 'nock'
 
 nock.disableNetConnect()
 

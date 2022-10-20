@@ -1,9 +1,9 @@
 import { Chain, Models, Transaction, Helpers } from '@open-rights-exchange/chain-js'
 import nock from 'nock'
+import { startVCR, stopVCR } from '@aikon/network-vcr'
 import { getChain } from '../tests/helpers'
 import { ChainNetwork } from '../tests/mockups/chainConfig'
 import { account2, composeSendTokenEthereum } from '../tests/mockups/ethereumTransactions'
-import { startVCR, stopVCR } from '@aikon/network-vcr'
 
 nock.disableNetConnect()
 
