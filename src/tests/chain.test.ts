@@ -37,15 +37,12 @@ describe('Ethereum Helper Functions', () => {
     expect(balance).toBeTruthy()
   })
 
-  // This started failing when we switched to Goerli - unclear why
-  // Fails with: https://docs.ethers.io/v5/troubleshooting/errors/#help-CALL_EXCEPTION
-  it.skip('get erc20 Balance', async () => {
+  it('get erc20 Balance', async () => {
     const balance = await testNet.fetchBalance(
       Helpers.toChainEntityName('0xb83339d874f27b7e74dc188bd6b2a51a1167946c'),
-      toEthereumSymbol('AQA'),
-      '0x9699f68bebf4b360d9a529523d7d6d23b6f52d44',
+      toEthereumSymbol('USDC'),
+      '0x07865c6e87b9f70255377e024ace6630c1eaa37f',
     )
-    // console.log('ERC20 Token Balance: ', balance)
     expect(balance).toBeTruthy()
   })
 })
