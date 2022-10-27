@@ -31,7 +31,7 @@ describe('Transaction properties', () => {
 
   beforeEach(async () => {
     await startVCR(withFixedRequestIds)
-    chain = await getChain(ChainNetwork.EthRopsten, true)
+    chain = await getChain(ChainNetwork.EthGoerli, true)
   })
   afterEach(async () => {
     await stopVCR()

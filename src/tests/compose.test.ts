@@ -1,6 +1,6 @@
 // How to use fetch mocks - https://www.npmjs.com/package/jest-fetch-mock
 import { Interfaces, Models, PluginChainFactory } from '@open-rights-exchange/chain-js'
-import { ropstenEndpoints } from '../plugin/examples/helpers/networks'
+import { goerliEndpoints } from '../plugin/examples/helpers/networks'
 import {
   composedERC20TransferAction,
   composedERC20ApproveAction,
@@ -15,9 +15,9 @@ import { EthereumChainActionType } from '../plugin/models'
 import plugin from '../plugin/ChainEthereumV1'
 
 describe('Compose Chain Actions', () => {
-  let ropsten: Interfaces.Chain
+  let chain: Interfaces.Chain
   beforeAll(async () => {
-    ropsten = PluginChainFactory([plugin], Models.ChainType.EthereumV1, ropstenEndpoints)
+    chain = PluginChainFactory([plugin], Models.ChainType.EthereumV1, goerliEndpoints)
   })
 
   // sets fetchMock to throw an error on the next call to fetch (jsonRpc.get_abi calls fetch and triggers the error to be thrown)
@@ -32,7 +32,7 @@ describe('Compose Chain Actions', () => {
       toAccountName: '0x27105356F6C1ede0e92020e6225E46DC1F496b81',
       amount: '10',
     }
-    const actAction = await ropsten.composeAction(Models.ChainActionType.ValueTransfer, args)
+    const actAction = await chain.composeAction(Models.ChainActionType.ValueTransfer, args)
 
     expect({ to: actAction.to, value: actAction.value }).toEqual(expAction)
   })
@@ -48,7 +48,7 @@ describe('Compose Chain Actions', () => {
       value: '20',
     }
 
-    const actAction = await ropsten.composeAction(EthereumChainActionType.ERC20Approve, args)
+    const actAction = await chain.composeAction(EthereumChainActionType.ERC20Approve, args)
     expect({ to: actAction.to, contract: actAction.contract }).toEqual(expAction)
   })
 
@@ -61,7 +61,7 @@ describe('Compose Chain Actions', () => {
       precision: 18,
       value: '20',
     }
-    const actAction = await ropsten.composeAction(EthereumChainActionType.ERC20Burn, args)
+    const actAction = await chain.composeAction(EthereumChainActionType.ERC20Burn, args)
     expect({ to: actAction.to, contract: actAction.contract }).toEqual(expAction)
   })
 
@@ -74,7 +74,7 @@ describe('Compose Chain Actions', () => {
       precision: 18,
       value: '20',
     }
-    const actAction = await ropsten.composeAction(EthereumChainActionType.ERC20Issue, args)
+    const actAction = await chain.composeAction(EthereumChainActionType.ERC20Issue, args)
     expect({ to: actAction.to, contract: actAction.contract }).toEqual(expAction)
   })
 
@@ -88,7 +88,7 @@ describe('Compose Chain Actions', () => {
       precision: 18,
       value: '20',
     }
-    const actAction = await ropsten.composeAction(EthereumChainActionType.ERC20Transfer, args)
+    const actAction = await chain.composeAction(EthereumChainActionType.ERC20Transfer, args)
     expect({ to: actAction.to, contract: actAction.contract }).toEqual(expAction)
   })
 
@@ -103,7 +103,7 @@ describe('Compose Chain Actions', () => {
       precision: 18,
       value: '20',
     }
-    const actAction = await ropsten.composeAction(EthereumChainActionType.ERC20TransferFrom, args)
+    const actAction = await chain.composeAction(EthereumChainActionType.ERC20TransferFrom, args)
     expect({ to: actAction.to, contract: actAction.contract }).toEqual(expAction)
   })
 
@@ -117,7 +117,7 @@ describe('Compose Chain Actions', () => {
       precision: 18,
       tokenId: 1,
     }
-    const actAction = await ropsten.composeAction(EthereumChainActionType.ERC721Approve, args)
+    const actAction = await chain.composeAction(EthereumChainActionType.ERC721Approve, args)
     expect({ to: actAction.to, contract: actAction.contract }).toEqual(expAction)
   })
 
@@ -130,7 +130,7 @@ describe('Compose Chain Actions', () => {
       to: '0x27105356f6c1ede0e92020e6225e46dc1f496b81',
       tokenId: 1,
     }
-    const actAction = await ropsten.composeAction(EthereumChainActionType.ERC721Transfer, args)
+    const actAction = await chain.composeAction(EthereumChainActionType.ERC721Transfer, args)
     expect({ to: actAction.to, contract: actAction.contract }).toEqual(expAction)
   })
 
@@ -144,7 +144,7 @@ describe('Compose Chain Actions', () => {
       to: '0x27105356f6c1ede0e92020e6225e46dc1f496b81',
       tokenId: 1,
     }
-    const actAction = await ropsten.composeAction(EthereumChainActionType.ERC721TransferFrom, args)
+    const actAction = await chain.composeAction(EthereumChainActionType.ERC721TransferFrom, args)
     expect({ to: actAction.to, contract: actAction.contract }).toEqual(expAction)
   })
 })
