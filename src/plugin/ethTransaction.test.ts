@@ -1,28 +1,11 @@
 import { Chain, Models, Transaction, Helpers } from '@open-rights-exchange/chain-js'
 import nock from 'nock'
+import { startVCR, stopVCR } from '@aikon/network-vcr'
 import { getChain } from '../tests/helpers'
 import { ChainNetwork } from '../tests/mockups/chainConfig'
 import { account2, composeSendTokenEthereum } from '../tests/mockups/ethereumTransactions'
-import { startVCR, stopVCR } from '../tests/mockups/VCR'
 
-function withFixedRequestIds(defns: nock.Definition[]) {
-  let id = 0
-  return defns.map(def => {
-    // eslint-disable-next-line no-plusplus
-    id++
-    return {
-      ...def,
-      body: {
-        ...(def.body as nock.DataMatcherMap),
-        id,
-      },
-      response: {
-        ...(def.response as Record<string, any>),
-        id,
-      },
-    }
-  })
-}
+nock.disableNetConnect()
 
 describe('Transaction properties', () => {
   let chain: Chain
@@ -30,7 +13,7 @@ describe('Transaction properties', () => {
   let action: any
 
   beforeEach(async () => {
-    await startVCR(withFixedRequestIds)
+    await startVCR()
     chain = await getChain(ChainNetwork.EthGoerli, true)
   })
   afterEach(async () => {

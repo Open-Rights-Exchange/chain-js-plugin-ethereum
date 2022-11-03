@@ -1,4 +1,5 @@
 // How to use fetch mocks - https://www.npmjs.com/package/jest-fetch-mock
+import nock from 'nock'
 import { decomposeAction } from '../plugin/ethDecompose'
 
 import {
@@ -13,6 +14,8 @@ import {
 } from './mockups/composedActions'
 import { EthereumTransactionAction } from '../plugin/models'
 import { toEthereumAddress, toEthereumTxData } from '../plugin/helpers'
+
+nock.disableNetConnect()
 
 describe('Decompose Chain Actions', () => {
   const composedEthTransferAction: EthereumTransactionAction = {
