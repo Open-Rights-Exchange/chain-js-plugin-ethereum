@@ -1,14 +1,8 @@
-/* eslint-disable no-console */
-// How to use fetch mocks - https://www.npmjs.com/package/jest-fetch-mock
-// import { toChainEntityName } from '../../../helpers'
-// import { ChainType } from '../../..'
 import { Interfaces, Models, PluginChainFactory, Helpers } from '@open-rights-exchange/chain-js'
 import nock from 'nock'
 import { startVCR, stopVCR } from '@aikon/network-vcr'
 import { goerliEndpoints as testNetEndpoints } from '../plugin/examples/helpers/networks'
 import { toEthereumSymbol } from '../plugin/helpers'
-// import { ChainFactory } from '../../../chainFactory'
-// import { Chain } from '../../../interfaces'
 import plugin from '../plugin/ChainEthereumV1'
 
 nock.disableNetConnect()
