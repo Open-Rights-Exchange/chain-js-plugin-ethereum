@@ -1,10 +1,8 @@
 import { Models, Errors } from '@open-rights-exchange/chain-js'
 import { ethers } from 'ethers'
-import { EthereumPrivateKey, ValidateSignTypedDataInput } from '../models'
+import { EthereumPrivateKey, SignTypedDataInput } from '../models'
 
-export async function validateSignTypedDataInput(
-  data: ValidateSignTypedDataInput,
-): Promise<Models.SignStringValidateResult> {
+export async function validateSignTypedDataInput(data: SignTypedDataInput): Promise<Models.SignStringValidateResult> {
   let result: Models.SignStringValidateResult
 
   let message = ''
@@ -37,7 +35,7 @@ export async function validateSignTypedDataInput(
 
   /* If any part of the input is not valid then let's build an example to reply with */
   if (!valid) {
-    const fullMessage = `The data supplied to signTypedData is in correctly formatted or missing (https://docs.ethers.org/v5/api/signer/#Signer-signTypedData): ${message}`
+    const fullMessage = `The data supplied to signTypedData is incorrectly formatted or missing (Details of the internal function being called can be found here - https://docs.ethers.org/v5/api/signer/#Signer-signTypedData): ${message}. Please see the example property attached to this object. For more information on this example please see - https://medium.com/coinmonks/eip712-a-full-stack-example-e12185b03d54`
 
     const eip712Domain = {
       name: 'name',
@@ -88,7 +86,7 @@ export async function validateSignTypedDataInput(
 
 export async function signTypedData(
   privateKeys: EthereumPrivateKey[],
-  data: any,
+  data: SignTypedDataInput,
 ): Promise<Models.SignStringSignResult> {
   const privateKey = privateKeys[0]
   const signer = new ethers.Wallet(privateKey)
