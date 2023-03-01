@@ -12,3 +12,11 @@ export type SignStringValidateResult = {
   signature: String
   details: any
 }
+
+export type ValidateSignTypedDataInput = {
+  version: number
+  types: any
+  primaryType: String
+  domain: any
+  message: any
+}
