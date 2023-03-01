@@ -29,7 +29,6 @@ export class EthereumSignString implements Interfaces.SignString {
   private _data: any
 
   private applyOptions(options: SignStringOptions) {
-    // TOOD: Validate options
     this._options = options
   }
 
@@ -47,7 +46,7 @@ export class EthereumSignString implements Interfaces.SignString {
     return this._data
   }
 
-  /* Set the signmethod and ensure that is lowercase */
+  /* Set the signMethod and ensure that is lowercase */
   private setSignMethod() {
     const signMethod = this.options?.signMethod.toLowerCase()
     this._signMethod = signMethod
@@ -57,7 +56,7 @@ export class EthereumSignString implements Interfaces.SignString {
     return this._signMethod
   }
 
-  /** Whether transaction has been validated - via validate() */
+  /** Whether data structure has been validated - via validate() */
   get isValidated() {
     return this._isValidated
   }
