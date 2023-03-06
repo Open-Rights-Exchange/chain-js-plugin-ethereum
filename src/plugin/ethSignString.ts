@@ -70,7 +70,7 @@ export class EthereumSignString implements Interfaces.SignString {
         result = await validateSignTypedDataInput(this.data as unknown as SignTypedDataInput)
         this._isValidated = result.valid
         break
-      case 'ethereum.personal-sign' || 'ethereum.eth-sign':
+      case 'ethereum.personal-sign':
         result = await validatePersonalSignInput(this.data as unknown as PersonalSignDataInput)
         this._isValidated = result.valid
         break
@@ -97,7 +97,7 @@ export class EthereumSignString implements Interfaces.SignString {
         case 'ethereum.sign-typed-data':
           result = await signTypedData(privateKeys, this.data as unknown as SignTypedDataInput)
           break
-        case 'ethereum.personal-sign' || 'ethereum.eth-sign':
+        case 'ethereum.personal-sign':
           result = await personalSign(privateKeys, this.data as unknown as PersonalSignDataInput)
           break
         case 'ethereum.eth-sign':
