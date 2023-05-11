@@ -1,3 +1,4 @@
+import { ethers } from 'ethers'
 import {
   BN,
   bufferToHex,
@@ -21,6 +22,7 @@ import {
   EthUnit,
 } from '../models'
 import { toEthBuffer } from './generalHelpers'
+import { TypedDataDomain, TypedDataField } from "@ethersproject/abstract-signer";
 
 // todo eth - this should not have copied code - is the bug worked-around? if not, we should consider using a diff library
 // Reimplemented from ethereumjs-util module to workaround a current bug
@@ -195,7 +197,24 @@ export function convertBufferToHexStringIfNeeded(value: string | Buffer) {
   return Helpers.isABuffer(value) ? bufferToHex(value as Buffer) : Helpers.toHexStringIfNeeded(value)
 }
 
+/** accepts a privatekey string returns a wallet object */
+export function getEthersWallet(privateKey: string, provider?: ethers.providers.Provider) {
+  return new ethers.Wallet(privateKey, provider)
+}
+
+/** accepts a privatekey string returns an address */
 export function privateKeyToAddress(privateKey: string): EthereumAddress {
   const privateKeyBuffer = toEthBuffer(Helpers.ensureHexPrefix(privateKey))
   return toEthereumAddress(bufferToHex(privateToAddress(privateKeyBuffer)))
+}
+
+/**  checks that the signature matches the message and that the message matches the types provided  */
+export function verifyTypedData(domain: TypedDataDomain, types: Record<string, TypedDataField[]>,
+  message: Record<string, any> , signature: any) {
+  return ethers.utils.verifyTypedData(domain, types, message, signature)
+}
+
+/** splits a signature into r, s, v values */
+export function splitSignature(signature: string) {
+  return ethers.utils.splitSignature(signature)
 }

@@ -1,6 +1,6 @@
 import { Models, Errors } from '@open-rights-exchange/chain-js'
-import { ethers } from 'ethers'
 import { EthereumPrivateKey, SignTypedDataInput } from '../models'
+import { getEthersWallet, splitSignature, verifyTypedData } from '../helpers'
 
 export async function validateSignTypedDataInput(data: SignTypedDataInput): Promise<Models.SignStringValidateResult> {
   let result: Models.SignStringValidateResult
@@ -89,16 +89,16 @@ export async function signTypedData(
   data: SignTypedDataInput,
 ): Promise<Models.SignStringSignResult> {
   const privateKey = privateKeys[0]
-  const signer = new ethers.Wallet(privateKey)
+  const signer = getEthersWallet(privateKey)
   const sig = await signer._signTypedData(data.domain, data.types, data.message)
 
   const expectedSignerAddress = signer.address
-  const recoveredAddress = ethers.utils.verifyTypedData(data.domain, data.types, data.message, sig)
+  const recoveredAddress = verifyTypedData(data.domain, data.types, data.message, sig)
   if (recoveredAddress !== expectedSignerAddress) {
     Errors.throwNewError('Validation of the genarated signature failed')
   }
 
-  const signatureParts = ethers.utils.splitSignature(sig)
+  const signatureParts = splitSignature(sig)
   const result = { signature: sig, details: { r: signatureParts.r, s: signatureParts.s, v: signatureParts.v } }
   return result
 }

@@ -56,7 +56,7 @@ import {
 // import { ChainJsPlugin, ChainJsPluginOptions, PluginType } from '../../interfaces/plugin'
 // import { assertPluginTypeNotAlreadyInstalled, initializePlugin } from '../../helpers'
 import { EthereumMultisigPlugin } from './plugins/multisig/ethereumMultisigPlugin'
-import { EthereumSignString } from './ethSignString'
+import { EthereumSignMessage } from './ethSignString'
 
 // TODO: Comsolidate use of Ethereum libraries
 
@@ -196,9 +196,9 @@ class Plugin implements Interfaces.Chain {
     return transaction
   }
 
-  private newSignString = async (data: any, options?: any): Promise<EthereumSignString> => {
+  private newSignString = async (data: any, options?: any): Promise<EthereumSignMessage> => {
     // this.assertIsConnected()
-    const transaction = new EthereumSignString(data, options)
+    const transaction = new EthereumSignMessage(data, options)
     return transaction
   }
 

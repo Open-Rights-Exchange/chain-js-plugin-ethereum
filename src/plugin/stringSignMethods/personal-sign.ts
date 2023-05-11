@@ -1,7 +1,7 @@
 import { Models } from '@open-rights-exchange/chain-js'
 import { ethers } from 'ethers'
 import { EthereumPrivateKey, PersonalSignDataInput } from '../models'
-import { convertStringToUInt8Array } from '../helpers'
+import { convertStringToUInt8Array, splitSignature, getEthersWallet } from '../helpers'
 
 export async function validatePersonalSignInput(data: PersonalSignDataInput): Promise<Models.SignStringValidateResult> {
   let result: Models.SignStringValidateResult
@@ -50,12 +50,12 @@ export async function personalSign(
   data: PersonalSignDataInput,
 ): Promise<Models.SignStringSignResult> {
   const privateKey = privateKeys[0]
-  const signer = new ethers.Wallet(privateKey)
+  const signer = getEthersWallet(privateKey)
 
   const dataBytes: Uint8Array = convertStringToUInt8Array(data.stringToSign)
   const sig = await signer.signMessage(dataBytes)
 
-  const signatureParts = ethers.utils.splitSignature(sig)
+  const signatureParts = splitSignature(sig)
   const result = { signature: sig, details: { r: signatureParts.r, s: signatureParts.s, v: signatureParts.v } }
   return result
 }

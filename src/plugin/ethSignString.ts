@@ -1,18 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Interfaces, Models, Errors } from '@open-rights-exchange/chain-js'
-import { EthereumChainState } from './ethChainState'
 import {
   EthereumPrivateKey,
   EthereumTransactionOptions,
   PersonalSignDataInput,
   SignStringOptions,
+  SignMethod,
   SignTypedDataInput,
 } from './models'
-import { EthereumMultisigPlugin } from './plugins/multisig/ethereumMultisigPlugin'
 import { personalSign, validatePersonalSignInput } from './stringSignMethods/personal-sign'
 import { signTypedData, validateSignTypedDataInput } from './stringSignMethods/sign-typed-data'
 
-export class EthereumSignString implements Interfaces.SignString {
+export class EthereumSignMessage implements Interfaces.SignString {
   constructor(data: any, options?: SignStringOptions) {
     this.applyOptions(options)
     this.applyData(data)
@@ -29,7 +28,7 @@ export class EthereumSignString implements Interfaces.SignString {
   private _data: any
 
   private applyOptions(options: SignStringOptions) {
-    this._options = options
+    this._options = options ? options : { signMethod: SignMethod.EthereumPersonalSign}
   }
 
   private applyData(data: any) {
@@ -66,16 +65,16 @@ export class EthereumSignString implements Interfaces.SignString {
   public async validate(): Promise<Models.SignStringValidateResult> {
     let result: Models.SignStringValidateResult
     switch (this.signMethod) {
-      case 'ethereum.sign-typed-data':
+      case SignMethod.EthereumSignTypedData:
         result = await validateSignTypedDataInput(this.data as unknown as SignTypedDataInput)
         this._isValidated = result.valid
         break
-      case 'ethereum.personal-sign':
+      case SignMethod.EthereumPersonalSign:
         result = await validatePersonalSignInput(this.data as unknown as PersonalSignDataInput)
         this._isValidated = result.valid
         break
       default:
-        Errors.throwNewError(`signMethod not recognized. signMethod provided = ${this.signMethod}`)
+        Errors.throwNewError(`signMethod not recognized. signMethod provided = ${this.signMethod} not in ${Object.values(SignMethod)}`)
         break
     }
     return result
@@ -94,10 +93,10 @@ export class EthereumSignString implements Interfaces.SignString {
     let result: Models.SignStringSignResult
     try {
       switch (this.signMethod) {
-        case 'ethereum.sign-typed-data':
+        case SignMethod.EthereumSignTypedData:
           result = await signTypedData(privateKeys, this.data as unknown as SignTypedDataInput)
           break
-        case 'ethereum.personal-sign':
+        case SignMethod.EthereumPersonalSign:
           result = await personalSign(privateKeys, this.data as unknown as PersonalSignDataInput)
           break
         case 'ethereum.eth-sign':
@@ -105,7 +104,7 @@ export class EthereumSignString implements Interfaces.SignString {
           result = await personalSign(privateKeys, this.data as unknown as PersonalSignDataInput)
           break
         default:
-          Errors.throwNewError(`signMethod not recognized. signMethod provided = ${this.signMethod}`)
+          Errors.throwNewError(`signMethod not recognized. signMethod provided = ${this.signMethod} not in ${Object.values(SignMethod)}`)
           break
       }
     } catch (error) {

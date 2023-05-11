@@ -39,6 +39,7 @@ import {
   toEthereumTxData,
   toEthereumAddress,
   toEthBuffer,
+  getEthersWallet,
 } from '../../../helpers'
 // import {
 //   isAString,
@@ -52,10 +53,6 @@ import {
 // TODO: move to a more generic directory (Consider using EthersJs)
 export function getEthersJsonRpcProvider(url: string) {
   return new ethers.providers.JsonRpcProvider(url)
-}
-// TODO: move to a more generic directory
-export function getEthersWallet(privateKey: string, provider?: ethers.providers.Provider) {
-  return new ethers.Wallet(privateKey, provider)
 }
 
 export function isValidGnosisSignature(value: GnosisSafeSignature) {

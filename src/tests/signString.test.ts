@@ -1,5 +1,6 @@
+import { SignMethod } from '../plugin/models/signStringModels'
 import { PrivateKeyBrand } from '../../../chain-js/src/models'
-import { EthereumSignString } from '../plugin/ethSignString'
+import { EthereumSignMessage } from '../plugin/ethSignString'
 
 describe('Ethereum SignString Tests', () => {
   it('ethereum.eth-sign - validate fails when input is incorrect', async () => {
@@ -8,8 +9,8 @@ describe('Ethereum SignString Tests', () => {
       BADstringToSign: 'Something to sign here',
     }
 
-    const signStringOptions = { signMethod: 'ethereum.personal-sign' }
-    const signString = new EthereumSignString(input2, signStringOptions)
+    const signStringOptions = { signMethod: SignMethod.EthereumPersonalSign }
+    const signString = new EthereumSignMessage(input2, signStringOptions)
     const validateResult = await signString.validate()
     expect(validateResult.valid).toBeFalsy()
   })
@@ -20,8 +21,22 @@ describe('Ethereum SignString Tests', () => {
       stringToSign: 'Something to sign here',
     }
 
-    const signStringOptions = { signMethod: 'ethereum.personal-sign' }
-    const signString = new EthereumSignString(input2, signStringOptions)
+    const signStringOptions = { signMethod: SignMethod.EthereumPersonalSign }
+    const signString = new EthereumSignMessage(input2, signStringOptions)
+    const validateResult = await signString.validate()
+    expect(validateResult.valid).toBeTruthy()
+    const result = await signString.sign([
+      '0xbafee378c528ac180d309760f24378a2cfe47d175691966d15c83948e4a7faa6' as unknown as PrivateKeyBrand,
+    ])
+    expect(result.signature).toBeDefined()
+  })
+
+  it('ethereum.eth-sign - validate passes when input is correct and no options are provided', async () => {
+    const input2 = {
+      stringToSign: 'Something to sign here',
+    }
+
+    const signString = new EthereumSignMessage(input2)
     const validateResult = await signString.validate()
     expect(validateResult.valid).toBeTruthy()
     const result = await signString.sign([
@@ -31,13 +46,12 @@ describe('Ethereum SignString Tests', () => {
   })
 
   it('ethereum.sign-typed-data - validate fails when input is incorrect', async () => {
-    // expect(1).toBeNull()
     const input2 = {
       BADstringToSign: 'Something to sign here',
     }
 
-    const signStringOptions = { signMethod: 'ethereum.personal-sign' }
-    const signString = new EthereumSignString(input2, signStringOptions)
+    const signStringOptions = { signMethod: SignMethod.EthereumPersonalSign }
+    const signString = new EthereumSignMessage(input2, signStringOptions)
     const validateResult = await signString.validate()
     expect(validateResult.valid).toBeFalsy()
   })
@@ -74,8 +88,8 @@ describe('Ethereum SignString Tests', () => {
       },
     }
 
-    const signStringOptions = { signMethod: 'ethereum.sign-typed-data' }
-    const signString = new EthereumSignString(input, signStringOptions)
+    const signStringOptions = { signMethod: SignMethod.EthereumSignTypedData }
+    const signString = new EthereumSignMessage(input, signStringOptions)
     const validateResult = await signString.validate()
     expect(validateResult.valid).toBeTruthy()
     const result = await signString.sign([
