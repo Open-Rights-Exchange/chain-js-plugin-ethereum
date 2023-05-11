@@ -296,6 +296,9 @@ class Plugin implements Interfaces.Chain {
   /** Whether the chain supports resources */
   supportsResources = false
 
+  /** Whether chain supports ability to get a publicKey from a signature */
+  supportsTypedDataSignature = true
+
   /** Verify that a 'personal message' was signed using the given key (signed with the private key for the provided public key)
    * A message differs than verifySignedWithPublicKey() because it might additional strings appended (as required by chain best-practices)
    * This differs from verifySignedWithPublicKey() because a message might include additional strings appended (as required by chain best-practices) */
