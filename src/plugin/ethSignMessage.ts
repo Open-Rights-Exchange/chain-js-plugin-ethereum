@@ -4,15 +4,15 @@ import {
   EthereumPrivateKey,
   EthereumTransactionOptions,
   PersonalSignDataInput,
-  SignStringOptions,
+  SignMessageOptions,
   SignMethod,
   SignTypedDataInput,
 } from './models'
 import { personalSign, validatePersonalSignInput } from './stringSignMethods/personal-sign'
 import { signTypedData, validateSignTypedDataInput } from './stringSignMethods/sign-typed-data'
 
-export class EthereumSignMessage implements Interfaces.SignString {
-  constructor(data: any, options?: SignStringOptions) {
+export class EthereumSignMessage implements Interfaces.SignMessage {
+  constructor(data: any, options?: SignMessageOptions) {
     this.applyOptions(options)
     this.applyData(data)
     this.setSignMethod()
@@ -23,11 +23,11 @@ export class EthereumSignMessage implements Interfaces.SignString {
 
   private _signMethod: string
 
-  private _options: SignStringOptions
+  private _options: SignMessageOptions
 
   private _data: any
 
-  private applyOptions(options: SignStringOptions) {
+  private applyOptions(options: SignMessageOptions) {
     this._options = options ? options : { signMethod: SignMethod.EthereumPersonalSign}
   }
 
@@ -35,12 +35,12 @@ export class EthereumSignMessage implements Interfaces.SignString {
     this._data = data
   }
 
-  /** Options provided when the SignString class was created */
-  get options(): SignStringOptions {
+  /** Options provided when the SignMessage class was created */
+  get options(): SignMessageOptions {
     return this._options
   }
 
-  /** Date provided when the SignString class was created */
+  /** Date provided when the SignMessage class was created */
   get data(): EthereumTransactionOptions<any> {
     return this._data
   }
@@ -62,8 +62,8 @@ export class EthereumSignMessage implements Interfaces.SignString {
 
   /** Verifies that the structure of the signature request is valid.
    *  Throws if any problems */
-  public async validate(): Promise<Models.SignStringValidateResult> {
-    let result: Models.SignStringValidateResult
+  public async validate(): Promise<Models.SignMessageValidateResult> {
+    let result: Models.SignMessageValidateResult
     switch (this.signMethod) {
       case SignMethod.EthereumSignTypedData:
         result = await validateSignTypedDataInput(this.data as unknown as SignTypedDataInput)
@@ -83,14 +83,14 @@ export class EthereumSignMessage implements Interfaces.SignString {
   /** Throws if not validated */
   private assertIsValidated(): void {
     if (!this._isValidated) {
-      Errors.throwNewError('SignString not validated. Call signString.validate() first.')
+      Errors.throwNewError('SignMessage not validated. Call SignMessage.validate() first.')
     }
   }
 
   /** Sign the string or structured data */
-  public async sign(privateKeys: EthereumPrivateKey[]): Promise<Models.SignStringSignResult> {
+  public async sign(privateKeys: EthereumPrivateKey[]): Promise<Models.SignMessageResult> {
     this.assertIsValidated()
-    let result: Models.SignStringSignResult
+    let result: Models.SignMessageResult
     try {
       switch (this.signMethod) {
         case SignMethod.EthereumSignTypedData:
@@ -108,7 +108,7 @@ export class EthereumSignMessage implements Interfaces.SignString {
           break
       }
     } catch (error) {
-      Errors.throwNewError('Erorr in signString.sign() - ', error)
+      Errors.throwNewError('Erorr in SignMessage.sign() - ', error)
     }
 
     return result

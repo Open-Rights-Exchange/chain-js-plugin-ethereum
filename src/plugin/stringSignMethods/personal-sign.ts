@@ -3,8 +3,8 @@ import { ethers } from 'ethers'
 import { EthereumPrivateKey, PersonalSignDataInput } from '../models'
 import { convertStringToUInt8Array, splitSignature, getEthersWallet } from '../helpers'
 
-export async function validatePersonalSignInput(data: PersonalSignDataInput): Promise<Models.SignStringValidateResult> {
-  let result: Models.SignStringValidateResult
+export async function validatePersonalSignInput(data: PersonalSignDataInput): Promise<Models.SignMessageValidateResult> {
+  let result: Models.SignMessageValidateResult
 
   let message = ''
   let valid = true
@@ -48,7 +48,7 @@ export async function validatePersonalSignInput(data: PersonalSignDataInput): Pr
 export async function personalSign(
   privateKeys: EthereumPrivateKey[],
   data: PersonalSignDataInput,
-): Promise<Models.SignStringSignResult> {
+): Promise<Models.SignMessageResult> {
   const privateKey = privateKeys[0]
   const signer = getEthersWallet(privateKey)
 

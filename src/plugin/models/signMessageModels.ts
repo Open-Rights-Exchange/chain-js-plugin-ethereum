@@ -5,24 +5,24 @@ export enum SignMethod {
   EthereumSignTypedData = 'ethereum.sign-typed-data'
 }
 
-/** SignStringOptions options used when contructing a signString object */
+/** SignMessageOptions options used when contructing a SignMessage object */
 
-export type SignStringOptions = {
+export type SignMessageOptions = {
   signMethod: SignMethod
 }
 
 
-/** SignStringSignResult input contains the signature and the details containing r,s,v signature paramters */
+/** SignMessageResult input contains the signature and the details containing r,s,v signature paramters */
 
-export type SignStringSignResult = {
+export type SignMessageResult = {
   signature: String
   details: any
 }
 
 
-/**  SignStringValidateResult input contains the validation result (valid), message and example */
+/**  SignMessageValidateResult input contains the validation result (valid), message and example */
 
-export type SignStringValidateResult = {
+export type SignMessageValidateResult = {
   valid: boolean
   message: string,
   example: any
