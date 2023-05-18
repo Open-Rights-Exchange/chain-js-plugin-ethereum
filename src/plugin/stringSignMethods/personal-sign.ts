@@ -1,29 +1,29 @@
 import { Models } from '@open-rights-exchange/chain-js'
 import { ethers } from 'ethers'
 import { EthereumPrivateKey, PersonalSignDataInput } from '../models'
-import { convertStringToUInt8Array, splitSignature, getEthersWallet } from '../helpers'
+import { convertStringToUInt8Array, splitSignature, getEthersWallet, isAString } from '../helpers'
 
-export async function validatePersonalSignInput(data: PersonalSignDataInput): Promise<Models.SignMessageValidateResult> {
+export async function validatePersonalSignInput(message: PersonalSignDataInput): Promise<Models.SignMessageValidateResult> {
   let result: Models.SignMessageValidateResult
 
-  let message = ''
+  let errorMessage = ''
   let valid = true
 
   // Check that the stringToSign property exists.
-  if (!data || !data.stringToSign) {
-    message += ' stringToSign property is missing.'
+  if (!message || !message.stringToSign) {
+    errorMessage += ' stringToSign property is missing.'
     valid = false
   }
 
   // Check that message is string
-  if (typeof data.stringToSign !== 'string') {
-    message += ' stringToSign property must be a string.'
+  if (!isAString(message.stringToSign)) {
+    errorMessage += ' stringToSign property must be a string.'
     valid = false
   }
 
   /* If any part of the input is not valid then let's build an example to reply with */
   if (!valid) {
-    const fullMessage = `The data supplied to personalSign is incorrectly formatted or missing: ${message}`
+    const fullMessage = `The data supplied to personalSign is incorrectly formatted or missing: ${errorMessage}`
 
     const example = {
       stringToSign: 'The message you would like to sign here',

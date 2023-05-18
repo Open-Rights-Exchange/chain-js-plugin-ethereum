@@ -1,8 +1,9 @@
 /** EthSignMethods enum contains the methods that can be used to sign a string */
 
 export enum SignMethod {
-  EthereumPersonalSign = 'ethereum.personal-sign',
-  EthereumSignTypedData = 'ethereum.sign-typed-data'
+  Default = 'ethereum.personal-sign',
+  EthereumSignTypedData = 'ethereum.sign-typed-data',
+  EthereumSign = 'ethereum.eth-sign'
 }
 
 /** SignMessageOptions options used when contructing a SignMessage object */

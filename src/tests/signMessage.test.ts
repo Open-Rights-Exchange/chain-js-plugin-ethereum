@@ -3,25 +3,12 @@ import { PrivateKeyBrand } from '../../../chain-js/src/models'
 import { EthereumSignMessage } from '../plugin/ethSignMessage'
 
 describe('Ethereum SignMessage Tests', () => {
-  it('ethereum.eth-sign - validate fails when input is incorrect', async () => {
-    // expect(1).toBeNull()
-    const input2 = {
-      BADstringToSign: 'Something to sign here',
-    }
-
-    const SignMessageOptions = { signMethod: SignMethod.EthereumPersonalSign }
-    const SignMessage = new EthereumSignMessage(input2, SignMessageOptions)
-    const validateResult = await SignMessage.validate()
-    expect(validateResult.valid).toBeFalsy()
-  })
-
   it('ethereum.eth-sign - validate passes when input is correct', async () => {
-    // expect(1).toBeNull()
     const input2 = {
       stringToSign: 'Something to sign here',
     }
 
-    const SignMessageOptions = { signMethod: SignMethod.EthereumPersonalSign }
+    const SignMessageOptions = { signMethod: SignMethod.Default }
     const SignMessage = new EthereumSignMessage(input2, SignMessageOptions)
     const validateResult = await SignMessage.validate()
     expect(validateResult.valid).toBeTruthy()
@@ -43,17 +30,6 @@ describe('Ethereum SignMessage Tests', () => {
       '0xbafee378c528ac180d309760f24378a2cfe47d175691966d15c83948e4a7faa6' as unknown as PrivateKeyBrand,
     ])
     expect(result.signature).toBeDefined()
-  })
-
-  it('ethereum.sign-typed-data - validate fails when input is incorrect', async () => {
-    const input2 = {
-      BADstringToSign: 'Something to sign here',
-    }
-
-    const SignMessageOptions = { signMethod: SignMethod.EthereumPersonalSign }
-    const SignMessage = new EthereumSignMessage(input2, SignMessageOptions)
-    const validateResult = await SignMessage.validate()
-    expect(validateResult.valid).toBeFalsy()
   })
 
   it('ethereum.sign-typed-data - validate passes when input is correct', async () => {

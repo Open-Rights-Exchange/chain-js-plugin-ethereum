@@ -12,9 +12,9 @@ import { personalSign, validatePersonalSignInput } from './stringSignMethods/per
 import { signTypedData, validateSignTypedDataInput } from './stringSignMethods/sign-typed-data'
 
 export class EthereumSignMessage implements Interfaces.SignMessage {
-  constructor(data: any, options?: SignMessageOptions) {
+  constructor(message:  SignTypedDataInput | PersonalSignDataInput, options?: SignMessageOptions) {
     this.applyOptions(options)
-    this.applyData(data)
+    this.applyMessage(message)
     this.setSignMethod()
     this._isValidated = false
   }
@@ -25,14 +25,14 @@ export class EthereumSignMessage implements Interfaces.SignMessage {
 
   private _options: SignMessageOptions
 
-  private _data: any
+  private _message:  SignTypedDataInput | PersonalSignDataInput
 
   private applyOptions(options: SignMessageOptions) {
-    this._options = options ? options : { signMethod: SignMethod.EthereumPersonalSign}
+    this._options = options ? options : { signMethod: SignMethod.Default}
   }
 
-  private applyData(data: any) {
-    this._data = data
+  private applyMessage(_message: SignTypedDataInput | PersonalSignDataInput) {
+    this._message = _message
   }
 
   /** Options provided when the SignMessage class was created */
@@ -40,9 +40,9 @@ export class EthereumSignMessage implements Interfaces.SignMessage {
     return this._options
   }
 
-  /** Date provided when the SignMessage class was created */
-  get data(): EthereumTransactionOptions<any> {
-    return this._data
+  /** Message provided when the SignMessage class was created */
+  get message(): SignTypedDataInput | PersonalSignDataInput {
+    return this._message
   }
 
   /* Set the signMethod and ensure that is lowercase */
@@ -66,11 +66,11 @@ export class EthereumSignMessage implements Interfaces.SignMessage {
     let result: Models.SignMessageValidateResult
     switch (this.signMethod) {
       case SignMethod.EthereumSignTypedData:
-        result = await validateSignTypedDataInput(this.data as unknown as SignTypedDataInput)
+        result = await validateSignTypedDataInput(this.message as unknown as SignTypedDataInput)
         this._isValidated = result.valid
         break
-      case SignMethod.EthereumPersonalSign:
-        result = await validatePersonalSignInput(this.data as unknown as PersonalSignDataInput)
+      case SignMethod.Default:
+        result = await validatePersonalSignInput(this.message as unknown as PersonalSignDataInput)
         this._isValidated = result.valid
         break
       default:
@@ -94,14 +94,14 @@ export class EthereumSignMessage implements Interfaces.SignMessage {
     try {
       switch (this.signMethod) {
         case SignMethod.EthereumSignTypedData:
-          result = await signTypedData(privateKeys, this.data as unknown as SignTypedDataInput)
+          result = await signTypedData(privateKeys, this.message as unknown as SignTypedDataInput)
           break
-        case SignMethod.EthereumPersonalSign:
-          result = await personalSign(privateKeys, this.data as unknown as PersonalSignDataInput)
+        case SignMethod.Default:
+          result = await personalSign(privateKeys, this.message as unknown as PersonalSignDataInput)
           break
-        case 'ethereum.eth-sign':
+        case SignMethod.EthereumSign:
           // Note that this is the same thing as personal-sign. Added to reduce confusion.
-          result = await personalSign(privateKeys, this.data as unknown as PersonalSignDataInput)
+          result = await personalSign(privateKeys, this.message as unknown as PersonalSignDataInput)
           break
         default:
           Errors.throwNewError(`signMethod not recognized. signMethod provided = ${this.signMethod} not in ${Object.values(SignMethod)}`)
