@@ -38,13 +38,15 @@ export type SignMessageValidateResult = {
   message: the message of the signature
 */
 
-export type SignTypedDataInput = {
-  version: number
-  types: any
-  primaryType: String
-  domain: any
-  message: any
-}
+export const SignTypedDataInputModel = {
+  version: 0,
+  types: {},
+  primaryType: '',
+  domain: {},
+  message: {},
+};
+
+export type SignTypedDataInput = typeof SignTypedDataInputModel;
 
 /** PersonalSignDataInput contains the string to sign */ 
 

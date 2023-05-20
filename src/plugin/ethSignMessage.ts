@@ -7,15 +7,16 @@ import {
   SignMessageOptions,
   SignMethod,
   SignTypedDataInput,
+  SignTypedDataInputModel
 } from './models'
 import { personalSign, validatePersonalSignInput } from './stringSignMethods/personal-sign'
 import { signTypedData, validateSignTypedDataInput } from './stringSignMethods/sign-typed-data'
 
 export class EthereumSignMessage implements Interfaces.SignMessage {
-  constructor(message:  SignTypedDataInput | PersonalSignDataInput, options?: SignMessageOptions) {
+  constructor(message:  string, options?: SignMessageOptions) {
     this.applyOptions(options)
-    this.applyMessage(message)
     this.setSignMethod()
+    this.applyMessage(message)
     this._isValidated = false
   }
 
@@ -25,14 +26,23 @@ export class EthereumSignMessage implements Interfaces.SignMessage {
 
   private _options: SignMessageOptions
 
-  private _message:  SignTypedDataInput | PersonalSignDataInput
+  private _message: PersonalSignDataInput | SignTypedDataInput
+
 
   private applyOptions(options: SignMessageOptions) {
     this._options = options ? options : { signMethod: SignMethod.Default}
   }
 
-  private applyMessage(_message: SignTypedDataInput | PersonalSignDataInput) {
-    this._message = _message
+  private applyMessage(_message: string) {
+    switch (this.signMethod) {
+      case SignMethod.EthereumSignTypedData:
+        let typedMessage = JSON.parse(_message)
+        this._message = typedMessage as typeof SignTypedDataInputModel;
+        break;
+      case SignMethod.Default:
+      default:
+        this._message = { stringToSign: _message}
+    }
   }
 
   /** Options provided when the SignMessage class was created */

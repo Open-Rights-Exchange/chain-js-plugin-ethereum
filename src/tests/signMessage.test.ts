@@ -4,12 +4,9 @@ import { EthereumSignMessage } from '../plugin/ethSignMessage'
 
 describe('Ethereum SignMessage Tests', () => {
   it('ethereum.eth-sign - validate passes when input is correct', async () => {
-    const input2 = {
-      stringToSign: 'Something to sign here',
-    }
-
+    const stringToSign = 'Something to sign here';
     const SignMessageOptions = { signMethod: SignMethod.Default }
-    const SignMessage = new EthereumSignMessage(input2, SignMessageOptions)
+    const SignMessage = new EthereumSignMessage(stringToSign, SignMessageOptions)
     const validateResult = await SignMessage.validate()
     expect(validateResult.valid).toBeTruthy()
     const result = await SignMessage.sign([
@@ -19,11 +16,8 @@ describe('Ethereum SignMessage Tests', () => {
   })
 
   it('ethereum.eth-sign - validate passes when input is correct and no options are provided', async () => {
-    const input2 = {
-      stringToSign: 'Something to sign here',
-    }
-
-    const SignMessage = new EthereumSignMessage(input2)
+    const stringToSign = 'Something to sign here';
+    const SignMessage = new EthereumSignMessage(stringToSign)
     const validateResult = await SignMessage.validate()
     expect(validateResult.valid).toBeTruthy()
     const result = await SignMessage.sign([
@@ -65,7 +59,7 @@ describe('Ethereum SignMessage Tests', () => {
     }
 
     const SignMessageOptions = { signMethod: SignMethod.EthereumSignTypedData }
-    const SignMessage = new EthereumSignMessage(input, SignMessageOptions)
+    const SignMessage = new EthereumSignMessage(JSON.stringify(input), SignMessageOptions)
     const validateResult = await SignMessage.validate()
     expect(validateResult.valid).toBeTruthy()
     const result = await SignMessage.sign([
@@ -75,5 +69,22 @@ describe('Ethereum SignMessage Tests', () => {
     expect(result.details.r).toBeDefined()
     expect(result.details.s).toBeDefined()
     expect(result.details.v).toBeDefined()
+  })
+
+  it('ethereum.sign-typed-data - validate fails when input is not correct', async () => {
+
+
+    const wrongInput = {
+      wrongVersion: 4,
+      wrongPrimaryTypefield: 'MyTypeA',
+      wrongMessage: {
+        sender: '0xe0B7AE41401D8301BE85Bc8103eA2A3C221b8b09',
+      },
+    }
+
+    const SignMessageOptions = { signMethod: SignMethod.EthereumSignTypedData }
+    const SignMessage = new EthereumSignMessage(JSON.stringify(wrongInput), SignMessageOptions)
+    const validateResult = await SignMessage.validate()
+    expect(validateResult.valid).toBeFalsy()
   })
 })

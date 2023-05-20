@@ -1,16 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Transaction } from 'web3-eth'
-// import { Chain } from '../../interfaces'
-// import {
-//   ChainActionType,
-//   ChainDate,
-//   ChainEntityName,
-//   ChainInfo,
-//   ChainType,
-//   CryptoCurve,
-//   TransactionStatus,
-// } from '../../models'
-// import { ChainError, throwNewError } from '../../errors'
 import { Interfaces, Models, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chain-js'
 import * as ethcrypto from './ethCrypto'
 import { composeAction } from './ethCompose'
@@ -196,8 +185,7 @@ class Plugin implements Interfaces.Chain {
     return transaction
   }
 
-  private newSignMessage = async (data: any, options?: any): Promise<EthereumSignMessage> => {
-    // this.assertIsConnected()
+  private newSignMessage = async (data: string, options?: any): Promise<EthereumSignMessage> => {
     const transaction = new EthereumSignMessage(data, options)
     return transaction
   }
