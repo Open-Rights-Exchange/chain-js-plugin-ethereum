@@ -1,6 +1,6 @@
-/** EthSignMethods enum contains the methods that can be used to sign a string */
+/** SignMessageMethod enum contains the methods that can be used to sign a string */
 
-export enum SignMethod {
+export enum SignMessageMethod {
   Default = 'ethereum.personal-sign',
   EthereumSignTypedData = 'ethereum.sign-typed-data',
   EthereumSign = 'ethereum.eth-sign'
@@ -9,7 +9,7 @@ export enum SignMethod {
 /** SignMessageOptions options used when contructing a SignMessage object */
 
 export type SignMessageOptions = {
-  signMethod: SignMethod
+  signMethod: SignMessageMethod
 }
 
 
@@ -46,10 +46,10 @@ export const SignTypedDataInputModel = {
   message: {},
 };
 
-export type SignTypedDataInput = typeof SignTypedDataInputModel;
+export type SignMessageSignTypedDataInput = typeof SignTypedDataInputModel;
 
-/** PersonalSignDataInput contains the string to sign */ 
+/** SignMessagePersonalSignDataInput contains the string to sign */ 
 
-export type PersonalSignDataInput = {
+export type SignMessagePersonalSignDataInput = {
   stringToSign: string
 }

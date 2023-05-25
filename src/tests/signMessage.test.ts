@@ -1,11 +1,11 @@
-import { SignMethod } from '../plugin/models/signMessageModels'
+import { SignMessageMethod } from '../plugin/models/signMessageModels'
 import { PrivateKeyBrand } from '../../../chain-js/src/models'
 import { EthereumSignMessage } from '../plugin/ethSignMessage'
 
 describe('Ethereum SignMessage Tests', () => {
   it('ethereum.eth-sign - validate passes when input is correct', async () => {
     const stringToSign = 'Something to sign here';
-    const SignMessageOptions = { signMethod: SignMethod.Default }
+    const SignMessageOptions = { signMethod: SignMessageMethod.Default }
     const SignMessage = new EthereumSignMessage(stringToSign, SignMessageOptions)
     const validateResult = await SignMessage.validate()
     expect(validateResult.valid).toBeTruthy()
@@ -58,7 +58,7 @@ describe('Ethereum SignMessage Tests', () => {
       },
     }
 
-    const SignMessageOptions = { signMethod: SignMethod.EthereumSignTypedData }
+    const SignMessageOptions = { signMethod: SignMessageMethod.EthereumSignTypedData }
     const SignMessage = new EthereumSignMessage(JSON.stringify(input), SignMessageOptions)
     const validateResult = await SignMessage.validate()
     expect(validateResult.valid).toBeTruthy()
@@ -82,7 +82,7 @@ describe('Ethereum SignMessage Tests', () => {
       },
     }
 
-    const SignMessageOptions = { signMethod: SignMethod.EthereumSignTypedData }
+    const SignMessageOptions = { signMethod: SignMessageMethod.EthereumSignTypedData }
     const SignMessage = new EthereumSignMessage(JSON.stringify(wrongInput), SignMessageOptions)
     const validateResult = await SignMessage.validate()
     expect(validateResult.valid).toBeFalsy()
