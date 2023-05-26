@@ -1,16 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Transaction } from 'web3-eth'
-// import { Chain } from '../../interfaces'
-// import {
-//   ChainActionType,
-//   ChainDate,
-//   ChainEntityName,
-//   ChainInfo,
-//   ChainType,
-//   CryptoCurve,
-//   TransactionStatus,
-// } from '../../models'
-// import { ChainError, throwNewError } from '../../errors'
 import { Interfaces, Models, Helpers, PluginInterfaces, Crypto, Errors } from '@open-rights-exchange/chain-js'
 import * as ethcrypto from './ethCrypto'
 import { composeAction } from './ethCompose'
@@ -56,6 +45,7 @@ import {
 // import { ChainJsPlugin, ChainJsPluginOptions, PluginType } from '../../interfaces/plugin'
 // import { assertPluginTypeNotAlreadyInstalled, initializePlugin } from '../../helpers'
 import { EthereumMultisigPlugin } from './plugins/multisig/ethereumMultisigPlugin'
+import { EthereumSignMessage } from './ethSignMessage'
 
 // TODO: Comsolidate use of Ethereum libraries
 
@@ -195,10 +185,16 @@ class Plugin implements Interfaces.Chain {
     return transaction
   }
 
+  private newSignMessage = async (data: string, options?: any): Promise<EthereumSignMessage> => {
+    const transaction = new EthereumSignMessage(data, options)
+    return transaction
+  }
+
   public new = {
     Account: this.newAccount,
     CreateAccount: this.newCreateAccount,
     Transaction: this.newTransaction,
+    SignMessage: this.newSignMessage,
   }
 
   // --------- Transaction functions */
@@ -287,6 +283,9 @@ class Plugin implements Interfaces.Chain {
 
   /** Whether the chain supports resources */
   supportsResources = false
+
+  /** Whether the chain's signMessage feature supports signing a typed data object (ex: ERC712 data type for Ethereum) */
+  supportsSignMessageTypedData = true
 
   /** Verify that a 'personal message' was signed using the given key (signed with the private key for the provided public key)
    * A message differs than verifySignedWithPublicKey() because it might additional strings appended (as required by chain best-practices)
