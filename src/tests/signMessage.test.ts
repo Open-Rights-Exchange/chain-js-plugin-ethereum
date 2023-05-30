@@ -1,5 +1,6 @@
 import { SignMessageMethod } from '../plugin/models/signMessageModels'
-import { PrivateKeyBrand } from '../../../chain-js/src/models'
+import { Models } from '@open-rights-exchange/chain-js'
+
 import { EthereumSignMessage } from '../plugin/ethSignMessage'
 
 describe('Ethereum SignMessage Tests', () => {
@@ -10,7 +11,7 @@ describe('Ethereum SignMessage Tests', () => {
     const validateResult = await SignMessage.validate()
     expect(validateResult.valid).toBeTruthy()
     const result = await SignMessage.sign([
-      '0xbafee378c528ac180d309760f24378a2cfe47d175691966d15c83948e4a7faa6' as unknown as PrivateKeyBrand,
+      '0xbafee378c528ac180d309760f24378a2cfe47d175691966d15c83948e4a7faa6' as unknown as Models.PrivateKeyBrand,
     ])
     expect(result.signature).toBeDefined()
   })
@@ -21,7 +22,7 @@ describe('Ethereum SignMessage Tests', () => {
     const validateResult = await SignMessage.validate()
     expect(validateResult.valid).toBeTruthy()
     const result = await SignMessage.sign([
-      '0xbafee378c528ac180d309760f24378a2cfe47d175691966d15c83948e4a7faa6' as unknown as PrivateKeyBrand,
+      '0xbafee378c528ac180d309760f24378a2cfe47d175691966d15c83948e4a7faa6' as unknown as Models.PrivateKeyBrand,
     ])
     expect(result.signature).toBeDefined()
   })
@@ -63,7 +64,7 @@ describe('Ethereum SignMessage Tests', () => {
     const validateResult = await SignMessage.validate()
     expect(validateResult.valid).toBeTruthy()
     const result = await SignMessage.sign([
-      '0xbafee378c528ac180d309760f24378a2cfe47d175691966d15c83948e4a7faa6' as unknown as PrivateKeyBrand,
+      '0xbafee378c528ac180d309760f24378a2cfe47d175691966d15c83948e4a7faa6' as unknown as Models.PrivateKeyBrand,
     ])
     expect(result.signature).toBeDefined()
     expect(result.details.r).toBeDefined()
