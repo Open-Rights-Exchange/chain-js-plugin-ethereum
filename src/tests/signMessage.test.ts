@@ -1,11 +1,11 @@
-import { SignMessageMethod } from '../plugin/models/signMessageModels'
 import { Models } from '@open-rights-exchange/chain-js'
+import { SignMessageMethod } from '../plugin/models/signMessageModels'
 
 import { EthereumSignMessage } from '../plugin/ethSignMessage'
 
 describe('Ethereum SignMessage Tests', () => {
   it('ethereum.eth-sign - validate passes when input is correct', async () => {
-    const stringToSign = 'Something to sign here';
+    const stringToSign = 'Something to sign here'
     const SignMessageOptions = { signMethod: SignMessageMethod.Default }
     const SignMessage = new EthereumSignMessage(stringToSign, SignMessageOptions)
     const validateResult = await SignMessage.validate()
@@ -17,7 +17,7 @@ describe('Ethereum SignMessage Tests', () => {
   })
 
   it('ethereum.eth-sign - validate passes when input is correct and no options are provided', async () => {
-    const stringToSign = 'Something to sign here';
+    const stringToSign = 'Something to sign here'
     const SignMessage = new EthereumSignMessage(stringToSign)
     const validateResult = await SignMessage.validate()
     expect(validateResult.valid).toBeTruthy()
@@ -73,8 +73,6 @@ describe('Ethereum SignMessage Tests', () => {
   })
 
   it('ethereum.sign-typed-data - validate fails when input is not correct', async () => {
-
-
     const wrongInput = {
       wrongVersion: 4,
       wrongPrimaryTypefield: 'MyTypeA',

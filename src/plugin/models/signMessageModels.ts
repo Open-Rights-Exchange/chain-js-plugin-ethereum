@@ -3,7 +3,7 @@
 export enum SignMessageMethod {
   Default = 'ethereum.personal-sign',
   EthereumSignTypedData = 'ethereum.sign-typed-data',
-  EthereumSign = 'ethereum.eth-sign'
+  EthereumSign = 'ethereum.eth-sign',
 }
 
 /** SignMessageOptions options used when contructing a SignMessage object */
@@ -12,7 +12,6 @@ export type SignMessageOptions = {
   signMethod: SignMessageMethod
 }
 
-
 /** SignMessageResult input contains the signature and the details containing r,s,v signature paramters */
 
 export type SignMessageResult = {
@@ -20,12 +19,11 @@ export type SignMessageResult = {
   details: any
 }
 
-
 /**  SignMessageValidateResult input contains the validation result (valid), message and example */
 
 export type SignMessageValidateResult = {
   valid: boolean
-  message: string,
+  message: string
   example: any
 }
 
@@ -44,11 +42,11 @@ export const SignTypedDataInputModel = {
   primaryType: '',
   domain: {},
   message: {},
-};
+}
 
-export type SignMessageSignTypedDataInput = typeof SignTypedDataInputModel;
+export type SignMessageSignTypedDataInput = typeof SignTypedDataInputModel
 
-/** SignMessagePersonalSignDataInput contains the string to sign */ 
+/** SignMessagePersonalSignDataInput contains the string to sign */
 
 export type SignMessagePersonalSignDataInput = {
   stringToSign: string

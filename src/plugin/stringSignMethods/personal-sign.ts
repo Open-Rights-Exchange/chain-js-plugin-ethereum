@@ -1,9 +1,10 @@
 import { Models } from '@open-rights-exchange/chain-js'
-import { ethers } from 'ethers'
 import { EthereumPrivateKey, SignMessagePersonalSignDataInput } from '../models'
 import { convertStringToUInt8Array, splitSignature, getEthersWallet, isAString } from '../helpers'
 
-export async function validatePersonalSignInput(message: SignMessagePersonalSignDataInput): Promise<Models.SignMessageValidateResult> {
+export async function validatePersonalSignInput(
+  message: SignMessagePersonalSignDataInput,
+): Promise<Models.SignMessageValidateResult> {
   let result: Models.SignMessageValidateResult
 
   let errorMessage = ''

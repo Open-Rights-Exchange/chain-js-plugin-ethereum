@@ -11,6 +11,7 @@ import {
 } from 'ethereumjs-util'
 
 import { Helpers } from '@open-rights-exchange/chain-js'
+import { TypedDataDomain, TypedDataField } from '@ethersproject/abstract-signer'
 import {
   AlternateUnitMap,
   EthereumAddress,
@@ -22,7 +23,6 @@ import {
   EthUnit,
 } from '../models'
 import { toEthBuffer } from './generalHelpers'
-import { TypedDataDomain, TypedDataField } from "@ethersproject/abstract-signer";
 
 // todo eth - this should not have copied code - is the bug worked-around? if not, we should consider using a diff library
 // Reimplemented from ethereumjs-util module to workaround a current bug
@@ -209,8 +209,12 @@ export function privateKeyToAddress(privateKey: string): EthereumAddress {
 }
 
 /**  checks that the signature matches the message and that the message matches the types provided  */
-export function verifyTypedData(domain: TypedDataDomain, types: Record<string, TypedDataField[]>,
-  message: Record<string, any> , signature: any) {
+export function verifyTypedData(
+  domain: TypedDataDomain,
+  types: Record<string, TypedDataField[]>,
+  message: Record<string, any>,
+  signature: any,
+) {
   return ethers.utils.verifyTypedData(domain, types, message, signature)
 }
 

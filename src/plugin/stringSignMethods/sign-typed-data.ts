@@ -2,7 +2,9 @@ import { Models, Errors } from '@open-rights-exchange/chain-js'
 import { EthereumPrivateKey, SignMessageSignTypedDataInput } from '../models'
 import { getEthersWallet, splitSignature, verifyTypedData } from '../helpers'
 
-export async function validateSignTypedDataInput(data: SignMessageSignTypedDataInput): Promise<Models.SignMessageValidateResult> {
+export async function validateSignTypedDataInput(
+  data: SignMessageSignTypedDataInput,
+): Promise<Models.SignMessageValidateResult> {
   let result: Models.SignMessageValidateResult
 
   let message = ''
