@@ -1,8 +1,8 @@
 import { Models, Errors } from '@open-rights-exchange/chain-js'
-import { EthereumPrivateKey, SignTypedDataInput } from '../models'
+import { EthereumPrivateKey, SignMessageSignTypedDataInput } from '../models'
 import { getEthersWallet, splitSignature, verifyTypedData } from '../helpers'
 
-export async function validateSignTypedDataInput(data: SignTypedDataInput): Promise<Models.SignMessageValidateResult> {
+export async function validateSignTypedDataInput(data: SignMessageSignTypedDataInput): Promise<Models.SignMessageValidateResult> {
   let result: Models.SignMessageValidateResult
 
   let message = ''
@@ -86,7 +86,7 @@ export async function validateSignTypedDataInput(data: SignTypedDataInput): Prom
 
 export async function signTypedData(
   privateKeys: EthereumPrivateKey[],
-  data: SignTypedDataInput,
+  data: SignMessageSignTypedDataInput,
 ): Promise<Models.SignMessageResult> {
   const privateKey = privateKeys[0]
   const signer = getEthersWallet(privateKey)
