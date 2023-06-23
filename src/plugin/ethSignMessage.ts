@@ -10,7 +10,8 @@ import {
   SignTypedDataInputModel,
 } from './models'
 import { personalSign, validatePersonalSignInput } from './stringSignMethods/personal-sign'
-import { signTypedData, validateSignTypedDataInput } from './stringSignMethods/sign-typed-data'
+import { composeErrorExampleMessage, signTypedData, validateSignTypedDataInput } from './stringSignMethods/sign-typed-data'
+import { tryParseJSON } from '../../../chain-js/src/helpers'
 
 export class EthereumSignMessage implements Interfaces.SignMessage {
   constructor(message: string, options?: SignMessageOptions) {
@@ -36,7 +37,12 @@ export class EthereumSignMessage implements Interfaces.SignMessage {
     let typedMessage: typeof SignTypedDataInputModel
     switch (this.signMethod) {
       case SignMessageMethod.EthereumSignTypedData:
-        typedMessage = JSON.parse(message)
+        typedMessage = tryParseJSON(message)
+        if(!typedMessage) {
+          const { errorMessage, example } = composeErrorExampleMessage(message)
+          const completeMessage = `${errorMessage} - EXAMPLE: ${JSON.stringify(example)}`
+          Errors.throwNewError(completeMessage)
+        }
         this._message = typedMessage
         break
       case SignMessageMethod.Default:
@@ -79,6 +85,10 @@ export class EthereumSignMessage implements Interfaces.SignMessage {
         result = await validateSignTypedDataInput(this.message as unknown as SignMessageSignTypedDataInput)
         this._isValidated = result.valid
         break
+      case SignMessageMethod.EthereumSign:
+          result = await validatePersonalSignInput(this.message as unknown as SignMessagePersonalSignDataInput)
+          this._isValidated = result.valid
+          break
       case SignMessageMethod.Default:
         result = await validatePersonalSignInput(this.message as unknown as SignMessagePersonalSignDataInput)
         this._isValidated = result.valid

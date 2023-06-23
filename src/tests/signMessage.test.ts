@@ -27,6 +27,18 @@ describe('Ethereum SignMessage Tests', () => {
     expect(result.signature).toBeDefined()
   })
 
+  it('ethereum.eth-sign - validate passes when options is signMethod ethereum.eth-sign', async () => {
+    const stringToSign = 'Something to sign here'
+    const options = { signMethod: SignMessageMethod.EthereumSign }
+    const SignMessage = new EthereumSignMessage(stringToSign, options)
+    const validateResult = await SignMessage.validate()
+    expect(validateResult.valid).toBeTruthy()
+    const result = await SignMessage.sign([
+      '0xbafee378c528ac180d309760f24378a2cfe47d175691966d15c83948e4a7faa6' as unknown as Models.PrivateKeyBrand,
+    ])
+    expect(result.signature).toBeDefined()
+  })
+
   it('ethereum.sign-typed-data - validate passes when input is correct', async () => {
     const eip712Domain = {
       name: 'name',
@@ -86,4 +98,23 @@ describe('Ethereum SignMessage Tests', () => {
     const validateResult = await SignMessage.validate()
     expect(validateResult.valid).toBeFalsy()
   })
+
+  it('ethereum.sign-typed-data - provides helpfull error message when input is malformed (string)', async () => {
+    const wrongInput = 'string that is not json'
+
+    expect(() => {
+      const SignMessageOptions = { signMethod: SignMessageMethod.EthereumSignTypedData }
+      const SignMessage = new EthereumSignMessage(JSON.stringify(wrongInput), SignMessageOptions)
+    }).toThrow('The data supplied to signTypedData is incorrectly formatted')
+  })
+
+  it('ethereum.sign-typed-data - provides helpfull error message when input is malformed JSON', async () => {
+    const wrongInput = { random: 1 }
+    const SignMessageOptions = { signMethod: SignMessageMethod.EthereumSignTypedData }
+    const SignMessage = new EthereumSignMessage(JSON.stringify(wrongInput), SignMessageOptions)
+    const validateResult = await SignMessage.validate()
+    expect(validateResult.message).toContain('The data supplied to signTypedData is incorrectly formatted')
+
+  })
+
 })
