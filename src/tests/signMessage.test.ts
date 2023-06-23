@@ -105,6 +105,7 @@ describe('Ethereum SignMessage Tests', () => {
     expect(() => {
       const SignMessageOptions = { signMethod: SignMessageMethod.EthereumSignTypedData }
       const SignMessage = new EthereumSignMessage(JSON.stringify(wrongInput), SignMessageOptions)
+      console.log(SignMessage)
     }).toThrow('The data supplied to signTypedData is incorrectly formatted')
   })
 
@@ -114,7 +115,5 @@ describe('Ethereum SignMessage Tests', () => {
     const SignMessage = new EthereumSignMessage(JSON.stringify(wrongInput), SignMessageOptions)
     const validateResult = await SignMessage.validate()
     expect(validateResult.message).toContain('The data supplied to signTypedData is incorrectly formatted')
-
   })
-
 })
