@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Interfaces, Models, Errors } from '@open-rights-exchange/chain-js'
+import { Interfaces, Models, Errors, Helpers } from '@open-rights-exchange/chain-js'
 import {
   EthereumPrivateKey,
   EthereumTransactionOptions,
@@ -15,7 +15,6 @@ import {
   signTypedData,
   validateSignTypedDataInput,
 } from './stringSignMethods/sign-typed-data'
-import { tryParseJSON } from '../../../chain-js/src/helpers'
 
 export class EthereumSignMessage implements Interfaces.SignMessage {
   constructor(message: string, options?: SignMessageOptions) {
@@ -41,7 +40,7 @@ export class EthereumSignMessage implements Interfaces.SignMessage {
     let typedMessage: typeof SignTypedDataInputModel
     switch (this.signMethod) {
       case SignMessageMethod.EthereumSignTypedData:
-        typedMessage = tryParseJSON(message)
+        typedMessage = Helpers.tryParseJSON(message)
         if (!typedMessage) {
           const { errorMessage, example } = composeErrorExampleMessage(message)
           const completeMessage = `${errorMessage} - EXAMPLE: ${JSON.stringify(example)}`
