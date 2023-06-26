@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Interfaces, Models, Errors } from '@open-rights-exchange/chain-js'
+import { Interfaces, Models, Errors, Helpers } from '@open-rights-exchange/chain-js'
 import {
   EthereumPrivateKey,
   EthereumTransactionOptions,
@@ -7,13 +7,17 @@ import {
   SignMessageOptions,
   SignMessageMethod,
   SignMessageSignTypedDataInput,
-  SignTypedDataInputModel
+  SignTypedDataInputModel,
 } from './models'
 import { personalSign, validatePersonalSignInput } from './stringSignMethods/personal-sign'
-import { signTypedData, validateSignTypedDataInput } from './stringSignMethods/sign-typed-data'
+import {
+  composeErrorExampleMessage,
+  signTypedData,
+  validateSignTypedDataInput,
+} from './stringSignMethods/sign-typed-data'
 
 export class EthereumSignMessage implements Interfaces.SignMessage {
-  constructor(message:  string, options?: SignMessageOptions) {
+  constructor(message: string, options?: SignMessageOptions) {
     this.applyOptions(options)
     this.setSignMethod()
     this.applyMessage(message)
@@ -28,20 +32,25 @@ export class EthereumSignMessage implements Interfaces.SignMessage {
 
   private _message: SignMessagePersonalSignDataInput | SignMessageSignTypedDataInput
 
-
   private applyOptions(options: SignMessageOptions) {
-    this._options = options ? options : { signMethod: SignMessageMethod.Default}
+    this._options = options || { signMethod: SignMessageMethod.Default }
   }
 
-  private applyMessage(_message: string) {
+  private applyMessage(message: string) {
+    let typedMessage: typeof SignTypedDataInputModel
     switch (this.signMethod) {
       case SignMessageMethod.EthereumSignTypedData:
-        let typedMessage = JSON.parse(_message)
-        this._message = typedMessage as typeof SignTypedDataInputModel;
-        break;
+        typedMessage = Helpers.tryParseJSON(message)
+        if (!typedMessage) {
+          const { errorMessage, example } = composeErrorExampleMessage(message)
+          const completeMessage = `${errorMessage} - EXAMPLE: ${JSON.stringify(example)}`
+          Errors.throwNewError(completeMessage)
+        }
+        this._message = typedMessage
+        break
       case SignMessageMethod.Default:
       default:
-        this._message = { stringToSign: _message}
+        this._message = { stringToSign: message }
     }
   }
 
@@ -79,12 +88,20 @@ export class EthereumSignMessage implements Interfaces.SignMessage {
         result = await validateSignTypedDataInput(this.message as unknown as SignMessageSignTypedDataInput)
         this._isValidated = result.valid
         break
+      case SignMessageMethod.EthereumSign:
+        result = await validatePersonalSignInput(this.message as unknown as SignMessagePersonalSignDataInput)
+        this._isValidated = result.valid
+        break
       case SignMessageMethod.Default:
         result = await validatePersonalSignInput(this.message as unknown as SignMessagePersonalSignDataInput)
         this._isValidated = result.valid
         break
       default:
-        Errors.throwNewError(`signMethod not recognized. signMethod provided = ${this.signMethod} not in ${Object.values(SignMessageMethod)}`)
+        Errors.throwNewError(
+          `signMethod not recognized. signMethod provided = ${this.signMethod} not in ${Object.values(
+            SignMessageMethod,
+          )}`,
+        )
         break
     }
     return result
@@ -114,7 +131,11 @@ export class EthereumSignMessage implements Interfaces.SignMessage {
           result = await personalSign(privateKeys, this.message as unknown as SignMessagePersonalSignDataInput)
           break
         default:
-          Errors.throwNewError(`signMethod not recognized. signMethod provided = ${this.signMethod} not in ${Object.values(SignMessageMethod)}`)
+          Errors.throwNewError(
+            `signMethod not recognized. signMethod provided = ${this.signMethod} not in ${Object.values(
+              SignMessageMethod,
+            )}`,
+          )
           break
       }
     } catch (error) {
