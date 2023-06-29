@@ -72,8 +72,9 @@ export async function validateSignTypedDataInput(
     valid = false
   }
 
-  // Note: ethers.js will add the EIP712Domain type if it is missing and throw an error if it is present
-  if(data && data.types && data.types.EIP712Domain) {
+  // Note: Removing EIP712Domain as ethers.js will throw an error if it is present - it is not required since the types are implied by signTypedData V4
+  if (data?.types?.EIP712Domain) {
+    // eslint-disable-next-line no-param-reassign
     delete data.types.EIP712Domain
   }
 
