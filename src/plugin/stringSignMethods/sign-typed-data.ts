@@ -72,9 +72,10 @@ export async function validateSignTypedDataInput(
     valid = false
   }
 
-  if (!data || !data.version) {
-    message += ' version property is missing.'
-    valid = false
+  // Note: Removing EIP712Domain as ethers.js will throw an error if it is present - it is not required since the types are implied by signTypedData V4
+  if (data?.types?.EIP712Domain) {
+    // eslint-disable-next-line no-param-reassign
+    delete data.types.EIP712Domain
   }
 
   /* If any part of the input is not valid then let's build an example to reply with */
