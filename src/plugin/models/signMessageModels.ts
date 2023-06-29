@@ -38,7 +38,7 @@ export type SignMessageValidateResult = {
 
 export const SignTypedDataInputModel = {
   version: 0,
-  types: {},
+  types: {} as any,
   primaryType: '',
   domain: {},
   message: {},

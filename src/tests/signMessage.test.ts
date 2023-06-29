@@ -39,6 +39,18 @@ describe('Ethereum SignMessage Tests', () => {
     expect(result.signature).toBeDefined()
   })
 
+  it('ethereum.eth-sign-typed-data - validate a typed data with EIP712Domain and/or without version field', async () => {
+    const input = {"domain":{"name":"Ether Mail","version":"1","chainId":5,"verifyingContract":"0xcccccccccccccccccccccccccccccccccccccccc"},"primaryType":"Mail","types":{"EIP712Domain":[{"name":"name","type":"string"},{"name":"version","type":"string"},{"name":"chainId","type":"uint256"},{"name":"verifyingContract","type":"address"}],"Person":[{"name":"name","type":"string"},{"name":"wallet","type":"address"}],"Mail":[{"name":"from","type":"Person"},{"name":"to","type":"Person"},{"name":"contents","type":"string"}]},"message":{"from":{"name":"Cow","wallet":"0xcd2a3d9f938e13cd947ec05abc7fe734df8dd826"},"to":{"name":"Bob","wallet":"0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"},"contents":"Hello, Bob!"}}
+    const SignMessageOptions = { signMethod: SignMessageMethod.EthereumSignTypedData }
+    const SignMessage = new EthereumSignMessage(JSON.stringify(input), SignMessageOptions)
+    const validateResult = await SignMessage.validate()
+    expect(validateResult.valid).toBeTruthy()
+    const result = await SignMessage.sign([
+      '0xbafee378c528ac180d309760f24378a2cfe47d175691966d15c83948e4a7faa6' as unknown as Models.PrivateKeyBrand,
+    ])
+    expect(result.signature).toBeDefined()
+  })
+
   it('ethereum.sign-typed-data - validate passes when input is correct', async () => {
     const eip712Domain = {
       name: 'name',
